@@ -9,7 +9,8 @@
     "format": "prettier --write .",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "build": "npm run clean & tsc --p tsconfig.build.json",
-    "test": "mocha -r ts-node/register test/*.spec.ts"
+    "test": "mocha -r ts-node/register test/*.spec.ts",
+    "coverage": "nyc npm run test"
   },
   "dependencies": {
     "@types/compression": "^1.7.1",
@@ -28,6 +29,7 @@
     "http-errors": "~1.8.0",
     "jade": "~1.11.0",
     "morgan": "~1.10.0",
+    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "supertest": "^6.1.3",
     "tsc-watch": "^4.4.0",
