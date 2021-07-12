@@ -12,7 +12,8 @@
     "build:start": "npm run build & npm run start",
     "test": "mocha -r ts-node/register test/*.spec.ts",
     "coverage": "nyc npm run test",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "migration:run": "typeorm migration:run"
   },
   "dependencies": {
     "@types/compression": "^1.7.1",
