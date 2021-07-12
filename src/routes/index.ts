@@ -9,7 +9,7 @@ import User from "../entity/User";
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
-  res.send("Ts-Express");
+  res.send(process.env.APP_NAME);
 });
 
 routes.get("/test", (req: Request, res: Response) => {
