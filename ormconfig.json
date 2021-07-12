@@ -1,0 +1,16 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "",
+  "database": "exp",
+  "entities": ["src/entity/*.{ts,js}", "dist/src/entity/*.js"],
+  "logging": true,
+  "synchronize": true,
+  "migrationsTableName": "custom_migration_table",
+  "migrations": ["src/migration/*.{ts,js}", "migration/*.{ts,js}"],
+  "cli": {
+    "migrationsDir": "src/migration"
+  }
+}

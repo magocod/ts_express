@@ -13,6 +13,9 @@ import middleware from "./middleware";
 import routes from "./routes/index";
 import { applyMiddleware } from "./utils";
 
+import { createConnection } from "typeorm";
+import User from "./entity/User";
+
 // express instance
 const app = express();
 
@@ -55,6 +58,16 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 // error handler
 app.use(errorHandler);
+
+// create typeorm connection
+createConnection()
+  .then((connection) => {
+    connection.getRepository(User);
+    console.log("success");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 // export default app;
 module.exports = app;
