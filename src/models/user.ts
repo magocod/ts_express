@@ -21,13 +21,22 @@ export default class User {
    *
    * @param email
    */
-  find(email: string): BasicUser {
+  static async find(email: string): Promise<BasicUser> {
     const user = users.find((u) => {
       return u.email === email;
     });
     if (user === undefined) {
       throw new Error("user not exist");
     }
+    return user;
+  }
+
+  /**
+   *
+   * @param user
+   */
+  static async create(user: BasicUser): Promise<BasicUser> {
+    users.push(user);
     return user;
   }
 }
