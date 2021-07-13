@@ -6,14 +6,21 @@
 npm install
 ```
 
-### Translate code to javascript
+### Translate code to javascript (dist)
 
 ```
-tsc
+npm run build
 ```
 
 ### Run www server
 
 ```
-npm start
+npm run start
+```
+
+
+### Run tests
+
+```
+npm run test
 ```
