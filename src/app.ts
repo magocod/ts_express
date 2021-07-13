@@ -5,7 +5,6 @@
 import dotenv from 'dotenv'
 dotenv.config();
 
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
@@ -35,8 +34,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use(bodyParser.json());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
