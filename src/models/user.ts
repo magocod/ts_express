@@ -21,7 +21,7 @@ export default class User {
    *
    * @param email
    */
-  find(email: string): BasicUser {
+  static async find(email: string): Promise<BasicUser> {
     const user = users.find((u) => {
       return u.email === email;
     });
@@ -29,5 +29,13 @@ export default class User {
       throw new Error("user not exist");
     }
     return user;
+  }
+
+  /**
+   *
+   * @param user
+   */
+  static create(user: BasicUser): void {
+    users.push(user);
   }
 }
