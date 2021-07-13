@@ -1,15 +1,25 @@
 import { Request, Response } from "express";
 
 class AuthController {
-  public static signup = (req: Request, res: Response): void => {
-    console.log("Registrar Usuario");
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  public static signup(req: Request, res: Response): void {
+    console.log("Register User");
     res.send("Register User");
-  };
+  }
 
-  public static login = (req: Request, res: Response): void => {
-    console.log("Inciar Sesion");
-    res.send("Inciar Sesion");
-  };
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  public static login(req: Request, res: Response): void {
+    console.log("Login");
+    res.send("Login");
+  }
 }
 
 export default AuthController;

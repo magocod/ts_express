@@ -9,6 +9,7 @@
     "format": "prettier --write .",
     "dev": "tsc-watch --onSuccess \"node ./dist/src/server.js\"",
     "build": "npm run clean & tsc --p tsconfig.build.json",
+    "build:start": "npm run build & npm run start",
     "test": "mocha -r ts-node/register test/*.spec.ts",
     "coverage": "nyc npm run test"
   },
