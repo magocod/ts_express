@@ -15,6 +15,10 @@ import middleware from "./middleware";
 import routes from "./routes/index";
 import { applyMiddleware } from "./utils";
 
+import passport from 'passport';
+import handlePassport from './config/auth'
+handlePassport(passport);
+
 // express instance
 const app = express();
 
