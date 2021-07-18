@@ -2,7 +2,7 @@
  * App express instance initialization
  */
 
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 dotenv.config();
 
 import cookieParser from "cookie-parser";
@@ -10,6 +10,7 @@ import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
+import helmet from "helmet";
 
 import middleware from "./middleware";
 import routes from "./routes/index";
@@ -34,6 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(helmet());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
