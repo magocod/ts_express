@@ -39,7 +39,7 @@ async function main() {
     const baseFolder = "src"
     const p = path.resolve(__dirname, baseFolder)
     console.log("base folder: ", p)
-    // const salesFiles = await findDirFiles(__dirname + "/tmp");
+    // const salesFiles = await findDirFiles(path.join(__dirname, "/tmp"));
     const salesFiles = await findDirFiles(p, p.length - baseFolder.length);
     console.log(salesFiles);
 }
