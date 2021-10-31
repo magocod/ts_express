@@ -7,7 +7,7 @@ const path = require("path");
  * @param {number} from
  * @returns {Promise<*[]>}
  */
-async function findDirFiles(folderName, from = 0) {
+async function findDirFiles(folderName, from) {
     // this array will hold sales files as they are found
     let salesFiles = [];
 
@@ -17,21 +17,19 @@ async function findDirFiles(folderName, from = 0) {
 
         // iterate over each found item
         for (const item of items) {
-            // if the item is a directory, it will need to be searched for files
+            // if the item is a directory, it will need to be searched
             if (item.isDirectory()) {
-                // search this directory for files (this is recursion!)
-                await findFiles(`${folderName}/${item.name}`);
+                // call this method recursively, appending the folder name to make a new path
+                await findFiles(path.join(folderName, item.name));
             } else {
                 // store the file path in the salesFiles array
-                salesFiles.push(`${folderName}/${item.name}`.substr(from));
+                salesFiles.push(path.join(folderName, item.name).substr(from));
             }
         }
     }
 
-    // find the sales files
     await findFiles(folderName);
 
-    // return the array of found file paths
     return salesFiles;
 }
 
@@ -39,7 +37,7 @@ async function main() {
     const baseFolder = "src"
     const p = path.resolve(__dirname, baseFolder)
     console.log("base folder: ", p)
-    // const salesFiles = await findDirFiles(path.join(__dirname, "/tmp"));
+    // const salesFiles = await findDirFiles(path.join(__dirname, "tmp"));
     const salesFiles = await findDirFiles(p, p.length - baseFolder.length);
     console.log(salesFiles);
 }
