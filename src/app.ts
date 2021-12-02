@@ -58,5 +58,8 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 // error handler
 app.use(errorHandler);
 
+// db sync
+import "./config/db.config"
+
 // export default app;
 module.exports = app;
