@@ -68,7 +68,14 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 // db sync (example)
-import "./config/db.config";
+// import "./config/db.config";
+
+// db
+import db from "./models"
+
+if (db.sequelize) {
+  db.sequelize.sync();
+}
 
 // export default app;
 module.exports = app;
