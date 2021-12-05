@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import Seq, { Model, Sequelize, Optional, DataTypes } from "sequelize";
-import transaction from "@/routes/transaction";
 
 interface TransactionAttributes {
   id: number;
   title: string;
+  description: string | null;
 }
 
 interface TransactionCreationAttributes
@@ -16,6 +16,7 @@ export class Transaction
 {
   public id!: number; // Note that the `null assertion` `!` is required in strict mode.
   public title!: string;
+  public description!: string | null; // for nullable fields
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -32,6 +33,10 @@ const initModel = (sequelize: Sequelize) => {
       },
       title: {
         type: Seq.STRING,
+      },
+      description: {
+        type: new DataTypes.STRING(),
+        allowNull: true,
       },
     },
     { sequelize, modelName: "Transaction" }

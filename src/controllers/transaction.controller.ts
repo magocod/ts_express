@@ -10,7 +10,7 @@ type genericResponse = Promise<
   Response<unknown, Record<string, unknown>> | undefined
 >;
 
-export default class AuthController {
+export default class TransactionController {
   static async create(req: Request, res: Response): genericResponse {
     const errors = validationResult(req);
     // console.log(errors)
@@ -20,6 +20,7 @@ export default class AuthController {
 
     const reqData = {
       title: req.body.title,
+      description: null,
     };
 
     try {

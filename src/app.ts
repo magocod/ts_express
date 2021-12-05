@@ -74,7 +74,7 @@ app.use(errorHandler);
 import db from "./models"
 
 if (db.sequelize) {
-  db.sequelize.sync();
+  db.sequelize.sync({ force: false, alter: false });
 }
 
 // export default app;

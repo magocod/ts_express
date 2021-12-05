@@ -7,6 +7,7 @@ const Transaction = db.Transaction;
 export function generate_transaction(): Promise<TransactionModel> {
   const d = {
     title: faker.datatype.uuid(),
+    description: null,
   };
   return Transaction.create(d);
 }
