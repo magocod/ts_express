@@ -11,7 +11,7 @@ routes.get("/", (req: Request, res: Response) => {
 });
 
 routes.get("/test", (req: Request, res: Response) => {
-  res.send("hello test");
+  res.json({ prop: "hello test" });
 });
 
 routes.get("/error", (req: Request, res: Response) => {

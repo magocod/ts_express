@@ -52,14 +52,23 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.status(err.status || 500);
   // res.render("error");
   res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ message: err.message, stack: err.stack }));
+  // res.send(
+  //   JSON.stringify({
+  //     message: err.message,
+  //     // stack: err.stack
+  //   })
+  // );
+  res.json({
+    message: err.message,
+    // stack: err.stack
+  });
 };
 
 // error handler
 app.use(errorHandler);
 
 // db sync (example)
-import "./config/db.config"
+import "./config/db.config";
 
 // export default app;
 module.exports = app;
