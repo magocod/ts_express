@@ -15,6 +15,11 @@ routes.get("/test", (req: Request, res: Response) => {
   res.json({ prop: "hello test" });
 });
 
+routes.get("/express_extend", (req: Request, res: Response) => {
+  console.log(res.success)
+  res.success({ data: {}, code: 201 })
+});
+
 routes.get("/error", (req: Request, res: Response) => {
   JSON.parse("}");
   res.send("hello error");

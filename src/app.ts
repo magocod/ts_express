@@ -6,15 +6,27 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import cookieParser from "cookie-parser";
-import express, { ErrorRequestHandler } from "express";
+import express, {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from "express";
 import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
 import helmet from "helmet";
 
 import middleware from "./middleware";
+
 import routes from "./routes/index";
 import { applyMiddleware } from "./utils";
+
+// db sync (example)
+// import "./config/db.config";
+
+// db
+import db from "./models";
 
 // express instance
 const app = express();
@@ -25,6 +37,34 @@ const app = express();
 
 // middleware
 applyMiddleware(middleware, app);
+
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   console.log("entra en la ruta")
+//   /**
+//    * (default status 200)
+//    * Success response
+//    */
+//   res.success = function ({ result = {}, code = 200, message = "" }) {
+//     console.log("llama al metodo success");
+//     return res.json({
+//       result,
+//       code,
+//       message,
+//     });
+//   };
+//   console.log("sale de la ruta")
+//
+//   next()
+// });
+
+app.response.success = function ({ data = {}, code = 200, message = "" }) {
+  console.log("llama al metodo success");
+  return this.json({
+    data,
+    code,
+    message,
+  });
+};
 
 // routes
 app.use("/", routes);
@@ -66,12 +106,6 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 // error handler
 app.use(errorHandler);
-
-// db sync (example)
-// import "./config/db.config";
-
-// db
-import db from "./models"
 
 if (db.sequelize) {
   db.sequelize.sync({ force: false, alter: false });
