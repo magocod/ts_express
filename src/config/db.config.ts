@@ -9,3 +9,31 @@ export const dbConfig = {
   DB: process.env.DB_NAME || "t_app",
   dialect: process.env.DB || "mysql",
 };
+
+export const baseConfig = {
+  development: {
+    username: process.env.DB_USER || "root",
+    password: process.env.DB_PASS || "",
+    database: process.env.DB_NAME || "database_development",
+    host: process.env.DB_HOST || "localhost",
+    dialect: "mysql",
+  },
+  test: {
+    username: "root",
+    password: undefined,
+    database: "database_test",
+    host: "127.0.0.1",
+    dialect: "mysql",
+  },
+  production: {
+    username: "root",
+    password: undefined,
+    database: "database_production",
+    host: "127.0.0.1",
+    dialect: "mysql",
+  },
+};
+
+export type envDb = keyof typeof baseConfig;
+
+export default baseConfig;

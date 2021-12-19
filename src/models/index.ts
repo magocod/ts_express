@@ -1,16 +1,26 @@
 import fs from "fs";
 import path from "path";
 
-import { Sequelize, DataTypes, Model, BuildOptions, ModelCtor } from "sequelize";
+import {
+  Sequelize,
+  DataTypes,
+  Model,
+  BuildOptions,
+  ModelCtor,
+  Dialect,
+} from "sequelize";
 
 const basename = path.basename(__filename);
 
 const env = process.env.NODE_ENV || "development";
 console.log(env);
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const config = require(__dirname + "/../config/config.json")[env];
+// const config = require(__dirname + "/../config/config.json")[env];
+// console.log(config);
+
+import baseConfig, { envDb } from "../config/db.config";
+const config = baseConfig[env as envDb];
 console.log(config);
 
 // type ImportModel = typeof Model & { associate: (models: any) => void } & {
@@ -25,7 +35,9 @@ console.log(config);
 //   };
 // }
 
-type ImportModel<A, C> = ModelCtor<Model<A, C>> & { associate: (models: any) => void };
+type ImportModel<A, C> = ModelCtor<Model<A, C>> & {
+  associate: (models: any) => void;
+};
 
 interface DbInstance {
   Sequelize: typeof Sequelize;
@@ -35,19 +47,28 @@ interface DbInstance {
   };
 }
 
-let sequelize: Sequelize;
-if (config.use_env_variable) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
-}
+// let sequelize: Sequelize;
+// if (config.use_env_variable) {
+//   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//   // @ts-ignore
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+// } else {
+//   sequelize = new Sequelize(
+//     config.database,
+//     config.username,
+//     config.password,
+//     config
+//   );
+// }
+
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  {
+    dialect: config.dialect as Dialect,
+  }
+);
 
 const db: DbInstance = {
   sequelize: sequelize,
@@ -55,6 +76,7 @@ const db: DbInstance = {
   models: {},
 };
 
+console.log("models fs");
 fs.readdirSync(__dirname)
   .filter((file) => {
     const jsExt =
@@ -63,14 +85,18 @@ fs.readdirSync(__dirname)
       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".ts";
     return jsExt || tsExt;
   })
-  .forEach((file) => {
+  .forEach(async (file) => {
     const route = path.join(__dirname, file);
     console.log(route);
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const modelInit: unknown = require(route).default;
+    // const modelInit: unknown = require(route).default;
+    const modelInit: { default: unknown } = await import(route);
     console.log(modelInit);
-    if (typeof modelInit === "function") {
-      const model = modelInit(sequelize, DataTypes);
+    // if (typeof modelInit === "function") {
+    //   const model = modelInit(sequelize, DataTypes);
+    //   db.models[model.name] = model;
+    // }
+    if (typeof modelInit.default === "function") {
+      const model = modelInit.default(sequelize, DataTypes);
       db.models[model.name] = model;
     }
   });

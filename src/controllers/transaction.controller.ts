@@ -11,7 +11,7 @@ type genericResponse = Promise<
   Response<unknown, Record<string, unknown>> | undefined
 >;
 
-export default class AuthController {
+export default class TransactionController {
   static async create(req: Request, res: Response): genericResponse {
     const errors = validationResult(req);
     // console.log(errors)
