@@ -77,5 +77,6 @@ app.use(errorHandler);
 //   db.sequelize.sync({ force: false });
 // }
 
-// export default app;
+export default app;
+// FIXME error to transpile to js
 module.exports = app;

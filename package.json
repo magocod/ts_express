@@ -11,7 +11,8 @@
     "build": "tsc --p tsconfig.build.json",
     "build:start": "npm run build & npm run start",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc npm run test",
+    "migrate:db": "sequelize-cli db:migrate"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

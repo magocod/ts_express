@@ -16,7 +16,7 @@ export const baseConfig = {
     password: process.env.DB_PASS || "",
     database: process.env.DB_NAME || "database_development",
     host: process.env.DB_HOST || "localhost",
-    dialect: "mysql",
+    dialect: process.env.DB || "mysql",
   },
   test: {
     username: "root",
@@ -37,3 +37,5 @@ export const baseConfig = {
 export type envDb = keyof typeof baseConfig;
 
 export default baseConfig;
+// FIXME error to transpile to js
+module.exports = baseConfig;
