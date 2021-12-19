@@ -16,6 +16,12 @@ import middleware from "./middleware";
 import routes from "./routes/index";
 import { applyMiddleware } from "./utils";
 
+// db sync (example)
+// import "./config/db.config";
+
+// db
+// import db from "./models"
+
 // express instance
 const app = express();
 
@@ -67,15 +73,9 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 // error handler
 app.use(errorHandler);
 
-// db sync (example)
-// import "./config/db.config";
-
-// db
-import db from "./models"
-
-if (db.sequelize) {
-  db.sequelize.sync();
-}
+// if (db.sequelize) {
+//   db.sequelize.sync({ force: false });
+// }
 
 // export default app;
 module.exports = app;

@@ -4,11 +4,12 @@ import { assert } from "chai";
 import supertest from "supertest";
 
 import app from "../../../src/app.es6";
-import db from "../../../src/models";
-
-const Transaction = db.Transaction;
 
 import { generate_transaction } from "../../fixtures/transaction";
+
+import { Transaction } from "../../../src/models";
+// import { getModel, Transaction } from "../../../src/models";
+// const transaction = getModel<Transaction>('Transaction');
 
 describe("GET transactions list", function () {
   it("find all", async () => {

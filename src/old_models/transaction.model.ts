@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import Seq, { Model, Sequelize, Optional, DataTypes } from "sequelize";
-import transaction from "@/routes/transaction";
 
 interface TransactionAttributes {
   id: number;

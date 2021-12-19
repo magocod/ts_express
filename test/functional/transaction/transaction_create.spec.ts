@@ -5,9 +5,10 @@ import supertest from "supertest";
 import faker from "faker";
 
 import app from "../../../src/app.es6";
-import db from "../../../src/models";
 
-const Transaction = db.Transaction;
+import { Transaction } from "../../../src/models";
+// import { getModel, Transaction } from "../../../src/models";
+// const transaction = getModel<Transaction>('Transaction');
 
 function _baseRequestData() {
   return {

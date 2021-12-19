@@ -1,8 +1,9 @@
-import db from "../../src/models";
-import { Transaction as TransactionModel } from "../../src/models/transaction.model";
+import { Transaction as TransactionModel } from "../../src/models/transaction";
 import faker from "faker";
 
-const Transaction = db.Transaction;
+import { Transaction } from "../../src/models";
+// import { getModel, Transaction } from "../../../src/models";
+// const transaction = getModel<Transaction>('Transaction');
 
 export function generate_transaction(): Promise<TransactionModel> {
   const d = {

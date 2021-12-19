@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-import db from "../models";
+import { Transaction } from "../models";
 
-const Transaction = db.Transaction;
-// const Op = db.Sequelize.Op;
+import { callModel } from "../utils"
+// import { getModel, Transaction } from "../models";
+// const transaction = getModel<typeof Transaction>('Transaction');
 
 type genericResponse = Promise<
   Response<unknown, Record<string, unknown>> | undefined
@@ -19,10 +20,11 @@ export default class AuthController {
     }
 
     const reqData = {
-      title: req.body.title,
+      title: req.body.title
     };
 
     try {
+      console.log(await callModel())
       const data = await Transaction.create(reqData);
       return res.send(data);
     } catch (err) {
