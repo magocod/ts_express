@@ -4,16 +4,18 @@ import faker from "faker";
 
 import { createConnection, Connection, Repository } from "typeorm";
 
-import { Profile, User } from "../src/entity";
+import { Photo, User } from "../src/entity";
 
-describe("one-to-one", () => {
+import { generateUser } from "./fixtures/user";
+
+describe("one-to-many", () => {
   let connection: Connection;
-  let profileRepository: Repository<Profile>;
+  let photoRepository: Repository<Photo>;
   let userRepository: Repository<User>;
 
   before(async () => {
     connection = await createConnection();
-    profileRepository = connection.getRepository(Profile);
+    photoRepository = connection.getRepository(Photo);
     userRepository = connection.getRepository(User);
   });
 
@@ -22,35 +24,38 @@ describe("one-to-one", () => {
   });
 
   it("repository create", async () => {
-    const profileBase = profileRepository.create({
-      name: faker.animal.fish(),
+    const { user } = await generateUser(connection);
+
+    const photoBaseA = photoRepository.create({
+      url: faker.internet.url(),
+      user,
     });
-    const profile = await profileRepository.save(profileBase);
-    console.log(profile);
-    const userBase = userRepository.create({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      profile,
-    });
-    const user = await userRepository.save(userBase);
-    console.log(user);
+    const photoA = await photoRepository.save(photoBaseA);
+    console.log(photoA);
+
+    await photoRepository.save(
+      photoRepository.create({
+        url: faker.internet.url(),
+        user,
+      })
+    );
 
     const userFound = await userRepository.findOne({
       where: { id: user.id },
-      relations: ["profile"],
+      relations: ["photos"],
     });
     console.log(userFound);
   });
 
   it("repository eager loading, user", async () => {
     const results = await userRepository.find({
-      relations: ["profile"],
+      relations: ["photos"],
     });
     console.log(results);
   });
 
-  it("repository eager loading, profile", async () => {
-    const results = await profileRepository.find({
+  it("repository eager loading, photo", async () => {
+    const results = await photoRepository.find({
       relations: ["user"],
     });
     console.log(results);
