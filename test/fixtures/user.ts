@@ -1,6 +1,6 @@
 import faker from "faker";
 
-import { Photo, Profile, User } from "../../src/entity";
+import { Profile, User } from "../../src/entity";
 import { Connection } from "typeorm";
 
 interface GenerateTestUser {

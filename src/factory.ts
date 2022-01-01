@@ -20,21 +20,21 @@ export function createApp(): Express {
   // express instance
   const app = express();
 
-  app.response.genericError = function ({
-    message,
-    exception = undefined,
-    code = 0,
-  }: {
-    message: string;
-    exception?: unknown;
-    code?: number;
-  }) {
-    return this.json({
-      exception,
-      code,
-      message,
-    });
-  };
+  // app.response.genericError = function ({
+  //   message,
+  //   exception = undefined,
+  //   code = 0,
+  // }: {
+  //   message: string;
+  //   exception?: unknown;
+  //   code?: number;
+  // }) {
+  //   return this.json({
+  //     exception,
+  //     code,
+  //     message,
+  //   });
+  // };
 
   // view engine setup
   // app.set('views', path.join(__dirname, 'views'));
