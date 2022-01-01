@@ -5,6 +5,6 @@ declare namespace Express {
     code?: number;
   }
   export interface Response {
-    genericError(value: GenericErrorResponse): void;
+    genericError(value: GenericErrorResponse): this;
   }
 }
