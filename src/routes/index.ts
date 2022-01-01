@@ -25,7 +25,9 @@ routes.use("/auth", auth);
 
 // users
 routes.get("/users", async function (req: Request, res: Response) {
-  const users = await getRepository(User).find();
+  const users = await getRepository(User).find({
+    relations: ["photos", "profile"],
+  });
   res.json(users);
 });
 

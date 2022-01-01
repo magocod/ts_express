@@ -21,6 +21,9 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column({ nullable: false })
+  profileId: number;
+
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;

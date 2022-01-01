@@ -9,6 +9,9 @@ export class Photo {
   @Column()
   url: string;
 
+  @Column({ nullable: false })
+  userId: number;
+
   @ManyToOne(() => User, (user) => user.photos)
   user: User;
 }
