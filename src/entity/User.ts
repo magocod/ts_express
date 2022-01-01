@@ -1,7 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+
+import { Profile } from "./Profile";
 
 @Entity("user")
-export default class User {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,4 +18,10 @@ export default class User {
 
   @Column()
   lastName: string;
+
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Profile;
 }
+
+export default User;
