@@ -11,9 +11,10 @@
     "build": "tsc --p tsconfig.build.json",
     "build:start": "npm run build & npm run start",
     "test": "mocha -r ts-node/register test/**/*.spec.ts",
+    "test_unique": "mocha -r ts-node/register test/example.spec.ts",
     "coverage": "nyc npm run test",
-    "migrate:db": "sequelize-cli db:migrate",
-    "seed:db": "sequelize-cli db:seed:all"
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

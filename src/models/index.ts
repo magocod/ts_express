@@ -68,6 +68,7 @@ const sequelize = new Sequelize(
   {
     host: config.host,
     dialect: config.dialect as Dialect,
+    logging: false,
   }
 );
 
@@ -78,6 +79,8 @@ const db: DbInstance = {
 };
 
 console.log("models fs");
+console.log("__dirname", __dirname);
+
 fs.readdirSync(__dirname)
   .filter((file) => {
     const jsExt =
@@ -89,17 +92,18 @@ fs.readdirSync(__dirname)
   .forEach(async (file) => {
     const route = path.join(__dirname, file);
     console.log(route);
-    // const modelInit: unknown = require(route).default;
-    const modelInit: { default: unknown } = await import(route);
-    console.log(modelInit);
-    // if (typeof modelInit === "function") {
-    //   const model = modelInit(sequelize, DataTypes);
-    //   db.models[model.name] = model;
-    // }
-    if (typeof modelInit.default === "function") {
-      const model = modelInit.default(sequelize, DataTypes);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const modelInit: unknown = require(route).default;
+    if (typeof modelInit === "function") {
+      const model = modelInit(sequelize, DataTypes);
       db.models[model.name] = model;
     }
+    // const modelInit: { default: unknown } = await import(route);
+    // if (typeof modelInit.default === "function") {
+    //   const model = modelInit.default(sequelize, DataTypes);
+    //   console.log('model.name', model.name)
+    //   db.models[model.name] = model;
+    // }
   });
 
 Object.keys(db.models).forEach((modelName) => {
@@ -107,7 +111,7 @@ Object.keys(db.models).forEach((modelName) => {
 });
 
 /**
- * @deprecated concept typescript error
+ * unsafe
  * @param modelName
  */
 export function getModel<T>(modelName: string): T {
@@ -117,5 +121,8 @@ export function getModel<T>(modelName: string): T {
   return db.models[modelName] as unknown as T;
 }
 
+export * from "./profile";
+export * from "./project";
 export * from "./transaction";
+export * from "./user";
 export default db;

@@ -14,7 +14,7 @@ export const baseConfig = {
   development: {
     username: process.env.DB_USER || "root",
     password: process.env.DB_PASS || "",
-    database: process.env.DB_NAME || "database_development",
+    database: process.env.DB_NAME || "de",
     host: process.env.DB_HOST || "localhost",
     dialect: process.env.DB || "mysql",
   },
