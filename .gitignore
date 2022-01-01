@@ -1,8 +1,12 @@
 /node_modules
 /dist
-.nyc_output
 
 .idea
 tmp
 
 .env
+
+# test coverage
+coverage
+test/coverage
+.nyc_output

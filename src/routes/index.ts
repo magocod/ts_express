@@ -25,10 +25,14 @@ routes.use("/auth", auth);
 
 // users
 routes.get("/users", async function (req: Request, res: Response) {
-  const users = await getRepository(User).find({
-    relations: ["photos", "profile"],
-  });
-  res.json(users);
+  try {
+    const users = await getRepository(User).find({
+      relations: ["photos", "profile"],
+    });
+    return res.json(users);
+  } catch (e) {
+    return res.json({})
+  }
 });
 
 routes.get("/users/:id", async (req: Request, res: Response) => {
@@ -37,10 +41,14 @@ routes.get("/users/:id", async (req: Request, res: Response) => {
 });
 
 routes.post("/users", async (req: Request, res: Response) => {
-  const userRepository = getRepository(User);
-  const user = await userRepository.create(req.body);
-  const results = await userRepository.save(user);
-  return res.send(results);
+  try {
+    const userRepository = getRepository(User);
+    const user = userRepository.create(req.body);
+    const results = await userRepository.save(user);
+    return res.send(results);
+  } catch (e) {
+    return res.json({ message: e.message })
+  }
 });
 
 routes.put("/users/:id", async (req: Request, res: Response) => {
