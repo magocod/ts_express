@@ -43,17 +43,16 @@ export function createApp(): Express {
   // middleware
   applyMiddleware(middleware, app);
 
-  // routes
-  app.use("/", routes);
-
   // config
   app.use(logger("dev"));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, "public")));
-
   app.use(bodyParser.json());
+
+  // routes
+  app.use("/", routes);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
