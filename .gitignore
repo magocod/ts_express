@@ -5,3 +5,6 @@
 .idea
 
 .env
+
+coverage
+test/coverage
