@@ -16,6 +16,9 @@ import middleware from "./middleware";
 import routes from "./routes/index";
 import { applyMiddleware } from "./utils";
 
+// db sync (example)
+import "./config/db.config";
+
 // express instance
 const app = express();
 
@@ -26,9 +29,6 @@ const app = express();
 // middleware
 applyMiddleware(middleware, app);
 
-// routes
-app.use("/", routes);
-
 // config
 app.use(logger("dev"));
 app.use(express.json());
@@ -36,6 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(helmet());
+
+// routes
+app.use("/", routes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -66,9 +69,6 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 // error handler
 app.use(errorHandler);
-
-// db sync (example)
-import "./config/db.config";
 
 // export default app;
 module.exports = app;
