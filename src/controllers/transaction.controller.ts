@@ -3,16 +3,12 @@ import { validationResult } from "express-validator";
 
 import { Transaction } from "../models";
 
-import { callModel } from "../utils"
+import { callModel, GenericResponse } from "../utils"
 // import { getModel, Transaction } from "../models";
 // const transaction = getModel<typeof Transaction>('Transaction');
 
-type genericResponse = Promise<
-  Response<unknown, Record<string, unknown>> | undefined
->;
-
 export default class TransactionController {
-  static async create(req: Request, res: Response): genericResponse {
+  static async create(req: Request, res: Response): GenericResponse {
     const errors = validationResult(req);
     // console.log(errors)
     if (!errors.isEmpty()) {
@@ -34,7 +30,7 @@ export default class TransactionController {
     }
   }
 
-  static async findAll(req: Request, res: Response): genericResponse {
+  static async findAll(req: Request, res: Response): GenericResponse {
     // TODO filter and paginate
     try {
       const data = await Transaction.findAll();

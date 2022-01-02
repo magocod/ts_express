@@ -121,6 +121,7 @@ export function getModel<T>(modelName: string): T {
   return db.models[modelName] as unknown as T;
 }
 
+export * from "./address";
 export * from "./profile";
 export * from "./project";
 export * from "./transaction";

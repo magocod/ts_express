@@ -3,7 +3,7 @@ import { assert } from "chai";
 import faker from "faker";
 import { User, Project } from "../src/models";
 
-describe("example_hasMany_belongsTo", () => {
+describe("example_one_to_many", () => {
   it("create relationship", async () => {
     const user = await User.create({
       name: faker.datatype.uuid(),
@@ -20,7 +20,7 @@ describe("example_hasMany_belongsTo", () => {
     // relation create
     const projectB = await user.createProject({
         name: 'user-relation-' + faker.datatype.uuid(),
-        userId: user.id,
+        // userId: user.id,
     });
     // console.log(projectB.toJSON());
 
@@ -34,9 +34,6 @@ describe("example_hasMany_belongsTo", () => {
       rejectOnEmpty: true, // Specifying true here removes `null` from the return type!
     });
     // console.log(result.toJSON());
-
-    // Note the `!` null assertion since TS can't know if we included
-    // the model or not
     console.log(JSON.stringify(result, null, 2));
   });
 

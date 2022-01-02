@@ -1,9 +1,8 @@
-/**
- *
- */
 import { Request, Response, Router } from "express";
+
 import auth from "./auth";
 import transaction from "./transaction";
+import project from "./project";
 
 const routes = Router();
 
@@ -22,5 +21,6 @@ routes.get("/error", (req: Request, res: Response) => {
 
 routes.use("/auth", auth);
 routes.use("/transactions", transaction);
+routes.use("/projects", project);
 
 export default routes;

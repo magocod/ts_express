@@ -12,11 +12,13 @@
     "build:start": "npm run build & npm run start",
     "test": "mocha --exit -r ts-node/register test/**/*.spec.ts",
     "test_sample": "mocha --exit -r ts-node/register test/sample.spec.ts",
-    "test_example": "mocha --exit -r ts-node/register test/example.spec.ts",
-    "test_many": "mocha --exit -r ts-node/register test/many.spec.ts",
+    "test_one": "mocha --exit -r ts-node/register test/one-to-many.spec.ts",
+    "test_many": "mocha --exit -r ts-node/register test/many-to-many.spec.ts",
+    "test_one_to_one": "mocha --exit -r ts-node/register test/one-to-one.spec.ts",
     "test_only_file": "mocha --exit -r ts-node/register test/functional/transaction/transaction_create.spec.ts",
     "test:coverage": "nyc npm run test",
     "db:migrate": "sequelize-cli db:migrate",
+    "build:db:migrate": "npm run build & sequelize-cli db:migrate",
     "db:seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
@@ -46,7 +48,6 @@
     "jade": "^0.31.2",
     "morgan": "~1.10.0",
     "mysql2": "^2.3.3",
-    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "sequelize": "*",
     "supertest": "^6.1.3",
@@ -54,6 +55,7 @@
     "typescript": "4.3.5"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.2.21",
     "@types/mocha": "^8.2.3",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
@@ -61,6 +63,7 @@
     "chai": "4.3.4",
     "eslint": "^7.30.0",
     "mocha": "9.0.2",
+    "nyc": "^15.1.0",
     "prettier": "2.3.2",
     "sequelize-cli": "^6.3.0",
     "ts-node": "^10.1.0"

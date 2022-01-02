@@ -3,7 +3,7 @@ import { assert } from "chai";
 import faker from "faker";
 import { User, Profile } from "../src/models";
 
-describe("example_Many-To-Many", function () {
+describe("example_many_to_many", function () {
   it("create relationship", async () => {
     const user = await User.create({ name: faker.datatype.uuid() });
     // console.log(user.toJSON())

@@ -9,10 +9,11 @@ import {
   HasManyCountAssociationsMixin,
   HasManyCreateAssociationMixin,
   BelongsToManyAddAssociationMixin,
+  HasOneCreateAssociationMixin,
   Optional,
 } from "sequelize";
 
-import { Project } from "./project";
+import { Address } from "./address";
 import { Profile, ProfileAttributes } from "./profile";
 
 interface UserAttributes {
@@ -36,20 +37,22 @@ export class User
   // Since TS cannot determine model association at compile time
   // we have to declare them here purely virtually
   // these will not exist until `Model.init` was called.
-  public getProjects!: HasManyGetAssociationsMixin<Project>; // Note the null assertions!
-  public addProject!: HasManyAddAssociationMixin<Project, number>;
-  public hasProject!: HasManyHasAssociationMixin<Project, number>;
+  public getProjects!: HasManyGetAssociationsMixin<Profile>; // Note the null assertions!
+  public addProject!: HasManyAddAssociationMixin<Profile, number>;
+  public hasProject!: HasManyHasAssociationMixin<Profile, number>;
   public countProjects!: HasManyCountAssociationsMixin;
-  public createProject!: HasManyCreateAssociationMixin<Project>;
+  public createProject!: HasManyCreateAssociationMixin<Profile>;
 
   public addProfile!: BelongsToManyAddAssociationMixin<Profile, ProfileAttributes>;
 
+  public createAddress!: HasOneCreateAssociationMixin<Address>;
+
   // You can also pre-declare possible inclusions, these will only be populated if you
   // actively include a relation.
-  public readonly projects?: Project[]; // Note this is optional since it's only populated when explicitly requested in code
+  public readonly projects?: Profile[]; // Note this is optional since it's only populated when explicitly requested in code
 
   public static associations: {
-    projects: Association<User, Project>;
+    projects: Association<User, Profile>;
   };
 
   /**
@@ -67,6 +70,10 @@ export class User
       foreignKey: "userId",
       otherKey: "profileId",
       through: models.UserProfiles,
+    });
+    User.hasOne(models.Address, {
+      foreignKey: { name: "userId" },
+      sourceKey: "id",
     });
   }
 }
