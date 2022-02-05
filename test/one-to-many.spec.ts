@@ -2,20 +2,22 @@ import { assert } from "chai";
 
 import faker from "faker";
 
-import { createConnection, Connection, Repository } from "typeorm";
+import { createConnection, Connection, Repository, In } from "typeorm";
 
-import { Photo, User } from "../src/entity";
+import { Photo, User, PhotoType } from "../src/entity";
 
 import { generateUser } from "./fixtures/user";
 
 describe("one-to-many", () => {
   let connection: Connection;
   let photoRepository: Repository<Photo>;
+  let photoTypeRepository: Repository<PhotoType>;
   let userRepository: Repository<User>;
 
   before(async () => {
     connection = await createConnection();
     photoRepository = connection.getRepository(Photo);
+    photoTypeRepository = connection.getRepository(PhotoType);
     userRepository = connection.getRepository(User);
   });
 
@@ -26,9 +28,16 @@ describe("one-to-many", () => {
   it("repository create", async () => {
     const { user } = await generateUser(connection);
 
+    const photoType = await photoTypeRepository.save(
+      await photoTypeRepository.create({
+        name: faker.animal.insect(),
+      })
+    );
+
     const photoBaseA = photoRepository.create({
       url: faker.internet.url(),
       user,
+      photoType,
     });
     const photoA = await photoRepository.save(photoBaseA);
     console.log(photoA);
@@ -37,12 +46,13 @@ describe("one-to-many", () => {
       photoRepository.create({
         url: faker.internet.url(),
         user,
+        photoType,
       })
     );
 
     const userFound = await userRepository.findOne({
       where: { id: user.id },
-      relations: ["photos"],
+      relations: ["photos", "photos.photoType"],
     });
     console.log(userFound);
   });
@@ -60,11 +70,11 @@ describe("one-to-many", () => {
       const query = userRepository
         .createQueryBuilder("u")
         .leftJoin("u.photos", "photos")
-        .loadRelationCountAndMap("u.photos_count", "u.photos")
+        .loadRelationCountAndMap("u.photos_count", "u.photos");
 
-      const count = await query.clone().getCount()
+      const count = await query.clone().getCount();
       const results = await query.take(5).getManyAndCount();
-      console.log(count)
+      console.log(count);
       console.log(results);
     });
 
@@ -91,39 +101,79 @@ describe("one-to-many", () => {
 
     it("user.photos, filter by photo.url, https", async () => {
       const query = userRepository
-          .createQueryBuilder("u")
-          .leftJoin("u.photos", "photos")
-          .where("photos.url like :protocol", { protocol:`%${'https'}%` })
-          .loadRelationCountAndMap("u.photos_count", "u.photos")
+        .createQueryBuilder("u")
+        .leftJoin("u.photos", "photos")
+        .where("photos.url like :protocol", { protocol: `%${"https"}%` })
+        .loadRelationCountAndMap("u.photos_count", "u.photos");
 
-      const count = await query.clone().getCount()
+      const count = await query.clone().getCount();
       const results = await query.take(2).getManyAndCount();
-      console.log(count)
+      console.log(count);
       console.log(results);
     });
 
     it("user.photos, filter by photo.url, http", async () => {
       const query = userRepository
-          .createQueryBuilder("u")
-          .leftJoin("u.photos", "photos")
-          .where("photos.url like :protocol", { protocol:`%${'http'}%` })
-          .loadRelationCountAndMap("u.photos_count", "u.photos")
+        .createQueryBuilder("u")
+        .leftJoin("u.photos", "photos")
+        .where("photos.url like :protocol", { protocol: `%${"http"}%` })
+        .loadRelationCountAndMap("u.photos_count", "u.photos");
 
-      const count = await query.clone().getCount()
+      const count = await query.clone().getCount();
       const results = await query.take(2).getManyAndCount();
-      console.log(count)
+      console.log(count);
       console.log(results);
     });
 
-  });
+    it("user.photos, filter by nested photo.photo_type, orange", async () => {
+      const query = userRepository
+        .createQueryBuilder("u")
+        .leftJoin("u.photos", "photos")
+        .leftJoinAndSelect("photos.photoType", "photoType")
+        .where("photoType.name like :name", { name: `%${"bee"}%` })
+        .loadRelationCountAndMap("u.photos_count", "u.photos");
 
-  describe("photo, load data", function () {
-    it("eager loading, photo", async () => {
-      const results = await photoRepository.find({
-        relations: ["user"],
-        take: 3,
+      const count = await query.clone().getCount();
+      const results = await query.take(2).getManyAndCount();
+      console.log(count);
+      console.log(results);
+      const userIds = results[0].map((u) => {
+        return u.id
+      })
+
+      const userFound = await userRepository.find({
+        where: { id: In(userIds) },
+        relations: ["photos", "photos.photoType"],
       });
-      console.log(results);
+      console.log(userFound);
+      console.log(JSON.stringify(userFound, null, 2));
     });
-  })
+
+    //   it("user.photos, filter by nested photo.photo_type, orange", async () => {
+    //     const results = await userRepository.findAndCount({
+    //       where: {
+    //           photoType: { name: Like(`%${"orange"}%`) }
+    //       },
+    //       join: {
+    //         alias: "user",
+    //         leftJoinAndSelect: {
+    //           photos: "user.photos",
+    //           photo_type: "photos.photoType",
+    //         },
+    //       },
+    //     });
+    //     console.log(results);
+    //   });
+    // });
+
+    describe("photo, load data", function () {
+      it("eager loading, photo", async () => {
+        const results = await photoRepository.find({
+          relations: ["user"],
+          take: 3,
+        });
+        console.log(results);
+      });
+    });
+  });
 });

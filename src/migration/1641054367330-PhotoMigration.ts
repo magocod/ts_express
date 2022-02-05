@@ -26,6 +26,10 @@ export class PhotoMigration1641054367330 implements MigrationInterface {
             name: "userId",
             type: "int",
           },
+          {
+            name: "photoTypeId",
+            type: "int",
+          },
         ],
       }),
       true
@@ -41,6 +45,16 @@ export class PhotoMigration1641054367330 implements MigrationInterface {
         referencedColumnNames: ["id"],
         referencedTableName: "user",
         onDelete: "CASCADE",
+      })
+    );
+
+    await queryRunner.createForeignKey(
+      "photo",
+      new TableForeignKey({
+        columnNames: ["photoTypeId"],
+        referencedColumnNames: ["id"],
+        referencedTableName: "photo_type",
+        // onDelete: "CASCADE",
       })
     );
   }
