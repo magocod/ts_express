@@ -47,17 +47,83 @@ describe("one-to-many", () => {
     console.log(userFound);
   });
 
-  it("repository eager loading, user", async () => {
-    const results = await userRepository.find({
-      relations: ["photos"],
+  describe("user, load data", function () {
+    it("simple eager loading", async () => {
+      const results = await userRepository.findAndCount({
+        relations: ["photos"],
+        take: 3,
+      });
+      console.log(results);
     });
-    console.log(results);
+
+    it("all, leftJoin", async () => {
+      const query = userRepository
+        .createQueryBuilder("u")
+        .leftJoin("u.photos", "photos")
+        .loadRelationCountAndMap("u.photos_count", "u.photos")
+
+      const count = await query.clone().getCount()
+      const results = await query.take(5).getManyAndCount();
+      console.log(count)
+      console.log(results);
+    });
+
+    it("innerJoin, user.photos > 0", async () => {
+      const results = await userRepository
+        .createQueryBuilder("u")
+        .innerJoin("u.photos", "photos")
+        .loadRelationCountAndMap("u.photos_count", "u.photos")
+        .take(5)
+        .getManyAndCount();
+      console.log(results);
+    });
+
+    it("user.photos = 0", async () => {
+      const results = await userRepository
+        .createQueryBuilder("u")
+        .leftJoin("u.photos", "photos")
+        .where("photos.id IS NULL")
+        .loadRelationCountAndMap("u.photos_count", "u.photos")
+        .take(5)
+        .getManyAndCount();
+      console.log(results);
+    });
+
+    it("user.photos, filter by photo.url, https", async () => {
+      const query = userRepository
+          .createQueryBuilder("u")
+          .leftJoin("u.photos", "photos")
+          .where("photos.url like :protocol", { protocol:`%${'https'}%` })
+          .loadRelationCountAndMap("u.photos_count", "u.photos")
+
+      const count = await query.clone().getCount()
+      const results = await query.take(2).getManyAndCount();
+      console.log(count)
+      console.log(results);
+    });
+
+    it("user.photos, filter by photo.url, http", async () => {
+      const query = userRepository
+          .createQueryBuilder("u")
+          .leftJoin("u.photos", "photos")
+          .where("photos.url like :protocol", { protocol:`%${'http'}%` })
+          .loadRelationCountAndMap("u.photos_count", "u.photos")
+
+      const count = await query.clone().getCount()
+      const results = await query.take(2).getManyAndCount();
+      console.log(count)
+      console.log(results);
+    });
+
   });
 
-  it("repository eager loading, photo", async () => {
-    const results = await photoRepository.find({
-      relations: ["user"],
+  describe("photo, load data", function () {
+    it("eager loading, photo", async () => {
+      const results = await photoRepository.find({
+        relations: ["user"],
+        take: 3,
+      });
+      console.log(results);
     });
-    console.log(results);
-  });
+  })
 });
