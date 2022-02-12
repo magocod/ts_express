@@ -20,14 +20,6 @@ import cors from "cors";
 import indexRouter from "./routes/index";
 
 import authRouter from "./routes/auth";
-import transactionRouter from "./routes/transaction";
-import projectRouter from "./routes/project";
-
-// db sync (example)
-// import "./config/db.config";
-
-// db
-// import db from "./models"
 
 // express instance
 const app = express();
@@ -52,8 +44,6 @@ app.use(cors());
 // routes
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
-app.use("/transactions", transactionRouter);
-app.use("/projects", projectRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
