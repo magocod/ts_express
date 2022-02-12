@@ -1,24 +1,24 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-import { Model, Sequelize, Optional } from "sequelize";
+import {
+  Model,
+  Sequelize,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from "sequelize";
 
-interface AddressAttributes {
-  id: number;
-  name: string;
-  userId: number;
-}
+export class Address extends Model<
+  InferAttributes<Address>,
+  InferCreationAttributes<Address>
+> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare userId: number;
 
-interface AddressCreationAttributes extends Optional<AddressAttributes, "id"> {}
-
-export class Address
-  extends Model<AddressAttributes, AddressCreationAttributes>
-  implements AddressAttributes
-{
-  public id!: number;
-  public name!: string;
-  public userId!: number;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  // timestamps!
+  // createdAt can be undefined during creation
+  declare createdAt: CreationOptional<Date>;
+  // updatedAt can be undefined during creation
+  declare updatedAt: CreationOptional<Date>;
 
   /**
    * Helper method for defining associations.
@@ -56,8 +56,13 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Address => {
         },
         allowNull: false,
       },
+      createdAt: seq.DATE,
+      updatedAt: seq.DATE,
     },
-    { sequelize, modelName: "Address" }
+    {
+      sequelize,
+      // modelName: "Address"
+    }
   );
   return Address;
 };

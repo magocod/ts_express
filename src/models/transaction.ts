@@ -1,24 +1,23 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-import { Model, Sequelize, Optional } from "sequelize";
+import {
+  Model,
+  Sequelize,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from "sequelize";
 
-interface TransactionAttributes {
-  id: number;
-  title: string;
-}
-
-interface TransactionCreationAttributes
-  extends Optional<TransactionAttributes, "id"> {}
-
-export class Transaction
-  extends Model<TransactionAttributes, TransactionCreationAttributes>
-  implements TransactionAttributes
-{
-  public id!: number; // Note that the `null assertion` `!` is required in strict mode.
-  public title!: string;
+export class Transaction extends Model<
+  InferAttributes<Transaction>,
+  InferCreationAttributes<Transaction>
+> {
+  declare id: CreationOptional<number>;
+  declare title: string;
 
   // timestamps!
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  // createdAt can be undefined during creation
+  declare createdAt: CreationOptional<Date>;
+  // updatedAt can be undefined during creation
+  declare updatedAt: CreationOptional<Date>;
 
   /**
    * Helper method for defining associations.
@@ -41,8 +40,13 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Transaction => {
       title: {
         type: seq.STRING,
       },
+      createdAt: seq.DATE,
+      updatedAt: seq.DATE,
     },
-    { sequelize, modelName: "Transaction" }
+    {
+      sequelize,
+      // modelName: "Transaction"
+    }
   );
   return Transaction;
 };

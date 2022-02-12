@@ -1,30 +1,26 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import {
   Model,
   Sequelize,
-  Optional,
   BelongsToManyAddAssociationMixin,
-  ModelCtor,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
 } from "sequelize";
 
-export interface ProfileAttributes {
-  id: number;
-  name: string;
-}
+export class Profile extends Model<
+  InferAttributes<Profile>,
+  InferCreationAttributes<Profile>
+> {
+  declare id: CreationOptional<number>;
+  declare name: string;
 
-interface ProfileCreationAttributes extends Optional<ProfileAttributes, "id"> {}
+  // timestamps!
+  // createdAt can be undefined during creation
+  declare createdAt: CreationOptional<Date>;
+  // updatedAt can be undefined during creation
+  declare updatedAt: CreationOptional<Date>;
 
-export class Profile
-  extends Model<ProfileAttributes, ProfileCreationAttributes>
-  implements ProfileAttributes
-{
-  public id!: number;
-  public name!: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-
-  public addUser!: BelongsToManyAddAssociationMixin<ModelCtor<Model>, unknown>;
+  public addUser!: BelongsToManyAddAssociationMixin<Model, unknown>;
 
   /**
    * Helper method for defining associations.
@@ -51,8 +47,13 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Profile => {
       name: {
         type: seq.STRING,
       },
+      createdAt: seq.DATE,
+      updatedAt: seq.DATE,
     },
-    { sequelize, modelName: "Profile" }
+    {
+      sequelize,
+      // modelName: "Profile"
+    }
   );
   return Profile;
 };

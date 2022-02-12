@@ -23,8 +23,12 @@ export async function create(req: Request, res: Response): GenericResponse {
     const data = await Transaction.create(reqData);
     return res.send(data);
   } catch (err) {
+    let message = "error creando la transaccion"
+    if (err instanceof Error) {
+      message = err.message
+    }
     return res.status(500).send({
-      message: err.message || "error creando la transaccion",
+      message,
     });
   }
 }
@@ -35,8 +39,12 @@ export async function findAll(req: Request, res: Response): GenericResponse {
     const data = await Transaction.findAll();
     return res.send(data);
   } catch (err) {
+    let message = "error cargando las transaccion"
+    if (err instanceof Error) {
+      message = err.message
+    }
     return res.status(500).send({
-      message: err.message || "error cargando las transaccion",
+      message,
     });
   }
 }

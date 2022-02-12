@@ -16,11 +16,15 @@ export default class ProjectController {
 
     try {
       const data = await Project.create(reqData, { include: [User] });
-      await data.reload()
+      await data.reload();
       return res.send(data);
     } catch (err) {
+      let message = "error creando";
+      if (err instanceof Error) {
+        message = err.message;
+      }
       return res.status(500).send({
-        message: err.message || "error creando",
+        message,
       });
     }
   }
@@ -31,8 +35,12 @@ export default class ProjectController {
       const data = await Project.findAll({ include: [User] });
       return res.send(data);
     } catch (err) {
+      let message = "error cargando";
+      if (err instanceof Error) {
+        message = err.message;
+      }
       return res.status(500).send({
-        message: err.message || "error cargando",
+        message,
       });
     }
   }

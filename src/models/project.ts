@@ -1,24 +1,24 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-import { Model, Sequelize, Optional } from "sequelize";
+import {
+  Model,
+  Sequelize,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from "sequelize";
 
-interface ProjectAttributes {
-  id: number;
-  name: string;
-  userId: number;
-}
+export class Project extends Model<
+  InferAttributes<Project>,
+  InferCreationAttributes<Project>
+> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare userId: number;
 
-interface ProjectCreationAttributes extends Optional<ProjectAttributes, "id"> {}
-
-export class Project
-  extends Model<ProjectAttributes, ProjectCreationAttributes>
-  implements ProjectAttributes
-{
-  public id!: number;
-  public name!: string;
-  public userId!: number;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  // timestamps!
+  // createdAt can be undefined during creation
+  declare createdAt: CreationOptional<Date>;
+  // updatedAt can be undefined during creation
+  declare updatedAt: CreationOptional<Date>;
 
   /**
    * Helper method for defining associations.
@@ -56,8 +56,13 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Project => {
         },
         allowNull: false,
       },
+      createdAt: seq.DATE,
+      updatedAt: seq.DATE,
     },
-    { sequelize, modelName: "Project" }
+    {
+      sequelize,
+      // modelName: "Project"
+    }
   );
   return Project;
 };

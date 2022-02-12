@@ -1,9 +1,5 @@
 import { Request, Response, Router } from "express";
 
-import auth from "./auth";
-import transaction from "./transaction";
-import project from "./project";
-
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {

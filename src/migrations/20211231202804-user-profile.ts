@@ -3,6 +3,12 @@ import { QueryInterface, Sequelize } from "sequelize";
 export default {
   up: async (queryInterface: QueryInterface, seq: any): Promise<void> => {
     await queryInterface.createTable("UserProfiles", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: seq.INTEGER,
+      },
       userId: {
         type: seq.INTEGER,
         references: {
