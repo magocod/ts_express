@@ -19,8 +19,4 @@ routes.get("/error", (req: Request, res: Response) => {
   res.send("hello error");
 });
 
-routes.use("/auth", auth);
-routes.use("/transactions", transaction);
-routes.use("/projects", project);
-
 export default routes;

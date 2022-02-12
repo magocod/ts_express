@@ -5,6 +5,8 @@ import { GenericResponse } from "../utils";
 // import { getModel, Transaction } from "../models";
 // const transaction = getModel<typeof Transaction>('Transaction');
 
+// example with class
+
 export default class ProjectController {
   static async create(req: Request, res: Response): GenericResponse {
     const reqData = {

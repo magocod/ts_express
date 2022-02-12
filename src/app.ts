@@ -10,11 +10,18 @@ import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
-import helmet from "helmet";
 
-import middleware from "./middleware";
-import routes from "./routes/index";
-import { applyMiddleware } from "./utils";
+import helmet from "helmet";
+import cors from "cors";
+
+// import middleware from "./middleware";
+// import { applyMiddleware } from "./utils";
+
+import indexRouter from "./routes/index";
+
+import authRouter from "./routes/auth";
+import transactionRouter from "./routes/transaction";
+import projectRouter from "./routes/project";
 
 // db sync (example)
 // import "./config/db.config";
@@ -30,7 +37,7 @@ const app = express();
 // app.set('view engine', 'jade');
 
 // middleware
-applyMiddleware(middleware, app);
+// applyMiddleware(middleware, app);
 
 // config
 app.use(logger("dev"));
@@ -38,10 +45,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(helmet());
+app.use(cors());
 
 // routes
-app.use("/", routes);
+app.use("/", indexRouter);
+app.use("/auth", authRouter);
+app.use("/transactions", transactionRouter);
+app.use("/projects", projectRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

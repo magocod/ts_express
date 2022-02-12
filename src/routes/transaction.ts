@@ -3,15 +3,15 @@ const router = express.Router();
 
 import { body } from "express-validator";
 
-import TransactionController from "../controllers/transaction.controller";
+import { create, findAll } from "../controllers/transaction.controller";
 
 // FIXME validator - reubicar a un lugar mas reutilizable
 const transactionValidator = body("title")
   .notEmpty()
   .withMessage("titulo invalido");
 
-router.post("/", transactionValidator, TransactionController.create);
+router.post("/", transactionValidator, create);
 
-router.get("/", TransactionController.findAll);
+router.get("/", findAll);
 
 export default router;
