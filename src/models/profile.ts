@@ -36,7 +36,7 @@ export class Profile extends Model<
   }
 }
 
-const initModel = (sequelize: Sequelize, seq: any): typeof Profile => {
+export default function (sequelize: Sequelize, seq: any): typeof Profile {
   Profile.init(
     {
       id: {
@@ -56,6 +56,4 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Profile => {
     }
   );
   return Profile;
-};
-
-export default initModel;
+}

@@ -29,7 +29,7 @@ export class Transaction extends Model<
   }
 }
 
-const initModel = (sequelize: Sequelize, seq: any): typeof Transaction => {
+export default function (sequelize: Sequelize, seq: any): typeof Transaction {
   Transaction.init(
     {
       id: {
@@ -49,6 +49,4 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Transaction => {
     }
   );
   return Transaction;
-};
-
-export default initModel;
+}

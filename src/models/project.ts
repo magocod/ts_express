@@ -35,7 +35,7 @@ export class Project extends Model<
   }
 }
 
-const initModel = (sequelize: Sequelize, seq: any): typeof Project => {
+export default function (sequelize: Sequelize, seq: any): typeof Project {
   Project.init(
     {
       id: {
@@ -65,6 +65,4 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Project => {
     }
   );
   return Project;
-};
-
-export default initModel;
+}

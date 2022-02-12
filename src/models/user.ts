@@ -40,10 +40,7 @@ export class User extends Model<
   declare countProjects: HasManyCountAssociationsMixin;
   declare createProject: HasManyCreateAssociationMixin<Profile>;
 
-  declare addProfile: BelongsToManyAddAssociationMixin<
-    Profile,
-    number
-  >;
+  declare addProfile: BelongsToManyAddAssociationMixin<Profile, number>;
 
   declare createAddress: HasOneCreateAssociationMixin<Address>;
 
@@ -78,7 +75,7 @@ export class User extends Model<
   }
 }
 
-const initModel = (sequelize: Sequelize, seq: any): typeof User => {
+export default function (sequelize: Sequelize, seq: any): typeof User {
   User.init(
     {
       id: {
@@ -98,6 +95,4 @@ const initModel = (sequelize: Sequelize, seq: any): typeof User => {
     }
   );
   return User;
-};
-
-export default initModel;
+}

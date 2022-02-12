@@ -28,7 +28,7 @@ export class UserProfiles extends Model<
   }
 }
 
-const initModel = (sequelize: Sequelize, seq: any): typeof UserProfiles => {
+export default function (sequelize: Sequelize, seq: any): typeof UserProfiles {
   UserProfiles.init(
     {
       id: {
@@ -45,6 +45,4 @@ const initModel = (sequelize: Sequelize, seq: any): typeof UserProfiles => {
     }
   );
   return UserProfiles;
-};
-
-export default initModel;
+}

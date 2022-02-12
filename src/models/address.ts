@@ -35,7 +35,7 @@ export class Address extends Model<
   }
 }
 
-const initModel = (sequelize: Sequelize, seq: any): typeof Address => {
+export default function (sequelize: Sequelize, seq: any): typeof Address {
   Address.init(
     {
       id: {
@@ -65,6 +65,4 @@ const initModel = (sequelize: Sequelize, seq: any): typeof Address => {
     }
   );
   return Address;
-};
-
-export default initModel;
+}
