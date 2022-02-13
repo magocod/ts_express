@@ -61,7 +61,7 @@ export default function (sequelize: Sequelize, seq: any): typeof Project {
     },
     {
       sequelize,
-      // modelName: "Project"
+      modelName: "Project"
     }
   );
   return Project;

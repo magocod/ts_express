@@ -41,7 +41,7 @@ export default function (sequelize: Sequelize, seq: any): typeof UserProfiles {
     },
     {
       sequelize,
-      // modelName: "UserProfiles"
+      modelName: "UserProfiles"
     }
   );
   return UserProfiles;

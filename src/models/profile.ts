@@ -52,7 +52,7 @@ export default function (sequelize: Sequelize, seq: any): typeof Profile {
     },
     {
       sequelize,
-      // modelName: "Profile"
+      modelName: "Profile"
     }
   );
   return Profile;

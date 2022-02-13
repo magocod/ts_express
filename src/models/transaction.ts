@@ -45,7 +45,7 @@ export default function (sequelize: Sequelize, seq: any): typeof Transaction {
     },
     {
       sequelize,
-      // modelName: "Transaction"
+      modelName: "Transaction"
     }
   );
   return Transaction;

@@ -61,7 +61,7 @@ export default function (sequelize: Sequelize, seq: any): typeof Address {
     },
     {
       sequelize,
-      // modelName: "Address"
+      modelName: "Address"
     }
   );
   return Address;

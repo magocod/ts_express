@@ -91,7 +91,7 @@ export default function (sequelize: Sequelize, seq: any): typeof User {
     },
     {
       sequelize,
-      // modelName: "User"
+      modelName: "User"
     }
   );
   return User;
