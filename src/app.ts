@@ -19,6 +19,7 @@ import cors from "cors";
 
 import indexRouter from "./routes/index";
 
+import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 
 // express instance
@@ -44,6 +45,7 @@ app.use(cors());
 // routes
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/users", userRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
