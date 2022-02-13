@@ -2,6 +2,8 @@ import { assert } from "chai";
 import app from "../src/app.es6";
 import supertest from "supertest";
 
+const httpClient = supertest(app);
+
 describe("sample", () => {
   it("responds with json", async () => {
     const response = await supertest(app).get("/test");
@@ -11,7 +13,7 @@ describe("sample", () => {
   });
 
   it("responds with internal error", async () => {
-    const response = await supertest(app).get("/error");
+    const response = await httpClient.get("/error");
     // console.log(response.body);
     assert.equal(response.status, 500);
     assert.deepEqual(

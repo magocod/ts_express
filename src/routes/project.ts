@@ -1,10 +1,18 @@
 import express from "express";
 const router = express.Router();
 
-import ProjectController from "../controllers/project.controller";
+import { ProjectController } from "../controllers/project.controller";
 
-router.post("/", ProjectController.create);
+const projectController = new ProjectController();
 
-router.get("/", ProjectController.findAll);
+router.get("/", projectController.findAll);
+
+router.post("/", projectController.create);
+
+router.get("/:id", projectController.find);
+
+router.put("/:id", projectController.update);
+
+router.delete("/:id", projectController.delete);
 
 export default router;

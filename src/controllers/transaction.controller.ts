@@ -3,9 +3,26 @@ import { validationResult } from "express-validator";
 
 import { Transaction } from "../models";
 
-import { callModel, GenericResponse } from "../utils";
+import { callModel } from "../utils";
+import { GenericResponse } from "../interfaces";
 // import { getModel, Transaction } from "../models";
 // const transaction = getModel<typeof Transaction>('Transaction');
+
+export async function findAll(req: Request, res: Response): GenericResponse {
+  // TODO filter and paginate
+  try {
+    const data = await Transaction.findAll();
+    return res.send(data);
+  } catch (err) {
+    let message = "error cargando las transaccion";
+    if (err instanceof Error) {
+      message = err.message;
+    }
+    return res.status(500).send({
+      message,
+    });
+  }
+}
 
 export async function create(req: Request, res: Response): GenericResponse {
   const errors = validationResult(req);
@@ -23,25 +40,9 @@ export async function create(req: Request, res: Response): GenericResponse {
     const data = await Transaction.create(reqData);
     return res.send(data);
   } catch (err) {
-    let message = "error creando la transaccion"
+    let message = "error creando la transaccion";
     if (err instanceof Error) {
-      message = err.message
-    }
-    return res.status(500).send({
-      message,
-    });
-  }
-}
-
-export async function findAll(req: Request, res: Response): GenericResponse {
-  // TODO filter and paginate
-  try {
-    const data = await Transaction.findAll();
-    return res.send(data);
-  } catch (err) {
-    let message = "error cargando las transaccion"
-    if (err instanceof Error) {
-      message = err.message
+      message = err.message;
     }
     return res.status(500).send({
       message,
