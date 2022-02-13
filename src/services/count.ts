@@ -8,7 +8,7 @@ export class Counter {
   }
 
   getName(): string {
-    return this.name
+    return this.name;
   }
 
   callModel(): Promise<number> {

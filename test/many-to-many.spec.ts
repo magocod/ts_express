@@ -39,20 +39,20 @@ describe("example_many_to_many", function () {
   });
 
   it("get relationship, belongsToMany left", async () => {
-      const profiles = await Profile.findAll({ include: User });
-      console.log(JSON.stringify(profiles, null, 2));
-      // assert.equal(typeof user.id, 'number');
+    const profiles = await Profile.findAll({ include: User });
+    console.log(JSON.stringify(profiles, null, 2));
+    // assert.equal(typeof user.id, 'number');
   });
 
   it("get relationship, belongsToMany right", async () => {
-      const users = await User.findAll({
-          include: [
-              {
-                  model: Profile, // will create a left join
-              },
-          ],
-      });
-      console.log(JSON.stringify(users, null, 2));
-      // assert.equal(typeof user.id, 'number');
+    const users = await User.findAll({
+      include: [
+        {
+          model: Profile, // will create a left join
+        },
+      ],
+    });
+    console.log(JSON.stringify(users, null, 2));
+    // assert.equal(typeof user.id, 'number');
   });
 });

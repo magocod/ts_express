@@ -15,7 +15,7 @@ export default {
       {
         title: "seed",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
     ]);
   },

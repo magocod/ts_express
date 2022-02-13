@@ -12,15 +12,15 @@ describe("example_one_to_many", () => {
 
     // simple create
     const project = await Project.create({
-        name: 'model-' + faker.datatype.uuid(),
-        userId: user.id,
-    })
+      name: "model-" + faker.datatype.uuid(),
+      userId: user.id,
+    });
     // console.log(project.toJSON());
 
     // relation create
     const projectB = await user.createProject({
-        name: 'user-relation-' + faker.datatype.uuid(),
-        // userId: user.id,
+      name: "user-relation-" + faker.datatype.uuid(),
+      // userId: user.id,
     });
     // console.log(projectB.toJSON());
 
