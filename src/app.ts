@@ -14,6 +14,9 @@ import path from "path";
 import helmet from "helmet";
 import cors from "cors";
 
+import { dbConfig } from "./config/db.config";
+import mongoose from "mongoose";
+
 // import middleware from "./middleware";
 // import { applyMiddleware } from "./utils";
 
@@ -21,6 +24,7 @@ import indexRouter from "./routes/index";
 
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
+import tutorialRouter from "./routes/tutorial";
 
 // express instance
 const app = express();
@@ -46,6 +50,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/tutorials", tutorialRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -77,9 +82,9 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 // error handler
 app.use(errorHandler);
 
-// if (db.sequelize) {
-//   db.sequelize.sync({ force: false });
-// }
+mongoose.connect(dbConfig.url).catch((err) => {
+  console.log("Cannot connect to the database!", err);
+});
 
 export default app;
 // FIXME error to transpile to js

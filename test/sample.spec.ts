@@ -1,10 +1,22 @@
 import { assert } from "chai";
 import app from "../src/app.es6";
 import supertest from "supertest";
+// import mongoose from "mongoose";
+// import { dbConfig } from "../src/config/db.config";
 
 const httpClient = supertest(app);
 
 describe("sample", () => {
+  // let mongooseConnection: typeof mongoose;
+  //
+  // before(async function () {
+  //   mongooseConnection = await mongoose.connect(dbConfig.url);
+  // });
+  //
+  // after(async function () {
+  //   await mongooseConnection.connection.close();
+  // });
+
   it("responds with json", async () => {
     const response = await supertest(app).get("/test");
     // console.log(response.body);

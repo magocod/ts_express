@@ -13,7 +13,7 @@ describe("user_crud", () => {
     assert.equal(response.status, 500);
   });
 
-  it("post", async () => {
+  it("create", async () => {
     const response = await httpClient.post(baseRoute);
 
     assert.equal(response.status, 500);
