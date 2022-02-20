@@ -2,7 +2,14 @@ import { assert } from "chai";
 import app from "../../src/app.es6";
 import supertest from "supertest";
 
-import { chance, generateTutorial } from "../fixtures";
+import { Schema } from "mongoose";
+
+import {
+  chance,
+  generateTutorial,
+  generateCategory,
+  CategoryDocument,
+} from "../fixtures";
 import { addQueryString, basicPagination } from "../helpers";
 
 import { TutorialBase, Tutorial } from "../../src/models";
@@ -11,15 +18,25 @@ const httpClient = supertest(app);
 
 const baseRoute = "/tutorials";
 
-function generateData(): TutorialBase {
+function generateData(category: Schema.Types.ObjectId): TutorialBase {
   return {
     title: chance.guid(),
     description: chance.guid(),
     published: chance.bool({ likelihood: 50 }),
+    images: [],
+    comments: [],
+    category,
   };
 }
 
 describe("tutorial_crud", () => {
+  let category: CategoryDocument;
+
+  before(async function () {
+    const payload = await generateCategory();
+    category = payload.category;
+  });
+
   describe("list", function () {
     it("findAll", async () => {
       await generateTutorial();
@@ -68,7 +85,9 @@ describe("tutorial_crud", () => {
   });
 
   it("create", async () => {
-    const response = await httpClient.post(baseRoute).send(generateData());
+    const response = await httpClient
+      .post(baseRoute)
+      .send(generateData(category._id as unknown as Schema.Types.ObjectId));
 
     // console.log(response.body);
     assert.equal(response.status, 200);
@@ -107,7 +126,7 @@ describe("tutorial_crud", () => {
 
     const response = await httpClient
       .put(`${baseRoute}/${id}`)
-      .send(generateData());
+      .send(generateData(category._id as unknown as Schema.Types.ObjectId));
 
     // console.log(response.body);
     assert.equal(response.status, 200);
