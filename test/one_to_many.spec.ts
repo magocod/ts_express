@@ -12,6 +12,7 @@ describe("one_to_many", () => {
       images: { quantity: 2 },
       comments: { quantity: 0 },
       category: null,
+      tags: { quantity: 0 },
     });
 
     // console.log(tutorial.toJSON());
@@ -24,6 +25,9 @@ describe("one_to_many", () => {
       images: { quantity: 0 },
       comments: { quantity: 2 },
       category: null,
+      tags: {
+        quantity: 0,
+      },
     });
 
     const tutorials = await Tutorial.find({ _id: tutorial._id }).populate(

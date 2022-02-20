@@ -5,3 +5,4 @@ export * from "./identifier";
 export * from "./embedded_identifier";
 export * from "./comment";
 export * from "./category";
+export * from "./tag";

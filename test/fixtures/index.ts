@@ -4,3 +4,4 @@ export const chance = new Chance();
 
 export * from "./tutorial";
 export * from "./category";
+export * from "./tag";

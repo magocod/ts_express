@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 import { CommentBase } from "./comment";
 
@@ -12,8 +12,9 @@ export interface TutorialBase {
   description: string;
   published: boolean;
   images: TutorialImage[];
-  comments: Schema.Types.ObjectId[];
-  category: Schema.Types.ObjectId;
+  comments: Types.ObjectId[];
+  category: Types.ObjectId;
+  tags: Types.ObjectId[];
 }
 
 const schema = new Schema<TutorialBase>(
@@ -37,6 +38,12 @@ const schema = new Schema<TutorialBase>(
       type: Schema.Types.ObjectId,
       ref: "Category",
     },
+    tags: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tag",
+      },
+    ],
   },
   { timestamps: true }
 );

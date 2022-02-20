@@ -2,7 +2,7 @@ import { assert } from "chai";
 import app from "../../src/app.es6";
 import supertest from "supertest";
 
-import { Schema } from "mongoose";
+import { Types } from "mongoose";
 
 import {
   chance,
@@ -18,7 +18,7 @@ const httpClient = supertest(app);
 
 const baseRoute = "/tutorials";
 
-function generateData(category: Schema.Types.ObjectId): TutorialBase {
+function generateData(category: Types.ObjectId): TutorialBase {
   return {
     title: chance.guid(),
     description: chance.guid(),
@@ -26,6 +26,7 @@ function generateData(category: Schema.Types.ObjectId): TutorialBase {
     images: [],
     comments: [],
     category,
+    tags: []
   };
 }
 
@@ -87,7 +88,7 @@ describe("tutorial_crud", () => {
   it("create", async () => {
     const response = await httpClient
       .post(baseRoute)
-      .send(generateData(category._id as unknown as Schema.Types.ObjectId));
+      .send(generateData(category._id));
 
     // console.log(response.body);
     assert.equal(response.status, 200);
@@ -126,7 +127,7 @@ describe("tutorial_crud", () => {
 
     const response = await httpClient
       .put(`${baseRoute}/${id}`)
-      .send(generateData(category._id as unknown as Schema.Types.ObjectId));
+      .send(generateData(category._id));
 
     // console.log(response.body);
     assert.equal(response.status, 200);

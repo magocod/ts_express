@@ -1,5 +1,5 @@
 import { chance } from "./index";
-import { Document, Schema, Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 import {
   Tutorial,
@@ -11,6 +11,7 @@ import {
 } from "../../src/models";
 
 import { generateCategory, CategoryDocument } from "./category";
+import { generateTag, TagDocument } from "./tag";
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 type TutorialDocument = Document<unknown, any, TutorialBase> &
@@ -24,6 +25,7 @@ type GenerateTutorial = Promise<{
   tutorial: TutorialDocument;
   comments: CommentDocument[];
   category: CategoryDocument | null;
+  tags: TagDocument[];
 }>;
 
 interface ConfigTutorial {
@@ -34,6 +36,9 @@ interface ConfigTutorial {
     quantity: number;
   };
   category: Types.ObjectId | null;
+  tags: {
+    quantity: number;
+  };
 }
 
 export async function generateTutorial(
@@ -45,6 +50,9 @@ export async function generateTutorial(
       quantity: 1,
     },
     category: null,
+    tags: {
+      quantity: 1
+    }
   }
 ): GenerateTutorial {
   const images: TutorialImage[] = [];
@@ -88,11 +96,21 @@ export async function generateTutorial(
         createdAt: new Date(),
       });
       comments.push(comment);
-      tutorial.comments.push(comment._id as unknown as Schema.Types.ObjectId);
+      tutorial.comments.push(comment._id);
+    }
+  }
+
+  const tags: TagDocument[] = []
+
+  if (config.tags.quantity > 0) {
+    for (let i = 0; i < config.tags.quantity; i++) {
+      const { tag } = await generateTag()
+      tags.push(tag);
+      tutorial.tags.push(tag._id);
     }
   }
 
   await tutorial.save();
 
-  return { tutorial, comments, category };
+  return { tutorial, comments, category, tags };
 }

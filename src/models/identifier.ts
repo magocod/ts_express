@@ -1,8 +1,8 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 export interface IdentifierBase {
     cardCode: string;
-    customer: Schema.Types.ObjectId;
+    customer: Types.ObjectId;
 }
 
 const schema = new Schema<IdentifierBase>(
