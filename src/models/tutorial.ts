@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 
-import { CommentBase } from "./comment";
+// import { CommentBase } from "./comment";
 
 export interface TutorialImage {
   url: string;

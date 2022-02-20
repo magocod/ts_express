@@ -13,19 +13,19 @@ import {
   EmbeddedIdentifierBase,
 } from "../src/models";
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 type CreateCustomer = Promise<
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   Document<unknown, any, CustomerBase> & CustomerBase & { _id: Types.ObjectId }
 >;
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 type CreateIdentifier = Promise<
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   Document<unknown, any, IdentifierBase> &
     IdentifierBase & { _id: Types.ObjectId }
 >;
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 type CreateEmbeddedIdentifier = Promise<
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   Document<unknown, any, EmbeddedIdentifierBase> &
     EmbeddedIdentifierBase & { _id: Types.ObjectId }
 >;
@@ -45,7 +45,7 @@ function createIdentifier(customer: Types.ObjectId | string): CreateIdentifier {
   });
 }
 
-function createEmbeddedIdentifier() {
+function createEmbeddedIdentifier(): CreateEmbeddedIdentifier {
   return EmbeddedIdentifier.create({
     cardCode: chance.guid(),
     customer: {

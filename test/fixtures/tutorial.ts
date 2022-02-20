@@ -51,8 +51,8 @@ export async function generateTutorial(
     },
     category: null,
     tags: {
-      quantity: 1
-    }
+      quantity: 1,
+    },
   }
 ): GenerateTutorial {
   const images: TutorialImage[] = [];
@@ -100,11 +100,11 @@ export async function generateTutorial(
     }
   }
 
-  const tags: TagDocument[] = []
+  const tags: TagDocument[] = [];
 
   if (config.tags.quantity > 0) {
     for (let i = 0; i < config.tags.quantity; i++) {
-      const { tag } = await generateTag()
+      const { tag } = await generateTag();
       tags.push(tag);
       tutorial.tags.push(tag._id);
     }

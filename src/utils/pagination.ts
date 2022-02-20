@@ -11,7 +11,7 @@ export function getPagination(
   limit: number,
   total: number
 ): PaginationResult {
-  const queryLimit = limit ? + limit : defaultPagination;
+  const queryLimit = limit ? +limit : defaultPagination;
   const offset = page ? page * limit : 0;
 
   let totalPages = 1;

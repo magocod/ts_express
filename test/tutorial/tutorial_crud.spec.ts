@@ -26,7 +26,7 @@ function generateData(category: Types.ObjectId): TutorialBase {
     images: [],
     comments: [],
     category,
-    tags: []
+    tags: [],
   };
 }
 

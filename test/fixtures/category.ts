@@ -1,5 +1,5 @@
 import { chance } from "./index";
-import { Document, Schema, Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 import { Category, CategoryBase } from "../../src/models";
 
