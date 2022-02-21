@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../dist/src/app');
+var app = require('../dist/app.export');
 var debug = require('debug')('express:server');
 var http = require('http');
 

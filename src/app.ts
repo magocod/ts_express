@@ -82,5 +82,7 @@ app.use(errorHandler);
 // }
 
 export default app;
-// FIXME error to transpile to js
-module.exports = app;
+
+// error to transpile to js
+// remove this in favor of app.export.ts
+// module.exports = app;

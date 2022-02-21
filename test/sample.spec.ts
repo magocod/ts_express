@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import app from "../src/app.es6";
+import app from "../src/app";
 import supertest from "supertest";
 
 const httpClient = supertest(app);

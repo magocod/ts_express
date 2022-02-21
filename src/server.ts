@@ -7,7 +7,7 @@
 // import express from "express";
 import http from "http";
 
-import app from "./app.es6";
+import app from "./app";
 
 // start instance for tests
 // import middleware from './middleware';
