@@ -1,0 +1,3 @@
+[submodule "ts_module"]
+	path = ts_module
+	url = https://github.com/magocod/ts_module.git
