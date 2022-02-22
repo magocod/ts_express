@@ -22,4 +22,11 @@ describe("sample", () => {
       "response.body"
     );
   });
+
+  it("responds with count, git sub_module", async () => {
+    const response = await httpClient.post("/count");
+    console.log(response.body);
+    assert.equal(response.status, 200);
+    assert.equal(response.body, 1);
+  });
 });

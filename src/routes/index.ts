@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
 
+import { count } from "../controllers/submodule.controller";
+
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
@@ -14,5 +16,7 @@ routes.get("/error", (req: Request, res: Response) => {
   JSON.parse("}");
   res.send("hello error");
 });
+
+routes.post("/count", count);
 
 export default routes;
