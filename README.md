@@ -23,3 +23,9 @@ npm run start
 ```
 npm run test
 ```
+
+### Sub modules
+```
+git submodule update --remote
+git submodule update --remote name
+```
