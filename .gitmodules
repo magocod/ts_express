@@ -1,0 +1,4 @@
+[submodule "ts_module"]
+	path = src/ts_module
+	url = https://github.com/magocod/ts_module
+	branch = code
