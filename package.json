@@ -7,7 +7,7 @@
     "clean": "rimraf dist",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
-    "dev": "tsc-watch --onSuccess \"node ./dist/src/server.js\"",
+    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "build": "npm run clean & tsc --p tsconfig.build.json",
     "build:start": "npm run build & npm run start",
     "test": "mocha -r ts-node/register test/*.spec.ts",
