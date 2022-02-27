@@ -8,11 +8,126 @@ import { GenericResponse } from "../interfaces";
 // import { getModel, Transaction } from "../models";
 // const transaction = getModel<typeof Transaction>('Transaction');
 
+type QueryString = { [key: string]: unknown };
+
+interface BasicPagination {
+  page: number;
+  limit: number;
+}
+
+interface Pagination extends BasicPagination {
+  total: number;
+  totalPages: number;
+  next?: BasicPagination;
+  previous?: BasicPagination;
+}
+
+interface PaginationDetail {
+  pagination: Pagination;
+  offset: number;
+}
+
+function generatePagination(pag: unknown, pageSize: unknown): PaginationDetail {
+  // default
+  let page = 1;
+  let offset = 0;
+  let limit = 3;
+
+  if (pag && pageSize) {
+    try {
+      page = parseInt(pag as string);
+      limit = parseInt(pageSize as string);
+      offset = (page - 1) * limit;
+
+      // console.log(offset);
+      // console.log(limit);
+    } catch (e) {
+      // pass
+    }
+  }
+
+  const pagination: Pagination = {
+    total: 0,
+    totalPages: 0,
+    page,
+    limit,
+  };
+
+  console.log(offset)
+
+  if (offset > 0) {
+    pagination.previous = {
+      page: page - 1,
+      limit: limit,
+    };
+  }
+
+  return {
+    pagination,
+    offset,
+  };
+}
+
 export async function findAll(req: Request, res: Response): GenericResponse {
-  // TODO filter and paginate
   try {
-    const data = await Transaction.findAll();
-    return res.send(data);
+    // const { page, pageSize } = req.query;
+    // console.log(req.query);
+    //
+    // let pag = 1;
+    // let offset = 0;
+    // let limit = 3;
+    //
+    // if (page && pageSize) {
+    //   try {
+    //     pag = parseInt(page as string);
+    //     limit = parseInt(pageSize as string);
+    //     offset = (pag - 1) * limit;
+    //
+    //     console.log(offset);
+    //     console.log(limit);
+    //   } catch (e) {
+    //     // pass
+    //   }
+    // }
+    //
+    // const data = await Transaction.findAndCountAll({
+    //   offset,
+    //   limit,
+    // });
+    //
+    // const totalPages = Math.ceil(data.count / limit);
+    //
+    // return res.json({
+    //   page: pag,
+    //   limit,
+    //   totalPages,
+    //   data,
+    // });
+
+    const { pagination, offset } = generatePagination(
+      req.query.page,
+      req.query.limit
+    );
+
+    const { count, rows } = await Transaction.findAndCountAll({
+      offset,
+      limit: pagination.limit,
+    });
+
+    pagination.total = count;
+    pagination.totalPages = Math.ceil(count / pagination.limit);
+
+    if (count > pagination.limit) {
+      pagination.next = {
+        page: pagination.page + 1,
+        limit: pagination.limit
+      }
+    }
+
+    return res.json({
+      pagination,
+      data: rows,
+    });
   } catch (err) {
     let message = "error cargando las transaccion";
     if (err instanceof Error) {

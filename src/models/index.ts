@@ -13,7 +13,7 @@ import {
 const basename = path.basename(__filename);
 
 const env = process.env.NODE_ENV || "development";
-console.log(env);
+// console.log(env);
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 // const config = require(__dirname + "/../config/config.json")[env];
@@ -21,7 +21,7 @@ console.log(env);
 
 import baseConfig, { envDb } from "../config/db.config";
 const config = baseConfig[env as envDb];
-console.log(config);
+// console.log(config);
 
 // type ImportModel = typeof Model & { associate: (models: any) => void } & {
 //   new (values?: Record<string, unknown>, options?: BuildOptions): any;
@@ -78,8 +78,8 @@ const db: DbInstance = {
   models: {},
 };
 
-console.log("models fs");
-console.log("__dirname", __dirname);
+// console.log("models fs");
+// console.log("__dirname", __dirname);
 
 fs.readdirSync(__dirname)
   .filter((file) => {
@@ -91,7 +91,7 @@ fs.readdirSync(__dirname)
   })
   .forEach(async (file) => {
     const route = path.join(__dirname, file);
-    console.log(route);
+    // console.log(route);
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const modelInit: unknown = require(route).default;
     if (typeof modelInit === "function") {
