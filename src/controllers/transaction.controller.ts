@@ -53,12 +53,60 @@ function generatePagination(pag: unknown, pageSize: unknown): PaginationDetail {
     limit,
   };
 
-  console.log(offset)
+  if (offset > 0) {
+    pagination.previous = {
+      page: page - 1,
+      limit: limit,
+    };
+  }
+
+  return {
+    pagination,
+    offset,
+  };
+}
+
+function generatePaginationV2(
+  pag: unknown,
+  pageSize: unknown,
+  total: number
+): PaginationDetail {
+  // default
+  let page = 1;
+  let offset = 0;
+  let limit = 3;
+
+  if (pag && pageSize) {
+    try {
+      page = parseInt(pag as string);
+      limit = parseInt(pageSize as string);
+      offset = (page - 1) * limit;
+
+      // console.log(offset);
+      // console.log(limit);
+    } catch (e) {
+      // pass
+    }
+  }
+
+  const pagination: Pagination = {
+    total,
+    totalPages: Math.ceil(total / limit),
+    page,
+    limit,
+  };
 
   if (offset > 0) {
     pagination.previous = {
       page: page - 1,
       limit: limit,
+    };
+  }
+
+  if (total > pagination.limit) {
+    pagination.next = {
+      page: pagination.page + 1,
+      limit: pagination.limit,
     };
   }
 
@@ -109,6 +157,18 @@ export async function findAll(req: Request, res: Response): GenericResponse {
       req.query.limit
     );
 
+    const payload = await Transaction.findAndCountAll({
+      offset,
+      limit: 1,
+    });
+
+    const paginationPayload = generatePaginationV2(
+      req.query.page,
+      req.query.limit,
+      payload.count
+    );
+    console.log(paginationPayload);
+
     const { count, rows } = await Transaction.findAndCountAll({
       offset,
       limit: pagination.limit,
@@ -120,8 +180,8 @@ export async function findAll(req: Request, res: Response): GenericResponse {
     if (count > pagination.limit) {
       pagination.next = {
         page: pagination.page + 1,
-        limit: pagination.limit
-      }
+        limit: pagination.limit,
+      };
     }
 
     return res.json({
