@@ -66,6 +66,25 @@ function generatePagination(pag: unknown, pageSize: unknown): PaginationDetail {
   };
 }
 
+/**
+ *
+ * @param pagination
+ * @param count
+ */
+function generateExtraPagination(pagination: Pagination, count: number): Pagination {
+  pagination.total = count;
+  pagination.totalPages = Math.ceil(count / pagination.limit);
+
+  if (count > pagination.limit) {
+    pagination.next = {
+      page: pagination.page + 1,
+      limit: pagination.limit,
+    };
+  }
+
+  return pagination
+}
+
 function generatePaginationV2(
   pag: unknown,
   pageSize: unknown,
@@ -174,18 +193,18 @@ export async function findAll(req: Request, res: Response): GenericResponse {
       limit: pagination.limit,
     });
 
-    pagination.total = count;
-    pagination.totalPages = Math.ceil(count / pagination.limit);
-
-    if (count > pagination.limit) {
-      pagination.next = {
-        page: pagination.page + 1,
-        limit: pagination.limit,
-      };
-    }
+    // pagination.total = count;
+    // pagination.totalPages = Math.ceil(count / pagination.limit);
+    //
+    // if (count > pagination.limit) {
+    //   pagination.next = {
+    //     page: pagination.page + 1,
+    //     limit: pagination.limit,
+    //   };
+    // }
 
     return res.json({
-      pagination,
+      pagination: generateExtraPagination(pagination, count),
       data: rows,
     });
   } catch (err) {
