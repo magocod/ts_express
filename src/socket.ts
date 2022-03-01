@@ -69,6 +69,7 @@ export function startWs(app: Application): {
     // });
   });
 
+  // don't start the server from here
   // server.listen(3001, () => {
   //   console.log(`Ws server is running http://localhost:${3001}...`);
   // });
