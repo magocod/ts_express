@@ -18,7 +18,7 @@ routes.get("/error", (req: Request, res: Response) => {
 });
 
 routes.get("/socket", (req: Request, res: Response) => {
-  const result = ws.io.emit("some event", {
+  const result = ws.io.emit("some_event", {
     someProperty: "some value",
     otherProperty: "other value",
   }); // This will emit the event to all connected sockets

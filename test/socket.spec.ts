@@ -5,32 +5,35 @@ import { Server, Socket as ServerSocket } from "socket.io";
 import { assert } from "chai";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-// with { "type": "commonjs" } in your package.json
-// const { createServer } = require("http");
-// const { Server } = require("socket.io");
-// const Client = require("socket.io-client");
-// const assert = require("chai").assert;
+type IoServer = Server<
+  DefaultEventsMap,
+  DefaultEventsMap,
+  DefaultEventsMap,
+  unknown
+>;
 
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-type IoServer = Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-type SocketServer = ServerSocket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+type SocketServer = ServerSocket<
+  DefaultEventsMap,
+  DefaultEventsMap,
+  DefaultEventsMap,
+  unknown
+>;
 
-const port = 5001
+type SocketClient = Socket<DefaultEventsMap, DefaultEventsMap>;
+
+const port = 5001;
 
 describe("socket", () => {
   let io: IoServer;
   let serverSocket: SocketServer;
-  let clientSocket: Socket;
+  let clientSocket: SocketClient;
 
   before((done) => {
     const httpServer = createServer();
     io = new Server(httpServer);
 
-    httpServer.listen(port,() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      clientSocket = new Client(`http://localhost:${port}`);
+    httpServer.listen(port, () => {
+      clientSocket = Client(`http://localhost:${port}`);
       io.on("connection", (socket) => {
         serverSocket = socket;
       });
