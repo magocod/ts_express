@@ -6,34 +6,34 @@ const httpClient = supertest(app);
 
 const baseRoute = "/users";
 
-describe("user_crud", () => {
-  it("findAll", async () => {
+describe("user_crud", function () {
+  it("findAll", async function () {
     const response = await httpClient.get(baseRoute);
 
     assert.equal(response.status, 500);
   });
 
-  it("post", async () => {
+  it("post", async function () {
     const response = await httpClient.post(baseRoute);
 
     assert.equal(response.status, 500);
   });
 
-  it("find", async () => {
+  it("find", async function () {
     const userId = 1;
     const response = await httpClient.get(`${baseRoute}/${userId}`);
 
     assert.equal(response.status, 500);
   });
 
-  it("update", async () => {
+  it("update", async function () {
     const userId = 1;
     const response = await httpClient.put(`${baseRoute}/${userId}`);
 
     assert.equal(response.status, 500);
   });
 
-  it("delete", async () => {
+  it("delete", async function () {
     const userId = 1;
     const response = await httpClient.delete(`${baseRoute}/${userId}`);
 
