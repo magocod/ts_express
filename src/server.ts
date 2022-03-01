@@ -7,26 +7,14 @@
 // import express from "express";
 import http from "http";
 
-import app from "./app";
-
-// start instance for tests
-// import middleware from './middleware';
-// import routes from './routes/index';
-// import { applyMiddleware } from './utils';
-
-// // express instance
-// const app = express();
-
-// // middleware
-// applyMiddleware(middleware, app);
-
-// // routes
-// app.use('/', routes);
+import app, { ws } from "./app.socket";
 
 const { PORT = 3000 } = process.env;
 const server = http.createServer(app);
 
-// app.use('/', routes);
+ws.server.listen(3001, () => {
+  console.log(`Ws server is running http://localhost:${3001}...`);
+});
 
 server.listen(PORT, () => {
   console.log(`Server is running http://localhost:${PORT}...`);
