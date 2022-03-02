@@ -1,5 +1,5 @@
 import http from "http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { Application } from "express";
 
 interface GlobalEvents {
@@ -27,6 +27,13 @@ export interface SocketData {
 }
 
 export type IoServer = Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData
+>;
+
+export type SocketServer = Socket<
   ClientToServerEvents,
   ServerToClientEvents,
   InterServerEvents,

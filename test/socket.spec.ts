@@ -1,9 +1,11 @@
 // with { "type": "module" } in your package.json
 import { createServer } from "http";
-import { io as Client, Socket } from "socket.io-client";
+import { io as Client } from "socket.io-client";
 import { Server, Socket as ServerSocket } from "socket.io";
 import { assert } from "chai";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
+
+import { DefaultSocketClient } from "./helpers";
 
 type IoServer = Server<
   DefaultEventsMap,
@@ -19,14 +21,12 @@ type SocketServer = ServerSocket<
   unknown
 >;
 
-type SocketClient = Socket<DefaultEventsMap, DefaultEventsMap>;
-
 const port = 5001;
 
 describe("socket", () => {
   let io: IoServer;
   let serverSocket: SocketServer;
-  let clientSocket: SocketClient;
+  let clientSocket: DefaultSocketClient;
 
   before((done) => {
     const httpServer = createServer();
