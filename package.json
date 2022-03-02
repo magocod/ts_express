@@ -13,6 +13,7 @@
     "build:start": "npm run build & npm run start",
     "test": "mocha --require test/fixtures.cjs -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc npm run test",
+    "test:parallel": "mocha --parallel --require test/fixtures.cjs -r ts-node/register test/**/*.spec.ts",
     "test_sample": "mocha -r ts-node/register test/sample.spec.ts",
     "test_only_file": "mocha --require test/fixtures.cjs -r ts-node/register test/sample.spec.ts"
   },
@@ -25,8 +26,6 @@
     "@types/http-errors": "^1.8.1",
     "@types/morgan": "^1.9.3",
     "@types/node": "^16.3.1",
-    "@types/sequelize": "^4.28.10",
-    "@types/validator": "^13.7.0",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.5",
@@ -39,10 +38,7 @@
     "http-errors": "~1.8.0",
     "jade": "^0.31.2",
     "morgan": "~1.10.0",
-    "mysql2": "^2.3.3",
     "rimraf": "^3.0.2",
-    "sequelize": "^6.16.1",
-    "tedious": "^14.3.0",
     "tsc-watch": "^4.4.0",
     "typescript": "4.5.5"
   },
@@ -62,7 +58,6 @@
     "mocha": "9.2.0",
     "nyc": "^15.1.0",
     "prettier": "2.5.1",
-    "sequelize-cli": "^6.3.0",
     "supertest": "^6.2.2",
     "ts-node": "^10.1.0"
   }
