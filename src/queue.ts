@@ -17,7 +17,7 @@ export interface StartQueue {
 
 export async function startQueue(): Promise<StartQueue> {
   const sumQueue = new Queue<SumQueueParams>(
-    "sum_number",
+    "sumQueue",
     `redis://${REDIS_HOST}:${REDIS_PORT}`
   );
 
@@ -36,7 +36,7 @@ export async function startQueue(): Promise<StartQueue> {
       done(null, { done: result });
     } catch (e) {
       // handled exception
-      done(e as Error, { data: job.data });
+      done(e as Error, {});
     }
   });
 
