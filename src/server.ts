@@ -9,19 +9,7 @@ import http from "http";
 
 import app from "./app";
 
-// start instance for tests
-// import middleware from './middleware';
-// import routes from './routes/index';
-// import { applyMiddleware } from './utils';
-
-// // express instance
-// const app = express();
-
-// // middleware
-// applyMiddleware(middleware, app);
-
-// // routes
-// app.use('/', routes);
+import { startQueue } from "./queue";
 
 const { PORT = 3000 } = process.env;
 const server = http.createServer(app);
@@ -31,5 +19,23 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log(`Server is running http://localhost:${PORT}...`);
 });
+
+startQueue()
+  .then(({ sumQueue }) => {
+    sumQueue.add(
+      {
+        a: 10,
+        b: 5,
+      },
+      {
+        repeat: {
+          cron: "* * * * * *",
+        },
+      }
+    );
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 export default server;
