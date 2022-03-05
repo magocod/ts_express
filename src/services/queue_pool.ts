@@ -3,6 +3,10 @@ import Queue from "bull";
 const REDIS_HOST = "127.0.0.1";
 const REDIS_PORT = 6379;
 
+const cronConfig = {
+  cron: "* * * * * *",
+};
+
 export interface MinusQueueParams {
   a: number;
   b: number;
@@ -10,20 +14,14 @@ export interface MinusQueueParams {
 }
 
 export interface MultiplyQueueParams {
-  a: number;
-  b: number;
+  c: number;
+  d: number;
   failed?: boolean;
 }
 
-export interface QueuesPool {
-  minusQueue: Queue.Queue<MinusQueueParams>;
-  multiplyQueue: Queue.Queue<MultiplyQueueParams>;
-}
-
-export type QueuesNames = keyof QueuesPool;
-
 export class QueuePool {
-  private readonly _queuesPool: QueuesPool;
+  private readonly _minusQueue: Queue.Queue<MinusQueueParams>;
+  private readonly _multiplyQueue: Queue.Queue<MultiplyQueueParams>;
 
   constructor() {
     // MINUS QUEUE
@@ -43,7 +41,6 @@ export class QueuePool {
         }
         const result = job.data.a + job.data.b;
         // job.id contains id of this job.
-        console.log(`sum Job with id ${job.id} result:`, result);
         // done(result) // error
         done(null, { done: result });
       } catch (e) {
@@ -53,12 +50,12 @@ export class QueuePool {
     });
 
     minusQueue.on("completed", (job, result) => {
-      console.log(`app minus Job with id ${job.id} has been completed`);
+      console.log(`minus Job with id ${job.id} has been completed`);
       console.log(result);
     });
 
     minusQueue.on("failed", (job, error) => {
-      console.log(`app minus Job with id ${job.id} has been failed`);
+      console.log(`minus Job with id ${job.id} has been failed`);
       console.log(error);
     });
 
@@ -77,9 +74,8 @@ export class QueuePool {
           const value = "{";
           JSON.parse(value);
         }
-        const result = job.data.a + job.data.b;
+        const result = job.data.c * job.data.d;
         // job.id contains id of this job.
-        console.log(`sum Job with id ${job.id} result:`, result);
         // done(result) // error
         done(null, { done: result });
       } catch (e) {
@@ -89,34 +85,51 @@ export class QueuePool {
     });
 
     multiplyQueue.on("completed", (job, result) => {
-      console.log(`app multiply Job with id ${job.id} has been completed`);
+      console.log(`multiply Job with id ${job.id} has been completed`);
       console.log(result);
     });
 
     multiplyQueue.on("failed", (job, error) => {
-      console.log(`app multiply Job with id ${job.id} has been failed`);
+      console.log(`multiply Job with id ${job.id} has been failed`);
       console.log(error);
     });
 
-    this._queuesPool = {
-      minusQueue,
-      multiplyQueue,
-    };
+    // add instance
+    this._minusQueue = minusQueue;
+    this._multiplyQueue = multiplyQueue;
   }
 
-  get(name: QueuesNames) {
-    return this._queuesPool[name];
+  minusQueue() {
+    return this._minusQueue;
   }
 
-  close(name: QueuesNames) {
-    return this._queuesPool[name].close();
+  multiplyQueue() {
+    return this._multiplyQueue;
   }
 
   closeAll() {
     return Promise.all([
-      this._queuesPool.minusQueue,
-      this._queuesPool.multiplyQueue,
+      this._minusQueue.close(),
+      this._multiplyQueue.close(),
     ]);
+  }
+
+  removeAllRepeatable() {
+    return Promise.all([
+      this._minusQueue.removeRepeatable(cronConfig),
+      this._multiplyQueue.removeRepeatable(cronConfig),
+    ]);
+  }
+
+  async clean() {
+    await this.removeAllRepeatable();
+    await this.closeAll();
+  }
+
+  async resume() {
+    console.log("minusQueue", await this._minusQueue.getJobCounts());
+    console.log("multiplyQueue", await this._multiplyQueue.getJobCounts());
+    await this.closeAll();
   }
 }
 

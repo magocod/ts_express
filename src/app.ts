@@ -21,6 +21,7 @@ import indexRouter from "./routes/index";
 
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
+import queueRouter from "./routes/queue";
 
 // express instance
 const app = express();
@@ -46,6 +47,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/queue", queueRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

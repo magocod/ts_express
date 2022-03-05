@@ -15,6 +15,10 @@ export interface StartQueue {
   sumQueue: Queue.Queue<SumQueueParams>;
 }
 
+const cronConfig = {
+  cron: "* * * * * *",
+};
+
 export async function startQueue(): Promise<StartQueue> {
   const sumQueue = new Queue<SumQueueParams>(
     "sumQueue",
@@ -22,7 +26,7 @@ export async function startQueue(): Promise<StartQueue> {
   );
 
   // warning: do not await, wait indefinitely, queue.process
-  sumQueue.process(async (job, done): Promise<void> => {
+  sumQueue.process(function (job, done) {
     try {
       if (typeof job.data.failed === "boolean") {
         // example exception
@@ -31,7 +35,6 @@ export async function startQueue(): Promise<StartQueue> {
       }
       const result = job.data.a + job.data.b;
       // job.id contains id of this job.
-      // console.log(`sum Job with id ${job.id} result:`, result);
       // done(result) // error
       done(null, { done: result });
     } catch (e) {
@@ -42,17 +45,31 @@ export async function startQueue(): Promise<StartQueue> {
 
   sumQueue.on("completed", (job, result): void => {
     // console.log(job.data)
-    console.log(`app sum Job with id ${job.id} has been completed`);
+    console.log(`sum Job with id ${job.id} has been completed`);
     console.log(result);
   });
 
   sumQueue.on("failed", (job, error): void => {
     // console.log(job.data)
-    console.log(`app sum Job with id ${job.id} has been failed`);
+    console.log(`sum Job with id ${job.id} has been failed`);
     console.log(error);
   });
 
   return {
     sumQueue,
   };
+}
+
+export async function queueInfo() {
+  const { sumQueue } = await startQueue();
+
+  console.log("sumQueue", await sumQueue.getJobCounts());
+  await Promise.all([sumQueue.close()]);
+}
+
+export async function queueClean() {
+  const { sumQueue } = await startQueue();
+
+  await Promise.all([sumQueue.removeRepeatable(cronConfig)]);
+  await Promise.all([sumQueue.close()]);
 }
