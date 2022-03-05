@@ -28,7 +28,7 @@ export async function startQueue(): Promise<StartQueue> {
   // warning: do not await, wait indefinitely, queue.process
   sumQueue.process(function (job, done) {
     try {
-      if (typeof job.data.failed === "boolean") {
+      if (job.data.failed === true) {
         // example exception
         const value = "{";
         JSON.parse(value);

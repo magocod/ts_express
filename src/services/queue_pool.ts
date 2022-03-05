@@ -1,5 +1,7 @@
 import Queue from "bull";
 
+import { delay } from "../utils";
+
 const REDIS_HOST = "127.0.0.1";
 const REDIS_PORT = 6379;
 
@@ -24,17 +26,28 @@ export class QueuePool {
   private readonly _multiplyQueue: Queue.Queue<MultiplyQueueParams>;
 
   constructor() {
-    // MINUS QUEUE
+    const { minusQueue, multiplyQueue } = this.boot();
+    // add instance
+    this._minusQueue = minusQueue;
+    this._multiplyQueue = multiplyQueue;
+  }
 
-    const minusQueue = new Queue<MinusQueueParams>(
-      "minusQueue",
-      `redis://${REDIS_HOST}:${REDIS_PORT}`
-    );
+  boot() {
+    // MINUS QUEUE
+    const minusQueue = new Queue<MinusQueueParams>("minusQueue", {
+      redis: {
+        host: REDIS_HOST,
+        port: REDIS_PORT,
+        maxRetriesPerRequest: 1,
+      },
+    });
 
     // warning: do not await, wait indefinitely, queue.process
-    minusQueue.process(async (job, done) => {
+    minusQueue.process(async function (job, done) {
       try {
-        if (typeof job.data.failed === "boolean") {
+        await delay();
+        // console.log(job.attemptsMade)
+        if (job.data.failed === true) {
           // example exception
           const value = "{";
           JSON.parse(value);
@@ -59,17 +72,24 @@ export class QueuePool {
       console.log(error);
     });
 
-    // MULTIPLY QUEUE
+    minusQueue.on("waiting", (jobId) => {
+      console.log(`minus Job with id ${jobId} has been waiting`);
+    });
 
+    minusQueue.on("stalled", (jobId) => {
+      console.log(`minus Job with id ${jobId} has been stalled`);
+    });
+
+    // MULTIPLY QUEUE
     const multiplyQueue = new Queue<MultiplyQueueParams>(
       "multiplyQueue",
       `redis://${REDIS_HOST}:${REDIS_PORT}`
     );
 
     // warning: do not await, wait indefinitely, queue.process
-    multiplyQueue.process(async (job, done) => {
+    multiplyQueue.process(function (job, done) {
       try {
-        if (typeof job.data.failed === "boolean") {
+        if (job.data.failed === true) {
           // example exception
           const value = "{";
           JSON.parse(value);
@@ -94,9 +114,10 @@ export class QueuePool {
       console.log(error);
     });
 
-    // add instance
-    this._minusQueue = minusQueue;
-    this._multiplyQueue = multiplyQueue;
+    return {
+      minusQueue,
+      multiplyQueue,
+    };
   }
 
   minusQueue() {
@@ -108,10 +129,7 @@ export class QueuePool {
   }
 
   closeAll() {
-    return Promise.all([
-      this._minusQueue.close(),
-      this._multiplyQueue.close(),
-    ]);
+    return Promise.all([this._minusQueue.close(), this._multiplyQueue.close()]);
   }
 
   removeAllRepeatable() {
