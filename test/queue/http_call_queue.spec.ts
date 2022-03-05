@@ -2,9 +2,9 @@ import { assert } from "chai";
 import app from "../../src/app";
 import supertest from "supertest";
 
-import queuePool, { MinusQueueParams } from "../../src/services/queue_pool";
+import { pool, MinusQueueParams } from "../../src/services/queue_pool";
 
-import { chance, FakeQueuePool } from "../fixtures";
+import { chance, FakeQueue } from "../fixtures";
 
 import { createSandbox } from "sinon";
 
@@ -26,16 +26,13 @@ function generateRequest(failed = false): MinusQueueParams {
 
 describe("http_call_queue", function () {
   beforeEach(function () {
-    sandbox.stub(queuePool, "boot").returns({
-      minusQueue: FakeQueuePool as any,
-      multiplyQueue: FakeQueuePool as any,
-    });
+    sandbox.stub(pool, "minusQueue").returns(new FakeQueue() as any);
   });
 
   afterEach(async function () {
     // completely restore all fakes created through the sandbox
     sandbox.restore();
-    await queuePool.closeAll()
+    // await pool.closeAll()
   });
 
   it("simple call", async function () {

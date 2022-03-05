@@ -151,4 +151,4 @@ export class QueuePool {
   }
 }
 
-export default new QueuePool();
+export const pool = new QueuePool();

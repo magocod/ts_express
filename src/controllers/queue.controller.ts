@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 
-import queuePool from "../services/queue_pool";
+import { pool } from "../services/queue_pool";
 
 import { GenericResponse } from "../interfaces";
 
 export async function call(req: Request, res: Response): GenericResponse {
   try {
     // console.log(req.body)
-    // console.log(queuePool.minusQueue())
-    const job = await queuePool.minusQueue().add({
+    console.log(pool.minusQueue())
+    const job = await pool.minusQueue().add({
       a: req.body.a,
       b: req.body.b,
       failed: req.body.failed

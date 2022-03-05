@@ -9,7 +9,7 @@ import http from "http";
 
 import app from "./app";
 
-import QueuePool from "./services/queue_pool";
+import { pool } from "./services/queue_pool";
 
 import { startQueue } from "./queue";
 
@@ -53,7 +53,7 @@ if (ACTIVE_QUEUE) {
     });
 
   // init from module function | class service
-  QueuePool.multiplyQueue()
+  pool.multiplyQueue()
     .add(
       {
         c: 10,

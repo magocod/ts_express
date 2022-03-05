@@ -1,7 +1,7 @@
 import app from "./app";
 import { startQueue } from "./queue";
 
-import QueuePool from "./services/queue_pool";
+import { pool } from "./services/queue_pool";
 
 const ACTIVE_QUEUE = JSON.parse(process.env.ACTIVE_QUEUE as string);
 
@@ -34,7 +34,7 @@ if (ACTIVE_QUEUE) {
     });
 
   // init from module function | class service
-  QueuePool.multiplyQueue()
+  pool.multiplyQueue()
     .add(
       {
         c: 10,

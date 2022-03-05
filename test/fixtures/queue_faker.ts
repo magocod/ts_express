@@ -11,7 +11,7 @@ export class FakeJob {
 
   toJSON() {
     return {
-      id: chance.integer().toString(),
+      id: chance.integer({ min: 1 }).toString(),
       name: "__default__",
       data: this._data,
     };
