@@ -7,6 +7,7 @@ import { pool, MinusQueueParams } from "../../src/services/queue_pool";
 import { chance, FakeQueue } from "../fixtures";
 
 import { createSandbox } from "sinon";
+import { Queue } from "bull";
 
 const httpClient = supertest(app);
 
@@ -26,7 +27,9 @@ function generateRequest(failed = false): MinusQueueParams {
 
 describe("http_call_queue", function () {
   beforeEach(function () {
-    sandbox.stub(pool, "minusQueue").returns(new FakeQueue() as any);
+    sandbox
+      .stub(pool, "minusQueue")
+      .returns(new FakeQueue() as unknown as Queue);
   });
 
   afterEach(async function () {

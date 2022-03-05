@@ -38,7 +38,7 @@ export class QueuePool {
       redis: {
         host: REDIS_HOST,
         port: REDIS_PORT,
-        maxRetriesPerRequest: 1,
+        maxRetriesPerRequest: 1
       },
     });
 
@@ -81,10 +81,12 @@ export class QueuePool {
     });
 
     // MULTIPLY QUEUE
-    const multiplyQueue = new Queue<MultiplyQueueParams>(
-      "multiplyQueue",
-      `redis://${REDIS_HOST}:${REDIS_PORT}`
-    );
+    const multiplyQueue = new Queue<MultiplyQueueParams>("multiplyQueue", {
+      redis: {
+        host: REDIS_HOST,
+        port: REDIS_PORT
+      },
+    });
 
     // warning: do not await, wait indefinitely, queue.process
     multiplyQueue.process(function (job, done) {
