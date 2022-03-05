@@ -1,8 +1,10 @@
-import QueuePool from "../services/queue_pool";
+import { pool } from "../services/queue_pool";
 
 import { queueInfo } from "../queue";
 
-QueuePool.resume().catch((error) => {
+pool.boot()
+
+pool.resume().catch((error) => {
   console.log(error);
 });
 

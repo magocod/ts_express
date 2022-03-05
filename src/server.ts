@@ -52,6 +52,9 @@ if (ACTIVE_QUEUE) {
       console.log(error);
     });
 
+  // boot queues
+  pool.boot()
+
   // init from module function | class service
   pool.multiplyQueue()
     .add(

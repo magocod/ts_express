@@ -7,7 +7,7 @@ import { GenericResponse } from "../interfaces";
 export async function call(req: Request, res: Response): GenericResponse {
   try {
     // console.log(req.body)
-    console.log(pool.minusQueue())
+    // console.log(pool.minusQueue())
     const job = await pool.minusQueue().add({
       a: req.body.a,
       b: req.body.b,

@@ -42,7 +42,7 @@ describe("http_call_queue", function () {
     const requestData = generateRequest();
     const response = await httpClient.post(baseRoute).send(requestData);
 
-    console.log(response.body);
+    // console.log(response.body);
     assert.equal(response.status, 200);
   });
 });

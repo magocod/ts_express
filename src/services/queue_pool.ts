@@ -21,24 +21,36 @@ export interface MultiplyQueueParams {
   failed?: boolean;
 }
 
-export class QueuePool {
-  private readonly _minusQueue: Queue.Queue<MinusQueueParams>;
-  private readonly _multiplyQueue: Queue.Queue<MultiplyQueueParams>;
+const queueException = "queue not initialized";
 
-  constructor() {
-    const { minusQueue, multiplyQueue } = this.boot();
-    // add instance
-    this._minusQueue = minusQueue;
-    this._multiplyQueue = multiplyQueue;
-  }
+export class QueuePool {
+  private _minusQueue: Queue.Queue<MinusQueueParams> | undefined;
+  private _multiplyQueue: Queue.Queue<MultiplyQueueParams> | undefined;
+
+  private booted = false;
+
+  // constructor() {
+  //   // const { minusQueue, multiplyQueue } = this.boot();
+  //   // // add instance
+  //   // this._minusQueue = minusQueue;
+  //   // this._multiplyQueue = multiplyQueue;
+  // }
 
   boot() {
+    /**
+     * Ignore multiple calls to the boot method
+     */
+    if (this.booted) {
+      return;
+    }
+    this.booted = true;
+
     // MINUS QUEUE
     const minusQueue = new Queue<MinusQueueParams>("minusQueue", {
       redis: {
         host: REDIS_HOST,
         port: REDIS_PORT,
-        maxRetriesPerRequest: 1
+        maxRetriesPerRequest: 1,
       },
     });
 
@@ -84,7 +96,7 @@ export class QueuePool {
     const multiplyQueue = new Queue<MultiplyQueueParams>("multiplyQueue", {
       redis: {
         host: REDIS_HOST,
-        port: REDIS_PORT
+        port: REDIS_PORT,
       },
     });
 
@@ -116,28 +128,46 @@ export class QueuePool {
       console.log(error);
     });
 
-    return {
-      minusQueue,
-      multiplyQueue,
-    };
+    // // add instance
+    this._minusQueue = minusQueue;
+    this._multiplyQueue = multiplyQueue;
+
+    // return {
+    //   minusQueue,
+    //   multiplyQueue,
+    // };
   }
 
   minusQueue() {
+    if (this._minusQueue === undefined) {
+      throw new Error(queueException);
+    }
     return this._minusQueue;
   }
 
   multiplyQueue() {
+    if (this._multiplyQueue === undefined) {
+      throw new Error(queueException);
+    }
     return this._multiplyQueue;
   }
 
   closeAll() {
-    return Promise.all([this._minusQueue.close(), this._multiplyQueue.close()]);
+    // return Promise.all([this._minusQueue.close(), this._multiplyQueue.close()]);
+    return Promise.all([
+      this.minusQueue().close(),
+      this.multiplyQueue().close(),
+    ]);
   }
 
   removeAllRepeatable() {
+    // return Promise.all([
+    //   this._minusQueue.removeRepeatable(cronConfig),
+    //   this._multiplyQueue.removeRepeatable(cronConfig),
+    // ]);
     return Promise.all([
-      this._minusQueue.removeRepeatable(cronConfig),
-      this._multiplyQueue.removeRepeatable(cronConfig),
+      this.minusQueue().removeRepeatable(cronConfig),
+      this.multiplyQueue().removeRepeatable(cronConfig),
     ]);
   }
 
@@ -147,8 +177,10 @@ export class QueuePool {
   }
 
   async resume() {
-    console.log("minusQueue", await this._minusQueue.getJobCounts());
-    console.log("multiplyQueue", await this._multiplyQueue.getJobCounts());
+    // console.log("minusQueue", await this._minusQueue.getJobCounts());
+    // console.log("multiplyQueue", await this._multiplyQueue.getJobCounts());
+    console.log("minusQueue", await this.minusQueue().getJobCounts());
+    console.log("multiplyQueue", await this.multiplyQueue().getJobCounts());
     await this.closeAll();
   }
 }

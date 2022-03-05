@@ -1,4 +1,4 @@
-import QueuePool from "../services/queue_pool";
+import { pool } from "../services/queue_pool";
 
 import { queueClean } from "../queue";
 
@@ -32,7 +32,9 @@ import { queueClean } from "../queue";
 //     console.log(error);
 //   });
 
-QueuePool.clean()
+pool.boot()
+
+pool.clean()
   .then(() => {
     console.log("queues closes");
   })
