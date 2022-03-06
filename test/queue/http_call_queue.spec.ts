@@ -3,15 +3,16 @@ import app from "../../src/app";
 import supertest from "supertest";
 
 import { pool, MinusQueueParams } from "../../src/services/queue_pool";
+import { transporter } from "../../src/services/email";
 
 import { chance, FakeQueue } from "../fixtures";
 
-import { createSandbox } from "sinon";
+import { createSandbox, promise } from "sinon";
 import { Queue } from "bull";
 
 const httpClient = supertest(app);
 
-const baseRoute = "/queue/call";
+const baseRoute = "/queue";
 
 const sandbox = createSandbox();
 
@@ -23,13 +24,28 @@ function generateRequest(failed = false): MinusQueueParams {
   };
 }
 
-// FIXME fake queue call
+function generateEmailRequest() {
+  return {
+    to: chance.email(),
+    subject: chance.string(),
+    text: chance.string(),
+    data: {
+      message: chance.guid(),
+    },
+  };
+}
 
 describe("http_call_queue", function () {
   beforeEach(function () {
     sandbox
       .stub(pool, "minusQueue")
       .returns(new FakeQueue() as unknown as Queue);
+
+    sandbox.stub(transporter, "sendMail").returns(
+      new Promise((resolve) => {
+        resolve({ messageId: chance.guid() });
+      })
+    );
   });
 
   afterEach(async function () {
@@ -40,7 +56,19 @@ describe("http_call_queue", function () {
 
   it("simple call", async function () {
     const requestData = generateRequest();
-    const response = await httpClient.post(baseRoute).send(requestData);
+    const response = await httpClient
+      .post(`${baseRoute}/call`)
+      .send(requestData);
+
+    // console.log(response.body);
+    assert.equal(response.status, 200);
+  });
+
+  it("simple email", async function () {
+    const requestData = generateEmailRequest();
+    const response = await httpClient
+      .post(`${baseRoute}/simple_email`)
+      .send(requestData);
 
     // console.log(response.body);
     assert.equal(response.status, 200);
