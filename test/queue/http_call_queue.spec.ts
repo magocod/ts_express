@@ -3,11 +3,16 @@ import app from "../../src/app";
 import supertest from "supertest";
 
 import { pool, MinusQueueParams } from "../../src/services/queue_pool";
-import { transporter } from "../../src/services/email";
+import {
+  transporter,
+  EmailQueueParams,
+  emailQueue,
+  SendEmailConfig,
+} from "../../src/services/email";
 
 import { chance, FakeQueue } from "../fixtures";
 
-import { createSandbox, promise } from "sinon";
+import { createSandbox } from "sinon";
 import { Queue } from "bull";
 
 const httpClient = supertest(app);
@@ -24,7 +29,7 @@ function generateRequest(failed = false): MinusQueueParams {
   };
 }
 
-function generateEmailRequest() {
+function generateEmailRequest(): SendEmailConfig {
   return {
     to: chance.email(),
     subject: chance.string(),
@@ -32,6 +37,13 @@ function generateEmailRequest() {
     data: {
       message: chance.guid(),
     },
+  };
+}
+
+function generateQueueEmailRequest(failed = false): EmailQueueParams {
+  return {
+    ...generateEmailRequest(),
+    failed,
   };
 }
 
@@ -46,6 +58,10 @@ describe("http_call_queue", function () {
         resolve({ messageId: chance.guid() });
       })
     );
+
+    sandbox
+      .stub(emailQueue, "instance")
+      .returns(new FakeQueue() as unknown as Queue);
   });
 
   afterEach(async function () {
@@ -68,6 +84,16 @@ describe("http_call_queue", function () {
     const requestData = generateEmailRequest();
     const response = await httpClient
       .post(`${baseRoute}/simple_email`)
+      .send(requestData);
+
+    // console.log(response.body);
+    assert.equal(response.status, 200);
+  });
+
+  it("email_to_queue", async function () {
+    const requestData = generateQueueEmailRequest();
+    const response = await httpClient
+      .post(`${baseRoute}/email_to_queue`)
       .send(requestData);
 
     // console.log(response.body);

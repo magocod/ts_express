@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { pool } from "../services/queue_pool";
+import { emailQueue } from "../services/email";
 import { sendEmail } from "../services/email";
 
 import { GenericResponse } from "../interfaces";
@@ -40,5 +41,25 @@ export async function simpleEmail(
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "error simple email" });
+  }
+}
+
+export async function emailToQueue(
+  req: Request,
+  res: Response
+): GenericResponse {
+  try {
+    // console.log(req.body)
+    const job = await emailQueue.instance().add({
+      to: req.body.to,
+      subject: req.body.subject,
+      text: req.body.text,
+      data: req.body.data,
+      failed: req.body.failed,
+    });
+    return res.json({ message: "call queue", data: job.toJSON() });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "error call email queue" });
   }
 }

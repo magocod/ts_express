@@ -1,5 +1,7 @@
 import Queue from "bull";
 
+import { QueueWrapper } from '../interfaces'
+
 import { delay } from "../utils";
 
 const REDIS_HOST = "127.0.0.1";
@@ -23,20 +25,21 @@ export interface MultiplyQueueParams {
 
 const queueException = "queue not initialized";
 
-export class QueuePool {
+export class QueuePool implements QueueWrapper {
   private _minusQueue: Queue.Queue<MinusQueueParams> | undefined;
   private _multiplyQueue: Queue.Queue<MultiplyQueueParams> | undefined;
 
   private booted = false;
 
   // constructor() {
+  //   // open open connections to db, as a side effect
   //   // const { minusQueue, multiplyQueue } = this.boot();
   //   // // add instance
   //   // this._minusQueue = minusQueue;
   //   // this._multiplyQueue = multiplyQueue;
   // }
 
-  boot() {
+  boot(): void {
     /**
      * Ignore multiple calls to the boot method
      */
@@ -130,21 +133,25 @@ export class QueuePool {
     // };
   }
 
-  minusQueue() {
+  minusQueue(): Queue.Queue<MinusQueueParams> {
     if (this._minusQueue === undefined) {
       throw new Error(queueException);
     }
     return this._minusQueue;
   }
 
-  multiplyQueue() {
+  multiplyQueue(): Queue.Queue<MultiplyQueueParams> {
     if (this._multiplyQueue === undefined) {
       throw new Error(queueException);
     }
     return this._multiplyQueue;
   }
 
-  closeAll() {
+  close(): Promise<void> {
+    throw new Error('not implemented')
+  }
+
+  closeAll(): Promise<void[]> {
     // return Promise.all([this._minusQueue.close(), this._multiplyQueue.close()]);
     return Promise.all([
       this.minusQueue().close(),
@@ -152,7 +159,7 @@ export class QueuePool {
     ]);
   }
 
-  removeAllRepeatable() {
+  removeAllRepeatable(): Promise<void[]> {
     // return Promise.all([
     //   this._minusQueue.removeRepeatable(cronConfig),
     //   this._multiplyQueue.removeRepeatable(cronConfig),
@@ -163,12 +170,12 @@ export class QueuePool {
     ]);
   }
 
-  async clean() {
+  async clean(): Promise<void> {
     await this.removeAllRepeatable();
     await this.closeAll();
   }
 
-  async resume() {
+  async resume(): Promise<void> {
     // console.log("minusQueue", await this._minusQueue.getJobCounts());
     // console.log("multiplyQueue", await this._multiplyQueue.getJobCounts());
     console.log("minusQueue", await this.minusQueue().getJobCounts());
