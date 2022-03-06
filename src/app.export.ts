@@ -1,4 +1,4 @@
-import app from "./app";
+import app, { ws } from "./app";
 import { startQueue } from "./queue";
 
 import { pool } from "./services/queue_pool";
@@ -9,8 +9,14 @@ const ACTIVE_REPEATABLE_QUEUE = JSON.parse(
   process.env.ACTIVE_REPEATABLE_QUEUE as string
 );
 
+const WS_PORT = process.env.WS_PORT;
+
 console.log("ACTIVE_QUEUE", ACTIVE_QUEUE);
 console.log("ACTIVE_REPEATABLE_QUEUE", ACTIVE_REPEATABLE_QUEUE);
+
+ws.server.listen(WS_PORT, () => {
+  console.log(`Ws server is running http://localhost:${WS_PORT}...`);
+});
 
 if (ACTIVE_QUEUE) {
   console.log("start queues");

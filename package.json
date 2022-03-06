@@ -15,10 +15,7 @@
     "test:coverage": "nyc npm run test",
     "test:parallel": "mocha --parallel --require test/fixtures.cjs -r ts-node/register test/**/*.spec.ts",
     "test_sample": "mocha -r ts-node/register test/sample.spec.ts",
-    "test_only_file": "mocha --require test/fixtures.cjs -r ts-node/register test/sample.spec.ts",
-    "command": "node ./dist/commands/example.js.js",
-    "queue:info": "node ./dist/commands/queue_info.js",
-    "queue:clean": "node ./dist/commands/queue_clean.js"
+    "test_only_file": "mocha --require test/fixtures.cjs -r ts-node/register test/socket_emit.spec.ts"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -45,6 +42,9 @@
     "morgan": "~1.10.0",
     "nodemailer": "^6.7.2",
     "rimraf": "^3.0.2",
+    "sequelize": "^6.16.1",
+    "socket.io": "^4.4.1",
+    "tedious": "^14.3.0",
     "tsc-watch": "^4.4.0",
     "typescript": "4.5.5"
   },
@@ -67,6 +67,8 @@
     "nyc": "^15.1.0",
     "prettier": "2.5.1",
     "sinon": "^13.0.1",
+    "sequelize-cli": "^6.3.0",
+    "socket.io-client": "^4.4.1",
     "supertest": "^6.2.2",
     "ts-node": "^10.1.0"
   }

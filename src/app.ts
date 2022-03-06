@@ -14,6 +14,8 @@ import path from "path";
 import helmet from "helmet";
 import cors from "cors";
 
+import { startWs } from "./socket";
+
 // import middleware from "./middleware";
 // import { applyMiddleware } from "./utils";
 
@@ -79,10 +81,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 // error handler
 app.use(errorHandler);
 
-// if (db.sequelize) {
-//   db.sequelize.sync({ force: false });
-// }
-
+export const ws = startWs(app);
 export default app;
 
 // error to transpile to js

@@ -7,7 +7,7 @@
 // import express from "express";
 import http from "http";
 
-import app from "./app";
+import app, { ws } from "./app";
 
 import { pool } from "./services/queue_pool";
 import { emailQueue } from "./services/email";
@@ -15,6 +15,7 @@ import { emailQueue } from "./services/email";
 import { startQueue } from "./queue";
 
 const PORT = process.env.PORT;
+const WS_PORT = process.env.WS_PORT;
 
 const ACTIVE_QUEUE = JSON.parse(process.env.ACTIVE_QUEUE as string);
 const ACTIVE_REPEATABLE_QUEUE = JSON.parse(
@@ -26,6 +27,10 @@ const server = http.createServer(app);
 // console.log(PORT);
 console.log("ACTIVE_QUEUE", ACTIVE_QUEUE);
 console.log("ACTIVE_REPEATABLE_QUEUE", ACTIVE_REPEATABLE_QUEUE);
+
+ws.server.listen(WS_PORT, () => {
+  console.log(`Ws server is running http://localhost:${WS_PORT}...`);
+});
 
 server.listen(PORT, () => {
   console.log(`Server is running http://localhost:${PORT}...`);
