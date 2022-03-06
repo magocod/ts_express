@@ -55,23 +55,15 @@ export class QueuePool {
     });
 
     // warning: do not await, wait indefinitely, queue.process
-    minusQueue.process(async function (job, done) {
-      try {
-        await delay();
-        // console.log(job.attemptsMade)
-        if (job.data.failed === true) {
-          // example exception
-          const value = "{";
-          JSON.parse(value);
-        }
-        const result = job.data.a + job.data.b;
-        // job.id contains id of this job.
-        // done(result) // error
-        done(null, { done: result });
-      } catch (e) {
-        // handled exception
-        done(e as Error, {});
+    minusQueue.process(async function (job): Promise<number> {
+      await delay();
+      // console.log(job.attemptsMade)
+      if (job.data.failed === true) {
+        // example exception
+        const value = "{";
+        JSON.parse(value);
       }
+      return job.data.a + job.data.b;
     });
 
     minusQueue.on("completed", (job, result) => {
