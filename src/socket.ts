@@ -16,6 +16,8 @@ export interface ServerToClientEvents extends GlobalEvents {
   // all socket
   minus_queue_completed: (result: GenericSuccess<number>) => void;
   minus_queue_failed: (error: GenericError) => void;
+  // selected socket
+  only_event: (msg: { someProperty: string; }) => void;
 }
 
 export interface ClientToServerEvents extends GlobalEvents {
@@ -29,6 +31,7 @@ interface InterServerEvents {
 export interface SocketData {
   name: string;
   age: number;
+  user_id: number;
 }
 
 export type IoServer = Server<
@@ -62,8 +65,11 @@ export function startWs(app: Application): {
     },
   });
 
-  io.on("connection", (socket) => {
-    console.log("a user connected");
+  io.on("connection", async (socket) => {
+    console.log("a user connected, socket id:", socket.id);
+    const token = socket.handshake.auth.token;
+    console.log("token", token);
+    socket.data.user_id = token;
 
     socket.on("disconnect", () => {
       console.log("user disconnected");

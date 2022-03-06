@@ -16,15 +16,27 @@
   </style>
 </head>
 <body>
+
+<div id="user_id">user id </div>
+<div>messages</div>
 <ul id="messages"></ul>
 <form id="form" action="">
   <input id="input" autocomplete="off" /><button>Send</button>
 </form>
 
-<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.4.1/dist/socket.io.min.js"></script>-->
+<script src="./socket.io.min.js"></script>
 
 <script>
-  var socket = io("http://localhost:3001");
+  const userId = Math.floor(Math.random() * 1000);
+  const userDiv = document.getElementById('user_id');
+  userDiv.textContent = "user id: " + userId.toString();
+
+  var socket = io("http://localhost:3001", {
+    auth: {
+      token: userId
+    },
+  });
   var messages = document.getElementById('messages');
   var form = document.getElementById('form');
   var input = document.getElementById('input');
@@ -45,6 +57,10 @@
   });
 
   socket.on('some_event', function(msg) {
+    console.log(msg)
+  });
+
+  socket.on('only_event', function(msg) {
     console.log(msg)
   });
 
