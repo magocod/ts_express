@@ -1,6 +1,8 @@
 import Queue from "bull";
 
-import { QueueWrapper } from '../interfaces'
+import { ws } from "../app";
+
+import { QueueWrapper } from "../interfaces";
 
 import { delay } from "../utils";
 
@@ -69,14 +71,18 @@ export class QueuePool implements QueueWrapper {
       return job.data.a + job.data.b;
     });
 
-    minusQueue.on("completed", (job, result) => {
-      console.log(`minus Job with id ${job.id} has been completed`);
+    minusQueue.on("completed", (job, result: number) => {
+      const message = `minus Job with id ${job.id} has been completed`
+      console.log(message);
       console.log(result);
+      ws.io.emit('minus_queue_completed', { message, data: result })
     });
 
     minusQueue.on("failed", (job, error) => {
-      console.log(`minus Job with id ${job.id} has been failed`);
+      const message = `minus Job with id ${job.id} has been failed`
+      console.log(message);
       console.log(error);
+      ws.io.emit('minus_queue_failed', { message, error: error.message })
     });
 
     minusQueue.on("waiting", (jobId) => {
@@ -148,7 +154,7 @@ export class QueuePool implements QueueWrapper {
   }
 
   close(): Promise<void> {
-    throw new Error('not implemented')
+    throw new Error("not implemented");
   }
 
   closeAll(): Promise<void[]> {

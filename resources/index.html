@@ -47,6 +47,14 @@
   socket.on('some_event', function(msg) {
     console.log(msg)
   });
+
+  socket.on('minus_queue_completed', function(msg) {
+    console.log(msg)
+  });
+
+  socket.on('minus_queue_failed', function(msg) {
+    console.log(msg)
+  });
 </script>
 
 </body>

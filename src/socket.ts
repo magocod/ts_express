@@ -2,6 +2,8 @@ import http from "http";
 import { Server, Socket } from "socket.io";
 import { Application } from "express";
 
+import { GenericSuccess, GenericError } from "./interfaces";
+
 interface GlobalEvents {
   chat_message: (msg: string) => void;
 }
@@ -11,6 +13,9 @@ export interface ServerToClientEvents extends GlobalEvents {
   basicEmit: (a: number, b: string, c: Buffer) => void;
   withAck: (d: string, callback: (e: number) => void) => void;
   some_event: (msg: { someProperty: string; otherProperty: string }) => void;
+  // all socket
+  minus_queue_completed: (result: GenericSuccess<number>) => void;
+  minus_queue_failed: (error: GenericError) => void;
 }
 
 export interface ClientToServerEvents extends GlobalEvents {
