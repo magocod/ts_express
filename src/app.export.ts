@@ -1,3 +1,6 @@
-import app from './app'
+import app from "./app";
+
+// boot services
+// ...
 
 export = app;
