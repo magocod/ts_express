@@ -2,10 +2,11 @@ import Queue from "bull";
 
 import { ws } from "../app";
 
-import { QueueWrapper } from "../interfaces";
+import { QueuePoolWrapper } from "../interfaces";
 
 import { delay } from "../utils";
 
+// FIXME env - redis
 const REDIS_HOST = "127.0.0.1";
 const REDIS_PORT = 6379;
 
@@ -25,14 +26,17 @@ export interface MultiplyQueueParams {
   failed?: boolean;
 }
 
+// FIXME exception - reuse
 const queueException = "queue not initialized";
 
-export class QueuePool implements QueueWrapper {
+export class QueuePool implements QueuePoolWrapper {
   private _minusQueue: Queue.Queue<MinusQueueParams> | undefined;
   private _multiplyQueue: Queue.Queue<MultiplyQueueParams> | undefined;
 
   private booted = false;
 
+  // don't use constructor to start redis connection
+  // don't do this, this.boot in the constructor
   // constructor() {
   //   // open open connections to db, as a side effect
   //   // const { minusQueue, multiplyQueue } = this.boot();
@@ -65,24 +69,23 @@ export class QueuePool implements QueueWrapper {
       // console.log(job.attemptsMade)
       if (job.data.failed === true) {
         // example exception
-        const value = "{";
-        JSON.parse(value);
+        throw new Error("example error");
       }
       return job.data.a + job.data.b;
     });
 
     minusQueue.on("completed", (job, result: number) => {
-      const message = `minus Job with id ${job.id} has been completed`
+      const message = `minus Job with id ${job.id} has been completed`;
       console.log(message);
       console.log(result);
-      ws.io.emit('minus_queue_completed', { message, data: result })
+      ws.io.emit("minus_queue_completed", { message, data: result });
     });
 
     minusQueue.on("failed", (job, error) => {
-      const message = `minus Job with id ${job.id} has been failed`
+      const message = `minus Job with id ${job.id} has been failed`;
       console.log(message);
       console.log(error);
-      ws.io.emit('minus_queue_failed', { message, error: error.message })
+      ws.io.emit("minus_queue_failed", { message, error: error.message });
     });
 
     minusQueue.on("waiting", (jobId) => {
@@ -102,21 +105,12 @@ export class QueuePool implements QueueWrapper {
     });
 
     // warning: do not await, wait indefinitely, queue.process
-    multiplyQueue.process(function (job, done) {
-      try {
-        if (job.data.failed === true) {
-          // example exception
-          const value = "{";
-          JSON.parse(value);
-        }
-        const result = job.data.c * job.data.d;
-        // job.id contains id of this job.
-        // done(result) // error
-        done(null, { done: result });
-      } catch (e) {
-        // handled exception
-        done(e as Error, {});
+    multiplyQueue.process(function (job) {
+      if (job.data.failed === true) {
+        // example exception
+        throw new Error("example error");
       }
+      return job.data.c * job.data.d;
     });
 
     multiplyQueue.on("completed", (job, result) => {
@@ -184,8 +178,11 @@ export class QueuePool implements QueueWrapper {
   async resume(): Promise<void> {
     // console.log("minusQueue", await this._minusQueue.getJobCounts());
     // console.log("multiplyQueue", await this._multiplyQueue.getJobCounts());
-    console.log("minusQueue", await this.minusQueue().getJobCounts());
-    console.log("multiplyQueue", await this.multiplyQueue().getJobCounts());
+    console.log(this.minusQueue().name, await this.minusQueue().getJobCounts());
+    console.log(
+      this.multiplyQueue().name,
+      await this.multiplyQueue().getJobCounts()
+    );
     await this.closeAll();
   }
 }

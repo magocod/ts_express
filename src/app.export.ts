@@ -2,6 +2,7 @@ import app, { ws } from "./app";
 import { startQueue } from "./queue";
 
 import { pool } from "./services/queue_pool";
+import { poolV2 } from "./services/queue_pool_v2";
 import { emailQueue } from "./services/email";
 
 const ACTIVE_QUEUE = JSON.parse(process.env.ACTIVE_QUEUE as string);
@@ -23,6 +24,7 @@ if (ACTIVE_QUEUE) {
 
   // boot queues
   pool.boot();
+  poolV2.boot();
   emailQueue.boot();
 
   if (ACTIVE_REPEATABLE_QUEUE) {

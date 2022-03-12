@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 
 import { pool } from "../services/queue_pool";
-import { emailQueue } from "../services/email";
-import { sendEmail } from "../services/email";
+import { poolV2 } from "../services/queue_pool_v2";
+
+import { emailQueue, sendEmail } from "../services/email";
 
 import { GenericResponse } from "../interfaces";
 
@@ -61,5 +62,23 @@ export async function emailToQueue(
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "error call email queue" });
+  }
+}
+
+export async function divisionToQueue(
+  req: Request,
+  res: Response
+): GenericResponse {
+  try {
+    const job = await poolV2.divisionQueue().add({
+      e: req.body.e,
+      f: req.body.f,
+      failed: req.body.failed,
+    });
+    return res.json({ message: "call division queue", data: job.toJSON() });
+    // return res.status(400).json({ message: "error call queue" });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "error call division queue" });
   }
 }

@@ -11,7 +11,7 @@ const httpClient = supertest(app);
 
 const port = 5002;
 
-describe("socket_emit.spec", () => {
+describe("socket_emit", () => {
   let wsServer: Server;
   // let serverSocket: SocketServer;
   let clientSocket: SocketClient;

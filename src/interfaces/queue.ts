@@ -1,4 +1,6 @@
-export interface QueueWrapper {
+import { Queue } from "bull";
+
+export interface QueuePoolWrapper {
   /**
    * start queues
    */
@@ -18,4 +20,11 @@ export interface QueueWrapper {
    * check current task status
    */
   resume(): Promise<void>;
+}
+
+export interface QueueWrapper<T> extends QueuePoolWrapper {
+  /**
+   * get queue instance, throw error if not started
+   */
+  instance(): Queue<T>;
 }

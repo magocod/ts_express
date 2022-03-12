@@ -4,6 +4,7 @@ import { QueueWrapper } from "../interfaces";
 import Queue from "bull";
 import { delay } from "../utils";
 
+// FIXME env - redis
 const REDIS_HOST = "127.0.0.1";
 const REDIS_PORT = 6379;
 
@@ -45,13 +46,16 @@ export interface EmailQueueParams extends SendEmailConfig {
   failed?: boolean;
 }
 
+// FIXME exception - reuse
 const queueException = "queue not initialized";
 
-export class EmailQueue implements QueueWrapper {
+export class EmailQueue implements QueueWrapper<EmailQueueParams> {
   private _queue: Queue.Queue<EmailQueueParams> | undefined;
 
   private booted = false;
 
+  // don't use constructor to start redis connection
+  // don't do this, this.boot in the constructor
   // constructor() {
   // }
 
@@ -78,8 +82,7 @@ export class EmailQueue implements QueueWrapper {
       // console.log(job.attemptsMade)
       if (job.data.failed === true) {
         // example exception
-        const value = "{";
-        JSON.parse(value);
+        throw new Error("example error");
       }
 
       return sendEmail({
@@ -110,7 +113,7 @@ export class EmailQueue implements QueueWrapper {
     return this._queue;
   }
 
-  async close(): Promise<void> {
+  close(): Promise<void> {
     return this.instance().close();
   }
 
@@ -119,7 +122,7 @@ export class EmailQueue implements QueueWrapper {
   }
 
   async resume(): Promise<void> {
-    console.log("emailQueue", await this.instance().getJobCounts());
+    console.log(this.instance().name, await this.instance().getJobCounts());
     await this.close();
   }
 }
