@@ -6,5 +6,8 @@ import { syncCreateApp } from "./factory";
 
 const app = syncCreateApp();
 
-// export default app;
-module.exports = app;
+export default app;
+
+// error to transpile to js
+// remove this in favor of app.export.ts
+// module.exports = app;

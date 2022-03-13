@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import "reflect-metadata";
+
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import express, { ErrorRequestHandler, Express } from "express";

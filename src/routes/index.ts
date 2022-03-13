@@ -1,6 +1,3 @@
-/**
- *
- */
 import { Request, Response, Router } from "express";
 import auth from "./auth";
 import { getRepository } from "typeorm";
@@ -13,7 +10,7 @@ routes.get("/", (req: Request, res: Response) => {
 });
 
 routes.get("/test", (req: Request, res: Response) => {
-  res.send("hello test");
+  res.json({ prop: "hello test" });
 });
 
 routes.get("/error", (req: Request, res: Response) => {
@@ -47,7 +44,7 @@ routes.post("/users", async (req: Request, res: Response) => {
     const results = await userRepository.save(user);
     return res.send(results);
   } catch (e) {
-    return res.json({ message: e.message })
+    return res.json({})
   }
 });
 

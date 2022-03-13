@@ -7,6 +7,6 @@ tmp
 .env
 
 # test coverage
+.nyc_output
 coverage
 test/coverage
-.nyc_output
