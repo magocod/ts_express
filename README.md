@@ -21,5 +21,16 @@ npm run start
 ### Run tests
 
 ```
+// all
 npm run test
+npm run test:parallel
+
+// with coverage
+npm run test:coverage
+```
+
+### Run dev server
+
+```
+npm run dev
 ```
