@@ -9,23 +9,23 @@ import { asyncCreateApp } from "../src/factory";
 describe("sample", () => {
   let httpClient: supertest.SuperTest<supertest.Test>;
 
-  before(async () => {
+  before(async function () {
     const { app } = await asyncCreateApp();
     httpClient = supertest(app);
   });
 
-  after(async () => {
+  after(async function () {
     await getConnection().close();
   });
 
-  it("responds with json", async () => {
+  it("responds with json", async function () {
     const response = await httpClient.get("/test").expect(200);
 
     // console.log(response);
     assert.equal(response.body, response.body, "response.body");
   });
 
-  it("responds with internal error", async () => {
+  it("responds with internal error", async function () {
     const response = await httpClient.get("/error");
 
     // console.log(response.body);

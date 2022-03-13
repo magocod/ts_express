@@ -40,7 +40,7 @@ describe("one-to-many", () => {
       photoType,
     });
     const photoA = await photoRepository.save(photoBaseA);
-    console.log(photoA);
+    // console.log(photoA);
 
     await photoRepository.save(
       photoRepository.create({

@@ -1,17 +1,19 @@
 import { Request, Response } from "express";
 import { HttpController, GenericResponse } from "../interfaces";
 
-import { getRepository } from "typeorm";
+import { getRepository, getCustomRepository } from "typeorm";
 
 import { Profile, User } from "../entity";
+import { UserRepository } from "../repositories";
 
 export class UserController implements HttpController {
   async findAll(req: Request, res: Response): GenericResponse {
     try {
-      const users = await getRepository(User).find({
-        relations: ["photos", "profile"],
-      });
-      return res.json({ message: "...", data: users });
+      // const users = await getRepository(User).find({
+      //   relations: ["photos", "profile"],
+      // });
+      const result = await getCustomRepository(UserRepository).findAll(req);
+      return res.json({ message: "...", data: result });
     } catch (err) {
       let message = "internal error";
       if (err instanceof Error) {
@@ -81,7 +83,9 @@ export class UserController implements HttpController {
   async update(req: Request, res: Response): GenericResponse {
     try {
       const userRepository = getRepository(User);
-      const user = await userRepository.findOne(req.params.id, { relations: ["photos", "profile"] });
+      const user = await userRepository.findOne(req.params.id, {
+        relations: ["photos", "profile"],
+      });
 
       if (user === undefined) {
         return res

@@ -53,7 +53,7 @@ describe("many-to-many", () => {
 
     questionB.categories.push(categoryB);
     questionB = await questionRepository.save(questionB);
-    console.log(questionB);
+    // console.log(questionB);
   });
 
   it("repository eager loading, categories", async () => {
@@ -64,9 +64,9 @@ describe("many-to-many", () => {
   });
 
   it("repository eager loading, questions", async () => {
-      const results = await categoryRepository.find({
-          relations: ["questions"],
-      });
-      console.log(results);
+    const results = await categoryRepository.find({
+      relations: ["questions"],
+    });
+    console.log(results);
   });
 });

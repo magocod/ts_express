@@ -26,7 +26,7 @@ export function getAllFunctions(toCheck: unknown): string[] {
 
 export function basicPagination(): QueryString {
   return {
-    page: 0,
+    page: 1,
     limit: 3,
   };
 }
@@ -64,7 +64,7 @@ export function getRootUriWithParam(
   baseUrl: string,
   params: QueryString
 ): string {
-  return getUriWithParam("http...", baseUrl, params);
+  return getUriWithParam("http://localhost", baseUrl, params);
 }
 
 /**
