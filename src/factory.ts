@@ -14,11 +14,12 @@ import middleware from "./middleware";
 import routes from "./routes/index";
 import { applyMiddleware } from "./utils";
 
-import { createConnection } from "typeorm";
+import { Connection, createConnection } from "typeorm";
 
-// import User from "./entity/User";
+import { root } from './paths'
+console.log(path.join(root, '/folder', 'resource.ext'))
 
-export function createApp(): Express {
+export function createApp(): Express.Application {
   // express instance
   const app = express();
 
@@ -84,7 +85,7 @@ export function createApp(): Express {
   return app;
 }
 
-export function syncCreateApp(): Express {
+export function syncCreateApp(): Express.Application {
   // create typeorm connection
   createConnection()
     .then((connection) => {
@@ -97,9 +98,12 @@ export function syncCreateApp(): Express {
   return createApp();
 }
 
-export async function asyncCreateApp(): Promise<Express> {
+export async function asyncCreateApp(): Promise<{
+  app: Express.Application;
+  connection: Connection;
+}> {
   // create typeorm connection
-  await createConnection();
+  const connection = await createConnection();
   // console.log("typeorm connect db");
-  return createApp();
+  return { app: createApp(), connection };
 }

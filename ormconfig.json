@@ -7,7 +7,7 @@
   "database": "exp",
   "entities_js": ["dist/src/entity/*.js"],
   "entities_ts": ["src/entity/*.ts"],
-  "entities": ["src/entity/*.ts"],
+  "entities": ["src/entity/*.js"],
   "logging": false,
   "synchronize": false,
   "migrationsTableName": "custom_migration_table",
