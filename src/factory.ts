@@ -10,14 +10,21 @@ import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
 
-import middleware from "./middleware";
-import routes from "./routes/index";
-import { applyMiddleware } from "./utils";
+import compression from "compression";
+import cors from "cors";
+
+// import middleware from "./middleware";
+
+import router from "./routes/index";
+import authRouter from "./routes/auth";
+import userRouter from "./routes/user";
+
+// import { applyMiddleware } from "./utils";
 
 import { Connection, createConnection } from "typeorm";
 
-import { root } from './paths'
-console.log(path.join(root, '/folder', 'resource.ext'))
+// import { root } from './paths'
+// console.log(path.join(root, '/folder', 'resource.ext'))
 
 export function createApp(): Express.Application {
   // express instance
@@ -44,7 +51,7 @@ export function createApp(): Express.Application {
   // app.set('view engine', 'jade');
 
   // middleware
-  applyMiddleware(middleware, app);
+  // applyMiddleware(middleware, app);
 
   // config
   app.use(logger("dev"));
@@ -54,8 +61,18 @@ export function createApp(): Express.Application {
   app.use(express.static(path.join(__dirname, "public")));
   app.use(bodyParser.json());
 
+  app.use(
+    cors({
+      credentials: true,
+      origin: true,
+    })
+  );
+  app.use(compression());
+
   // routes
-  app.use("/", routes);
+  app.use("/", router);
+  app.use("/auth", authRouter);
+  app.use("/users", userRouter);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {

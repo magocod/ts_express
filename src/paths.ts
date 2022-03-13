@@ -4,4 +4,4 @@ import * as path from "path";
 // base project ../../
 export const root: string = path.resolve(__dirname, "../../");
 
-console.log('path', root)
+// console.log('path', root)
