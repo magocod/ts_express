@@ -3,22 +3,82 @@ import { HttpController, GenericResponse } from "../interfaces";
 
 export class UserController implements HttpController {
   async findAll(req: Request, res: Response): GenericResponse {
-    return res.status(500).json({});
+    try {
+      return res.status(500).json({ message: "...", data: {} });
+    } catch (err) {
+      let message = "...";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
+      return res.status(500).send({
+        message,
+        error: message,
+      });
+    }
   }
 
   async create(req: Request, res: Response): GenericResponse {
-    return res.status(500).json({});
+    try {
+      return res.status(500).json({ message: "...", data: {} });
+    } catch (err) {
+      let message = "...";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
+      return res.status(500).send({
+        message,
+        error: message,
+      });
+    }
   }
 
   async find(req: Request, res: Response): GenericResponse {
-    return res.status(500).json({});
+    try {
+      return res.status(500).json({ message: "...", data: {} });
+    } catch (err) {
+      let message = "...";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
+      return res.status(500).send({
+        message,
+        error: message,
+      });
+    }
   }
 
   async update(req: Request, res: Response): GenericResponse {
-    return res.status(500).json({});
+    try {
+      return res.status(500).json({ message: "...", data: {} });
+    } catch (err) {
+      let message = "...";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
+      return res.status(500).send({
+        message,
+        error: message,
+      });
+    }
   }
 
   async delete(req: Request, res: Response): GenericResponse {
-    return res.status(500).json({});
+    try {
+      return res.status(500).json({ message: "...", data: {} });
+    } catch (err) {
+      let message = "...";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
+      return res.status(500).send({
+        message,
+        error: message,
+      });
+    }
   }
 }
