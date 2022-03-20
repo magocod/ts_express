@@ -3,19 +3,22 @@ import { assert } from "chai";
 import supertest from "supertest";
 
 // import { checkConnection } from "./configdb";
-import { getConnection } from "typeorm";
+import { Connection, getConnection } from "typeorm";
 import { asyncCreateApp } from "../src/factory";
 
-describe("sample", () => {
+describe("sample", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
+  let conn: Connection;
 
   before(async function () {
-    const { app } = await asyncCreateApp();
+    const { app, connection } = await asyncCreateApp();
+    conn = connection;
     httpClient = supertest(app);
   });
 
   after(async function () {
-    await getConnection().close();
+    // await getConnection().close();
+    await conn.close();
   });
 
   it("responds with json", async function () {

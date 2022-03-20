@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export class UserMigration1641045853029 implements MigrationInterface {
+export class TokenMigration1647782366863 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "user",
+        name: "token",
         columns: [
           {
             name: "id",
@@ -19,37 +19,13 @@ export class UserMigration1641045853029 implements MigrationInterface {
             generationStrategy: "increment",
           },
           {
-            name: "email",
+            name: "token",
             type: "varchar",
             isUnique: true,
-            isNullable: false,
           },
           {
-            name: "firstName",
-            type: "varchar",
-          },
-          {
-            name: "lastName",
-            type: "varchar",
-          },
-          {
-            name: "profileId",
+            name: "userId",
             type: "int",
-          },
-          {
-            name: "password",
-            type: "varchar",
-            isNullable: false,
-          },
-          {
-            name: "createdAt",
-            type: "datetime",
-            default: "now()",
-          },
-          {
-            name: "updatedAt",
-            type: "datetime",
-            default: "now()",
           },
         ],
       }),
@@ -60,17 +36,17 @@ export class UserMigration1641045853029 implements MigrationInterface {
     // queryRunner.clearSqlMemory();
 
     await queryRunner.createForeignKey(
-      "user",
+      "token",
       new TableForeignKey({
-        columnNames: ["profileId"],
+        columnNames: ["userId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "profile",
+        referencedTableName: "user",
         onDelete: "CASCADE",
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("user");
+    await queryRunner.dropTable("token");
   }
 }

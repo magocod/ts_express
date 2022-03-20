@@ -6,18 +6,20 @@ import { createConnection, Connection, Repository } from "typeorm";
 
 import { Profile, User } from "../src/entity";
 
+import { chance } from "./fixtures";
+
 describe("one-to-one", () => {
   let connection: Connection;
   let profileRepository: Repository<Profile>;
   let userRepository: Repository<User>;
 
-  before(async () => {
+  before(async function () {
     connection = await createConnection();
     profileRepository = connection.getRepository(Profile);
     userRepository = connection.getRepository(User);
   });
 
-  after(async () => {
+  after(async function () {
     await connection.close();
   });
 
@@ -28,9 +30,11 @@ describe("one-to-one", () => {
     const profile = await profileRepository.save(profileBase);
     console.log(profile);
     const userBase = userRepository.create({
+      email: chance.email(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       profile,
+      password: "123",
     });
     const user = await userRepository.save(userBase);
     console.log(user);

@@ -5,17 +5,23 @@ import supertest from "supertest";
 import { asyncCreateApp } from "../../src/factory";
 import { Connection, getConnection } from "typeorm";
 
-import { generateUser } from "../fixtures";
+import { generateUser, chance } from "../fixtures";
 import { addQueryString, basicPagination } from "../helpers";
 
 import { PagRow } from "../../src/utils";
 
 const baseRoute = "/users";
 
-import { chance } from "../fixtures";
+interface RequestData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password?: string;
+}
 
-function generateRequest() {
+function generateRequest(): RequestData {
   return {
+    email: chance.email(),
     firstName: chance.first(),
     lastName: chance.last(),
   };
@@ -32,14 +38,15 @@ describe("user_crud", function () {
   });
 
   after(async () => {
-    await getConnection().close();
+    // await getConnection().close();
+    await conn.close()
   });
 
   describe("findAll", function () {
     it("unfiltered", async function () {
       const response = await httpClient.get(baseRoute);
 
-      console.log(JSON.stringify(response.body, null, 2));
+      // console.log(JSON.stringify(response.body, null, 2));
       assert.equal(response.status, 200);
       assert.containsAllKeys(response.body.data.pagination, [PagRow.next]);
     });
@@ -48,7 +55,7 @@ describe("user_crud", function () {
       const qs = basicPagination();
       const response = await httpClient.get(addQueryString(baseRoute, qs));
 
-      console.log(JSON.stringify(response.body, null, 2));
+      // console.log(JSON.stringify(response.body, null, 2));
       assert.equal(response.status, 200);
       assert.containsAllKeys(response.body.data.pagination, [PagRow.next]);
     });
@@ -59,7 +66,7 @@ describe("user_crud", function () {
       qs.limit = 0;
       const response = await httpClient.get(addQueryString(baseRoute, qs));
 
-      console.log(JSON.stringify(response.body, null, 2));
+      // console.log(JSON.stringify(response.body, null, 2));
       assert.equal(response.status, 200);
       assert.containsAllKeys(response.body.data.pagination, [PagRow.next]);
     });
@@ -69,7 +76,7 @@ describe("user_crud", function () {
       qs.page = 0;
       const response = await httpClient.get(addQueryString(baseRoute, qs));
 
-      console.log(JSON.stringify(response.body, null, 2));
+      // console.log(JSON.stringify(response.body, null, 2));
       assert.equal(response.status, 200);
       assert.containsAllKeys(response.body.data.pagination, [PagRow.next]);
     });
@@ -87,6 +94,7 @@ describe("user_crud", function () {
 
   it("create", async function () {
     const requestData = generateRequest();
+    requestData.password = "123";
     const response = await httpClient.post(baseRoute).send(requestData);
 
     // console.log(JSON.stringify(response.body, null, 2));
@@ -126,7 +134,7 @@ describe("user_crud", function () {
 
   it("update, not found", async function () {
     const requestData = generateRequest();
-    const userId = 1;
+    const userId = -1;
 
     const response = await httpClient
       .put(`${baseRoute}/${userId}`)

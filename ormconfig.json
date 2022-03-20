@@ -11,7 +11,7 @@
   "logging": false,
   "synchronize": false,
   "migrationsTableName": "custom_migration_table",
-  "migrations": ["dist/src/migration/*.js"],
+  "migrations": ["dist/migration/*.js"],
   "cli": {
     "entitiesDir": "src/entity",
     "subscribersDir": "src/subscriber",

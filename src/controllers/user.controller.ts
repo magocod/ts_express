@@ -28,7 +28,7 @@ export class UserController implements HttpController {
 
   async create(req: Request, res: Response): GenericResponse {
     try {
-      const { firstName, lastName } = req.body;
+      const { email, firstName, lastName, password } = req.body;
 
       const profileRepository = getRepository(Profile);
       const userRepository = getRepository(User);
@@ -39,9 +39,11 @@ export class UserController implements HttpController {
       const profile = await profileRepository.save(profileBase);
 
       const user = userRepository.create({
+        email,
         firstName,
         lastName,
         profile,
+        password
       });
       const results = await userRepository.save(user);
 
@@ -82,10 +84,14 @@ export class UserController implements HttpController {
 
   async update(req: Request, res: Response): GenericResponse {
     try {
-      const userRepository = getRepository(User);
-      const user = await userRepository.findOne(req.params.id, {
+      // const userRepository = getRepository(User);
+      // const user = await userRepository.findOne(req.params.id, {
+      //   relations: ["photos", "profile"],
+      // });
+
+      const user = await User.findOne(req.params.id, {
         relations: ["photos", "profile"],
-      });
+      })
 
       if (user === undefined) {
         return res
@@ -93,8 +99,17 @@ export class UserController implements HttpController {
           .json({ message: "not found", error: "not found" });
       }
 
-      userRepository.merge(user, req.body);
-      const result = await userRepository.save(user);
+      // console.log(JSON.stringify(user, null, 2));
+
+      // userRepository.merge(user, req.body);
+      // const result = await userRepository.save(user);
+      // const result = await userRepository.update({ id: user.id }, req.body);
+
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      const result = await user.save()
+
+      // console.log(JSON.stringify(user, null, 2));
 
       return res.json({ message: "...", data: result });
     } catch (err) {
