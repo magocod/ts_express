@@ -5,10 +5,17 @@ import { Connection } from "typeorm";
 
 import { chance } from "./index";
 
+import { generateToken } from "../../src/services/auth";
+
 interface GenerateTestUser {
   user: User;
   profile: Profile;
+  token: string;
 }
+
+// interface ConfigTestUser {
+//   some?: unknown;
+// }
 
 /**
  *
@@ -16,6 +23,9 @@ interface GenerateTestUser {
  */
 export async function generateUser(
   connection: Connection
+  // config: ConfigTestUser = {
+  //   some: {},
+  // }
 ): Promise<GenerateTestUser> {
   const profileRepository = connection.getRepository(Profile);
   const userRepository = connection.getRepository(User);
@@ -35,5 +45,15 @@ export async function generateUser(
 
   const user = await userRepository.save(userBase);
 
-  return { user, profile };
+  const token = generateToken(user);
+
+  return { user, profile, token };
+}
+
+/**
+ *
+ * @param tk
+ */
+export function generateAuthHeader(tk: string): string {
+  return `Bearer ${tk}`;
 }

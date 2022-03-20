@@ -6,7 +6,7 @@ import { asyncCreateApp } from "../../src/factory";
 
 import { User } from "../../src/entity";
 
-import { generateUser } from "../fixtures";
+import { generateUser, generateAuthHeader } from "../fixtures";
 
 function generateRequest(user: User, password = "123") {
   return {
@@ -14,6 +14,8 @@ function generateRequest(user: User, password = "123") {
     password,
   };
 }
+
+const baseRoute = "/auth";
 
 describe("auth", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
@@ -33,7 +35,9 @@ describe("auth", function () {
     const { user } = await generateUser(conn);
     const requestData = generateRequest(user);
 
-    const response = await httpClient.post("/auth/login").send(requestData);
+    const response = await httpClient
+      .post(`${baseRoute}/login`)
+      .send(requestData);
 
     // console.log(response.body);
     assert.equal(response.status, 200);
@@ -45,10 +49,26 @@ describe("auth", function () {
     const requestData = generateRequest(user);
     requestData.password = "wrong_password";
 
-    const response = await httpClient.post("/auth/login").send(requestData);
+    const response = await httpClient
+      .post(`${baseRoute}/login`)
+      .send(requestData);
 
     // console.log(response.body);
     assert.equal(response.status, 403);
     // assert.equal(response.body, response.body, "response.body");
+  });
+
+  describe("header and token verification", function () {
+    it("valid token", async function () {
+      const { token } = await generateUser(conn);
+
+      const response = await httpClient
+        .get(`${baseRoute}/current_user`)
+        .set("Authorization", generateAuthHeader(token));
+
+      console.log(response.body);
+      assert.equal(response.status, 200);
+      // assert.equal(response.body, response.body, "response.body");
+    });
   });
 });

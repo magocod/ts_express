@@ -10,19 +10,7 @@ import bcrypt from "bcrypt";
 
 export async function signup(req: Request, res: Response): GenericResponse {
   try {
-    // const user = await User.find({   })
-    //
-    //     if (!user)
-    //       res.status(404).json({ error: "no user with that email found" });
-    //     else {
-    //       bcrypt.compare(req.body.password, user.password, (error, match) => {
-    //         if (error) res.status(500).json(error);
-    //         else if (match)
-    //           res.status(200).json({ token: _generateToken(user) });
-    //         else res.status(403).json({ error: "passwords do not match" });
-    //       });
-    //     }
-
+    // pass
     return res.json({ message: "...", data: {} });
   } catch (err) {
     let message = "internal error";
@@ -81,6 +69,22 @@ export async function login(req: Request, res: Response): GenericResponse {
     return res.json({ message: "message", data: { token, tk } });
   } catch (err) {
     // console.log(err);
+    let message = "internal error";
+    if (err instanceof Error) {
+      message = err.message;
+    }
+    return res.status(400).send({
+      message,
+      error: message,
+    });
+  }
+}
+
+export async function currentUser(req: Request, res: Response): GenericResponse {
+  try {
+    // pass
+    return res.json({ message: "...", data: {} });
+  } catch (err) {
     let message = "internal error";
     if (err instanceof Error) {
       message = err.message;
