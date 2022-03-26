@@ -4,7 +4,7 @@ import { GenericResponse } from "../interfaces";
 import { getRepository } from "typeorm";
 import { User, Token } from "../entity";
 
-import { generateToken } from "../services/auth";
+import { generateToken, getResponseLocalUser } from "../services/auth";
 
 import bcrypt from "bcrypt";
 
@@ -63,8 +63,8 @@ export async function login(req: Request, res: Response): GenericResponse {
 
     const token = generateToken(user);
 
-    const tk = tokenRepository.create({ token, user })
-    await tokenRepository.save(tk)
+    const tk = tokenRepository.create({ token, user });
+    await tokenRepository.save(tk);
 
     return res.json({ message: "message", data: { token, tk } });
   } catch (err) {
@@ -80,10 +80,19 @@ export async function login(req: Request, res: Response): GenericResponse {
   }
 }
 
-export async function currentUser(req: Request, res: Response): GenericResponse {
+export async function currentUser(
+  req: Request,
+  res: Response
+): GenericResponse {
   try {
-    // pass
-    return res.json({ message: "...", data: {} });
+    const userRepository = getRepository(User);
+    const localUser = getResponseLocalUser(res);
+
+    const user = await userRepository.findOne({
+      where: { id: localUser.id },
+    });
+
+    return res.json({ message: "...", data: user });
   } catch (err) {
     let message = "internal error";
     if (err instanceof Error) {

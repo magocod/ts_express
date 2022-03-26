@@ -3,6 +3,7 @@ import supertest from "supertest";
 
 import { Connection } from "typeorm";
 import { asyncCreateApp } from "../../src/factory";
+import { generateToken } from "../../src/services/auth";
 
 import { User } from "../../src/entity";
 
@@ -66,9 +67,33 @@ describe("auth", function () {
         .get(`${baseRoute}/current_user`)
         .set("Authorization", generateAuthHeader(token));
 
-      console.log(response.body);
+      // console.log(response.body);
       assert.equal(response.status, 200);
       // assert.equal(response.body, response.body, "response.body");
     });
+
+    it("invalid token", async function () {
+      const response = await httpClient
+        .get(`${baseRoute}/current_user`)
+        .set("Authorization", generateAuthHeader('invalid'));
+
+      // console.log(response.body);
+      assert.equal(response.status, 403);
+      // assert.equal(response.body, response.body, "response.body");
+    })
+
+    it("invalid token secret", async function () {
+      const tokenSecret = "other-secret";
+      const { user } = await generateUser(conn);
+      const token = generateToken(user, tokenSecret);
+
+      const response = await httpClient
+        .get(`${baseRoute}/current_user`)
+        .set("Authorization", generateAuthHeader(token));
+
+      // console.log(response.body);
+      assert.equal(response.status, 403);
+      // assert.equal(response.body, response.body, "response.body");
+    })
   });
 });
