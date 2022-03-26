@@ -5,27 +5,25 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export class QuestionCategoriesCategoryMigration1641059309942
-  implements MigrationInterface
-{
+export class RoleUsersUserMigration1641045853035 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "question_categories_category",
+        name: "role_users_user",
         columns: [
           {
-              name: "id",
-              type: "int",
-              isPrimary: true,
-              isGenerated: true,
-              generationStrategy: "increment",
+            name: "id",
+            type: "int",
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: "increment",
           },
           {
-            name: "questionId",
+            name: "roleId",
             type: "int",
           },
           {
-            name: "categoryId",
+            name: "userId",
             type: "int",
           },
         ],
@@ -37,27 +35,27 @@ export class QuestionCategoriesCategoryMigration1641059309942
     // queryRunner.clearSqlMemory();
 
     await queryRunner.createForeignKey(
-      "question_categories_category",
+      "role_users_user",
       new TableForeignKey({
-        columnNames: ["questionId"],
+        columnNames: ["roleId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "question",
+        referencedTableName: "role",
         onDelete: "CASCADE",
       })
     );
 
     await queryRunner.createForeignKey(
-      "question_categories_category",
+      "role_users_user",
       new TableForeignKey({
-        columnNames: ["categoryId"],
+        columnNames: ["userId"],
         referencedColumnNames: ["id"],
-        referencedTableName: "category",
+        referencedTableName: "user",
         onDelete: "CASCADE",
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("question_categories_category");
+    await queryRunner.dropTable("role_users_user");
   }
 }

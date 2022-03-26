@@ -1,6 +1,6 @@
 import faker from "faker";
 
-import { Profile, User } from "../../src/entity";
+import { Profile, User, Role } from "../../src/entity";
 import { Connection } from "typeorm";
 
 import { chance } from "./index";
@@ -13,19 +13,19 @@ interface GenerateTestUser {
   token: string;
 }
 
-// interface ConfigTestUser {
-//   some?: unknown;
-// }
+interface ConfigTestUser {
+  roles?: Role[];
+}
 
 /**
  *
  * @param connection
  */
 export async function generateUser(
-  connection: Connection
-  // config: ConfigTestUser = {
-  //   some: {},
-  // }
+  connection: Connection,
+  config: ConfigTestUser = {
+    roles: [],
+  }
 ): Promise<GenerateTestUser> {
   const profileRepository = connection.getRepository(Profile);
   const userRepository = connection.getRepository(User);
@@ -41,6 +41,7 @@ export async function generateUser(
     lastName: faker.name.lastName(),
     profile,
     password: "123",
+    roles: config.roles
   });
 
   const user = await userRepository.save(userBase);
