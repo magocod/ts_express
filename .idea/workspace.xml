@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="df35fe3a-c2de-49c4-8984-1f8e9e4eb78c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.test" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nycrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.nycrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/filesys.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ormconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ormconfig.test.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.export.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/db.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/auth.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/user.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Category.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Permission.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Photo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/PhotoType.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Profile.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Question.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Role.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Token.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/User.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/factory.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/interfaces/response.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/common.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853028-ProfileMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853029-UserMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853031-TokenMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853032-RoleMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853033-PermissionMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853034-RolePermissionsPermission.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641045853035-RoleUsersUserMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641054367329-PhotoType.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641054367330-PhotoMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641059155512-CategoryMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641059223943-QuestionMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/migration/1641059309942-QuestionCategoriesCategoryMigration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/paths.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/stylesheets/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repositories/UserRepository.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repositories/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/subscriber/UserSubscriber.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/error.jade" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/index.jade" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/layout.jade" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/auth/auth.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/configdb.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/fixtures.cjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/fixtures/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/fixtures/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/helpers/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/many-to-many.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/one-to-many.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/one-to-one.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/pagination.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/sample.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/users/user_crud.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.build.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/types.express.d.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="27InEfKD1bLluxo0QbcsxriHhvu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\codes\ts\express\ts_express\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df35fe3a-c2de-49c4-8984-1f8e9e4eb78c" name="Changes" comment="" />
+      <created>1649016360890</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1649016360890</updated>
+      <workItem from="1649016363724" duration="337000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

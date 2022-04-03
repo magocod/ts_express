@@ -1,12 +1,1 @@
-/node_modules
-/dist
-
-.idea
-tmp
-
-.env
-
-# test coverage
-.nyc_output
-coverage
-test/coverage
+node_modules
