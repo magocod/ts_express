@@ -22,4 +22,10 @@ describe("sample", function () {
       "response.body"
     );
   });
+
+  it("responds with internal error, async code", async function () {
+    const response = await httpClient.get("/next_error");
+    // console.log(response.body);
+    assert.equal(response.status, 500);
+  });
 });
