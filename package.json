@@ -39,6 +39,7 @@
     "tsc-watch": "^4.4.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.1.2",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.3.0",
     "@types/chance": "^1.1.3",
