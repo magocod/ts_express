@@ -1,5 +1,7 @@
 # Express generator (Typescript)
 
+DEPRECATED -> use branch typeorm_v3
+
 ## Project setup
 
 ```
