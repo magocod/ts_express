@@ -45,7 +45,7 @@ export async function login(req: Request, res: Response): GenericResponse {
     //   .addSelect("user.password")
     //   .getOne()
 
-    if (user === undefined) {
+    if (user === null) {
       return res
         .status(404)
         .json({ message: "...", error: "no user with that email found" });

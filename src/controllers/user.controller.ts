@@ -43,7 +43,7 @@ export class UserController implements HttpController {
         firstName,
         lastName,
         profile,
-        password
+        password,
       });
       const results = await userRepository.save(user);
 
@@ -62,8 +62,10 @@ export class UserController implements HttpController {
 
   async find(req: Request, res: Response): GenericResponse {
     try {
-      const user = await getRepository(User).findOne(req.params.id);
-      if (user === undefined) {
+      const user = await getRepository(User).findOne({
+        where: { id: parseInt(req.params.id) },
+      });
+      if (user === null) {
         return res
           .status(404)
           .json({ message: "not found", error: "not found" });
@@ -89,11 +91,12 @@ export class UserController implements HttpController {
       //   relations: ["photos", "profile"],
       // });
 
-      const user = await User.findOne(req.params.id, {
+      const user = await User.findOne({
+        where: { id: parseInt(req.params.id) },
         relations: ["photos", "profile"],
-      })
+      });
 
-      if (user === undefined) {
+      if (user === null) {
         return res
           .status(404)
           .json({ message: "not found", error: "not found" });
@@ -107,7 +110,7 @@ export class UserController implements HttpController {
 
       user.firstName = req.body.firstName;
       user.lastName = req.body.lastName;
-      const result = await user.save()
+      const result = await user.save();
 
       // console.log(JSON.stringify(user, null, 2));
 
