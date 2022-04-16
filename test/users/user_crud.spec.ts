@@ -38,12 +38,22 @@ describe("user_crud", function () {
   });
 
   after(async () => {
-    await ds.destroy()
+    await ds.destroy();
   });
 
   describe("findAll", function () {
     it("unfiltered", async function () {
       const response = await httpClient.get(baseRoute);
+
+      // console.log(JSON.stringify(response.body, null, 2));
+      assert.equal(response.status, 200);
+      assert.containsAllKeys(response.body.data.pagination, [PagRow.next]);
+    });
+
+    it("filter by profile", async function () {
+      const qs = basicPagination();
+      qs.profile_name = "pa";
+      const response = await httpClient.get(addQueryString(baseRoute, qs));
 
       // console.log(JSON.stringify(response.body, null, 2));
       assert.equal(response.status, 200);
@@ -96,16 +106,16 @@ describe("user_crud", function () {
     requestData.password = "123";
     const response = await httpClient.post(baseRoute).send(requestData);
 
-    console.log(JSON.stringify(response.body, null, 2));
+    // console.log(JSON.stringify(response.body, null, 2));
     assert.equal(response.status, 200);
-  })
+  });
 
   it("find", async function () {
     const { user } = await generateUser(ds);
     const userId = user.id;
     const response = await httpClient.get(`${baseRoute}/${userId}`);
 
-    // console.log(JSON.stringify(response.body, null, 2));
+    console.log(JSON.stringify(response.body, null, 2));
     assert.equal(response.status, 200);
   });
 

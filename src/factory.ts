@@ -23,7 +23,7 @@ import userRouter from "./routes/user";
 
 // import { Connection, createConnection } from "typeorm";
 import { AppDataSource } from "./data-source";
-import {DataSource} from "typeorm";
+import { DataSource } from "typeorm";
 
 // import { root } from './paths'
 // console.log(path.join(root, '/folder', 'resource.ext'))

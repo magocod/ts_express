@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { HttpController, GenericResponse } from "../interfaces";
 
 import { AppDataSource } from "../data-source";
+import { UserRepository } from "../repositories";
 
 import { Profile, User } from "../entity";
 import { Repository } from "typeorm";
@@ -13,37 +14,36 @@ export class UserController implements HttpController {
   private _userRepository?: Repository<User> = undefined;
   private _profileRepository?: Repository<Profile> = undefined;
 
-  private _d = 10
-
   constructor() {
-    console.log(AppDataSource.isInitialized);
+    console.log("AppDataSource.isInitialized", AppDataSource.isInitialized);
   }
 
   userRepository() {
-    console.log(this)
-    console.log(AppDataSource.isInitialized);
-    console.log("this._userRepository", this._userRepository);
+    console.log("userRepository", "call");
     if (this._userRepository === undefined) {
+      console.log("userRepository", "create");
       this._userRepository = AppDataSource.getRepository(User);
     }
+    console.log("userRepository", "reuse");
     return this._userRepository;
   }
 
   profileRepository() {
-    console.log(AppDataSource.isInitialized);
-    console.log("this._profileRepository", this._profileRepository);
+    console.log("profileRepository", "call");
     if (this._profileRepository === undefined) {
+      console.log("profileRepository", "create");
       this._profileRepository = AppDataSource.getRepository(Profile);
     }
+    console.log("profileRepository", "reuse");
     return this._profileRepository;
   }
 
   async findAll(req: Request, res: Response): GenericResponse {
     try {
-      const result = await this.userRepository().find({
-        relations: ["photos", "profile"],
-      });
-      // const result = await this.userRepository.findAll(req);
+      // const result = await this.userRepository().find({
+      //   relations: ["photos", "profile"],
+      // });
+      const result = await UserRepository.findAll(req);
       return res.json({ message: "...", data: result });
     } catch (err) {
       let message = "internal error";
@@ -58,10 +58,8 @@ export class UserController implements HttpController {
   }
 
   async create(req: Request, res: Response): GenericResponse {
-    // console.log(this.d)
     try {
       const { email, firstName, lastName, password } = req.body;
-      console.log(this)
       const profileBase = this.profileRepository().create({
         name: "...",
       });
@@ -78,7 +76,7 @@ export class UserController implements HttpController {
 
       return res.json({ message: "...", data: results });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       let message = "internal error";
       if (err instanceof Error) {
         message = err.message;

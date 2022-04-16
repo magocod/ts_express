@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
 export class PhotoType1641054367329 implements MigrationInterface {
 

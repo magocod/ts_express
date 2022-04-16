@@ -1,24 +1,38 @@
-import { EntityRepository, Repository } from "typeorm";
 import { User } from "../entity/User";
 import { Request } from "express";
 
-import { generatePagination, generateExtraPagination } from "../utils";
+import { AppDataSource } from "../data-source";
 
-@EntityRepository(User)
-export class UserRepository extends Repository<User> {
+import { generatePagination, generateExtraPagination } from "../utils";
+import { FindOptionsWhere, ILike } from "typeorm";
+
+export const UserRepository = AppDataSource.getRepository(User).extend({
   async findAll(req: Request) {
     const { page, limit } = req.query;
     // console.log(req.query);
 
+    const { profile_name } = req.query;
+
     const { pagination, offset } = generatePagination(page, limit);
 
+    const where: FindOptionsWhere<User> = {};
+
+    if (profile_name !== undefined && profile_name !== null) {
+      where.profile = {
+        name: ILike(`%${profile_name}%`),
+      };
+    }
+
     const [rows, total] = await this.findAndCount({
-      where: {},
+      relations: {
+        profile: true,
+        photos: true,
+      },
+      where,
       // take: pagination.limit ? pagination.limit : undefined,
       // skip: offset ? offset : undefined,
       take: pagination.limit,
       skip: offset,
-      relations: ["photos", "profile"],
     });
 
     generateExtraPagination(pagination, total, offset);
@@ -27,5 +41,5 @@ export class UserRepository extends Repository<User> {
       data: rows,
       pagination,
     };
-  }
-}
+  },
+});
