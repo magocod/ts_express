@@ -1,5 +1,6 @@
 /**
  * // use this syntax, lost class context (this = undefined, error)
+ * const controller= new controller();
  * router.get("/", controller.method)
  *
  * // use this temporary syntax, until you fix bug or update express v5
