@@ -1,10 +1,14 @@
 import { User } from "../entity/User";
 import { Request } from "express";
 
-import { AppDataSource } from "../data-source";
-
 import { generatePagination, generateExtraPagination } from "../utils";
 import { FindOptionsWhere, ILike } from "typeorm";
+
+// import { AppDataSource } from "../data-source";
+import { CountryId } from "../constants";
+import { dataSourceFactory } from "../date_source";
+
+const AppDataSource = dataSourceFactory(CountryId.arg);
 
 export const UserRepository = AppDataSource.getRepository(User).extend({
   async findAll(req: Request) {

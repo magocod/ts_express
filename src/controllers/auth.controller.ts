@@ -3,7 +3,10 @@ import { Request, Response } from "express";
 import { GenericResponse } from "../interfaces";
 import { User, Token } from "../entity";
 
-import { AppDataSource } from "../data-source";
+// import { AppDataSource } from "../data-source";
+import { dataSourceFactory } from "../date_source";
+
+const AppDataSource = dataSourceFactory();
 
 import { generateToken, getResponseLocalUser } from "../services/auth";
 

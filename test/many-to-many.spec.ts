@@ -4,7 +4,10 @@ import faker from "@faker-js/faker";
 
 import { DataSource, Repository } from "typeorm";
 
-import { AppDataSource } from "../src/data-source"
+// import { AppDataSource } from "../src/data-source";
+import { dataSourceFactory } from "../src/date_source";
+
+const AppDataSource = dataSourceFactory();
 
 import { Category, Question, Role, Permission, User } from "../src/entity";
 

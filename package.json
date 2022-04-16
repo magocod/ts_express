@@ -20,6 +20,7 @@
     "test:coverage": "nyc npm run test",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run": "typeorm migration:run -d dist/data-source.js",
+    "mx:migration:run": "typeorm migration:run -d dist/date_source/mx.source.js",
     "build:migration:run": "npm run build & migration:run"
   },
   "dependencies": {

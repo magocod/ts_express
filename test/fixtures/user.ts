@@ -19,11 +19,11 @@ interface ConfigTestUser {
 
 /**
  *
- * @param connection
+ * @param dataSource
  * @param config
  */
 export async function generateUser(
-    dataSource: DataSource,
+  dataSource: DataSource,
   config: ConfigTestUser = {
     roles: [],
   }
@@ -42,7 +42,7 @@ export async function generateUser(
     lastName: faker.name.lastName(),
     profile,
     password: "123",
-    roles: config.roles
+    roles: config.roles,
   });
 
   const user = await userRepository.save(userBase);

@@ -22,7 +22,7 @@ import userRouter from "./routes/user";
 // import { applyMiddleware } from "./utils";
 
 // import { Connection, createConnection } from "typeorm";
-import { AppDataSource } from "./data-source";
+import { initializeAll } from "./date_source";
 import { DataSource } from "typeorm";
 
 // import { root } from './paths'
@@ -114,7 +114,7 @@ export function syncCreateApp(): Express.Application {
   //   .catch((error) => {
   //     console.log(error);
   //   });
-  AppDataSource.initialize()
+  initializeAll()
     .then(() => {
       console.log("typeorm connect db");
     })
@@ -129,7 +129,7 @@ export async function asyncCreateApp(): Promise<{
   dataSource: DataSource;
 }> {
   // create typeorm connection
-  const dataSource = await AppDataSource.initialize();
+  const dataSource = await initializeAll();
   // console.log("typeorm connect db");
-  return { app: createApp(), dataSource };
+  return { app: createApp(), dataSource: dataSource.argDs };
 }

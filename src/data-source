@@ -26,6 +26,7 @@ export const AppDataSource = new DataSource({
   database: "exp",
   synchronize: false,
   logging: false,
+  // entities: [__dirname + "/entity/*{.js,.ts}"],
   entities: [__dirname + "/entity/*{.js,.ts}"],
   migrations: ["dist/migration/**/*.js"],
   subscribers: [],

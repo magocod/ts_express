@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { HttpController, GenericResponse } from "../interfaces";
 
-import { AppDataSource } from "../data-source";
+// import { AppDataSource } from "../data-source";
+import { dataSourceFactory } from "../date_source";
+
+const AppDataSource = dataSourceFactory();
+
 import { UserRepository } from "../repositories";
 
 import { Profile, User } from "../entity";
@@ -114,15 +118,17 @@ export class UserController implements HttpController {
 
   async update(req: Request, res: Response): GenericResponse {
     try {
-      // const userRepository = getRepository(User);
-      // const user = await userRepository.findOne(req.params.id, {
-      //   relations: ["photos", "profile"],
-      // });
-
-      const user = await User.findOne({
-        where: { id: parseInt(req.params.id) },
+      const user = await this.userRepository().findOne({
+        where: {
+          id: parseInt(req.params.id),
+        },
         relations: ["photos", "profile"],
       });
+
+      // const user = await User.findOne({
+      //   where: { id: parseInt(req.params.id) },
+      //   relations: ["photos", "profile"],
+      // });
 
       if (user === null) {
         return res
@@ -132,13 +138,13 @@ export class UserController implements HttpController {
 
       // console.log(JSON.stringify(user, null, 2));
 
-      // userRepository.merge(user, req.body);
-      // const result = await userRepository.save(user);
-      // const result = await userRepository.update({ id: user.id }, req.body);
+      this.userRepository().merge(user, req.body);
+      const result = await this.userRepository().save(user);
+      // const result = await this.userRepository().update({ id: user.id }, req.body);
 
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
-      const result = await user.save();
+      // user.firstName = req.body.firstName;
+      // user.lastName = req.body.lastName;
+      // const result = await user.save();
 
       // console.log(JSON.stringify(user, null, 2));
 
