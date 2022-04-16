@@ -6,7 +6,7 @@ import { FindOptionsWhere, ILike } from "typeorm";
 
 // import { AppDataSource } from "../data-source";
 import { CountryId } from "../constants";
-import { dataSourceFactory } from "../date_source";
+import { dataSourceFactory } from "../data_source";
 
 const AppDataSource = dataSourceFactory(CountryId.arg);
 

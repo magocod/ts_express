@@ -18,11 +18,12 @@ import cors from "cors";
 import router from "./routes/index";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
+import categoryRouter from "./routes/category";
 
 // import { applyMiddleware } from "./utils";
 
 // import { Connection, createConnection } from "typeorm";
-import { initializeAll } from "./date_source";
+import { initializeAll, DataSourceGroup } from "./data_source";
 import { DataSource } from "typeorm";
 
 // import { root } from './paths'
@@ -75,6 +76,7 @@ export function createApp(): Express.Application {
   app.use("/", router);
   app.use("/auth", authRouter);
   app.use("/users", userRouter);
+  app.use("/categories", categoryRouter);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
@@ -126,10 +128,10 @@ export function syncCreateApp(): Express.Application {
 
 export async function asyncCreateApp(): Promise<{
   app: Express.Application;
-  dataSource: DataSource;
+  dsg: DataSourceGroup;
 }> {
   // create typeorm connection
   const dataSource = await initializeAll();
   // console.log("typeorm connect db");
-  return { app: createApp(), dataSource: dataSource.argDs };
+  return { app: createApp(), dsg: dataSource };
 }

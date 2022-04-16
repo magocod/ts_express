@@ -3,12 +3,13 @@ import { assert } from "chai";
 import supertest from "supertest";
 
 import { asyncCreateApp } from "../../src/factory";
-import { DataSource } from "typeorm";
 
 import { generateUser, chance } from "../fixtures";
 import { addQueryString, basicPagination } from "../helpers";
 
 import { PagRow } from "../../src/utils";
+
+import { destroyAll, DataSourceGroup } from "../../src/data_source";
 
 const baseRoute = "/users";
 
@@ -29,16 +30,16 @@ function generateRequest(): RequestData {
 
 describe("user_crud", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
-  let ds: DataSource;
+  let ds: DataSourceGroup;
 
   before(async () => {
-    const { app, dataSource } = await asyncCreateApp();
-    ds = dataSource;
+    const { app, dsg } = await asyncCreateApp();
+    ds = dsg;
     httpClient = supertest(app);
   });
 
   after(async () => {
-    await ds.destroy();
+    await destroyAll([ds.argDs, ds.mxDs]);
   });
 
   describe("findAll", function () {
@@ -111,7 +112,7 @@ describe("user_crud", function () {
   });
 
   it("find", async function () {
-    const { user } = await generateUser(ds);
+    const { user } = await generateUser(ds.argDs);
     const userId = user.id;
     const response = await httpClient.get(`${baseRoute}/${userId}`);
 
@@ -129,7 +130,7 @@ describe("user_crud", function () {
 
   it("update", async function () {
     const requestData = generateRequest();
-    const { user } = await generateUser(ds);
+    const { user } = await generateUser(ds.argDs);
     // console.log(JSON.stringify(user, null, 2));
     const userId = user.id;
 
@@ -154,7 +155,7 @@ describe("user_crud", function () {
   });
 
   it("delete", async function () {
-    const { user } = await generateUser(ds);
+    const { user } = await generateUser(ds.argDs);
     const userId = user.id;
     const response = await httpClient.delete(`${baseRoute}/${userId}`);
 

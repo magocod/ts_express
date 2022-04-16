@@ -1,21 +1,21 @@
 import { assert } from "chai";
 import supertest from "supertest";
 
-import { DataSource } from "typeorm";
 import { asyncCreateApp } from "../src/factory";
+import { destroyAll, DataSourceGroup } from "../src/data_source";
 
 describe("sample", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
-  let ds: DataSource;
+  let ds: DataSourceGroup;
 
   before(async function () {
-    const { app, dataSource } = await asyncCreateApp();
-    ds = dataSource;
+    const { app, dsg } = await asyncCreateApp();
+    ds = dsg;
     httpClient = supertest(app);
   });
 
   after(async function () {
-    await ds.destroy();
+    await destroyAll([ds.argDs, ds.mxDs]);
   });
 
   it("responds with json", async function () {

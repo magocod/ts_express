@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { HttpController, GenericResponse } from "../interfaces";
 
 // import { AppDataSource } from "../data-source";
-import { dataSourceFactory } from "../date_source";
+import { dataSourceFactory } from "../data_source";
 
 const AppDataSource = dataSourceFactory();
 
@@ -22,7 +22,7 @@ export class UserController implements HttpController {
     console.log("AppDataSource.isInitialized", AppDataSource.isInitialized);
   }
 
-  userRepository() {
+  userRepository(): Repository<User> {
     console.log("userRepository", "call");
     if (this._userRepository === undefined) {
       console.log("userRepository", "create");
@@ -32,7 +32,7 @@ export class UserController implements HttpController {
     return this._userRepository;
   }
 
-  profileRepository() {
+  profileRepository(): Repository<Profile> {
     console.log("profileRepository", "call");
     if (this._profileRepository === undefined) {
       console.log("profileRepository", "create");

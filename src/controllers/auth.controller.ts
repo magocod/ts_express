@@ -4,7 +4,7 @@ import { GenericResponse } from "../interfaces";
 import { User, Token } from "../entity";
 
 // import { AppDataSource } from "../data-source";
-import { dataSourceFactory } from "../date_source";
+import { dataSourceFactory } from "../data_source";
 
 const AppDataSource = dataSourceFactory();
 

@@ -5,7 +5,7 @@ import { faker } from "@faker-js/faker";
 import { DataSource, Repository, In } from "typeorm";
 
 // import { AppDataSource } from "../src/data-source";
-import { dataSourceFactory } from "../src/date_source";
+import { dataSourceFactory } from "../src/data_source";
 
 const AppDataSource = dataSourceFactory();
 
