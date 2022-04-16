@@ -1,7 +1,7 @@
-import faker from "faker";
+import { faker } from "@faker-js/faker";
 
 import { Profile, User, Role } from "../../src/entity";
-import { Connection } from "typeorm";
+import { DataSource } from "typeorm";
 
 import { chance } from "./index";
 
@@ -20,15 +20,16 @@ interface ConfigTestUser {
 /**
  *
  * @param connection
+ * @param config
  */
 export async function generateUser(
-  connection: Connection,
+    dataSource: DataSource,
   config: ConfigTestUser = {
     roles: [],
   }
 ): Promise<GenerateTestUser> {
-  const profileRepository = connection.getRepository(Profile);
-  const userRepository = connection.getRepository(User);
+  const profileRepository = dataSource.getRepository(Profile);
+  const userRepository = dataSource.getRepository(User);
 
   const profileBase = profileRepository.create({
     name: faker.animal.fish(),

@@ -1,15 +1,17 @@
 import { assert } from "chai";
 
-import faker from "faker";
+import faker from "@faker-js/faker";
 
-import { createConnection, Connection, Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
+
+import { AppDataSource } from "../src/data-source"
 
 import { Category, Question, Role, Permission, User } from "../src/entity";
 
 import { generateUser } from "./fixtures";
 
 describe("many-to-many", () => {
-  let connection: Connection;
+  let ds: DataSource;
 
   let categoryRepository: Repository<Category>;
   let questionRepository: Repository<Question>;
@@ -19,18 +21,18 @@ describe("many-to-many", () => {
   let userRepository: Repository<User>;
 
   before(async () => {
-    connection = await createConnection();
+    ds = await AppDataSource.initialize();
 
-    categoryRepository = connection.getRepository(Category);
-    questionRepository = connection.getRepository(Question);
+    categoryRepository = ds.getRepository(Category);
+    questionRepository = ds.getRepository(Question);
 
-    roleRepository = connection.getRepository(Role);
-    permissionRepository = connection.getRepository(Permission);
-    userRepository = connection.getRepository(User);
+    roleRepository = ds.getRepository(Role);
+    permissionRepository = ds.getRepository(Permission);
+    userRepository = ds.getRepository(User);
   });
 
   after(async () => {
-    await connection.close();
+    await ds.destroy();
   });
 
   describe("Category_Question", function () {
@@ -116,11 +118,11 @@ describe("many-to-many", () => {
       permissionB.roles.push(roleB);
       permissionB = await permissionRepository.save(permissionB);
 
-      const { user } = await generateUser(connection);
+      const { user } = await generateUser(ds);
       user.roles = [roleA];
       await userRepository.save(user);
 
-      const payload = await generateUser(connection, { roles: [roleB] });
+      const payload = await generateUser(ds, { roles: [roleB] });
       payload.user.roles.push(roleA);
       await userRepository.save(payload.user);
 

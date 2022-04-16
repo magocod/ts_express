@@ -1,26 +1,28 @@
 import { assert } from "chai";
 
-import faker from "faker";
+import { faker } from "@faker-js/faker";
 
-import { createConnection, Connection, Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
+
+import { AppDataSource } from "../src/data-source"
 
 import { Profile, User } from "../src/entity";
 
 import { chance } from "./fixtures";
 
 describe("one-to-one", () => {
-  let connection: Connection;
+  let ds: DataSource;
   let profileRepository: Repository<Profile>;
   let userRepository: Repository<User>;
 
   before(async function () {
-    connection = await createConnection();
-    profileRepository = connection.getRepository(Profile);
-    userRepository = connection.getRepository(User);
+    ds = await AppDataSource.initialize();
+    profileRepository = ds.getRepository(Profile);
+    userRepository = ds.getRepository(User);
   });
 
   after(async function () {
-    await connection.close();
+    await ds.destroy();
   });
 
   it("repository create", async () => {

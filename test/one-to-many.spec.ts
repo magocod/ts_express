@@ -1,32 +1,34 @@
 import { assert } from "chai";
 
-import faker from "faker";
+import { faker } from "@faker-js/faker";
 
-import { createConnection, Connection, Repository, In } from "typeorm";
+import { DataSource, Repository, In } from "typeorm";
+
+import { AppDataSource } from "../src/data-source"
 
 import { Photo, User, PhotoType } from "../src/entity";
 
 import { generateUser } from "./fixtures/user";
 
 describe("one-to-many", () => {
-  let connection: Connection;
+  let ds: DataSource;
   let photoRepository: Repository<Photo>;
   let photoTypeRepository: Repository<PhotoType>;
   let userRepository: Repository<User>;
 
   before(async () => {
-    connection = await createConnection();
-    photoRepository = connection.getRepository(Photo);
-    photoTypeRepository = connection.getRepository(PhotoType);
-    userRepository = connection.getRepository(User);
+    ds = await AppDataSource.initialize();
+    photoRepository = ds.getRepository(Photo);
+    photoTypeRepository = ds.getRepository(PhotoType);
+    userRepository = ds.getRepository(User);
   });
 
   after(async () => {
-    await connection.close();
+    await ds.destroy();
   });
 
   it("repository create", async () => {
-    const { user } = await generateUser(connection);
+    const { user } = await generateUser(ds);
 
     const photoType = await photoTypeRepository.save(
       await photoTypeRepository.create({

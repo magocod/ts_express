@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 
 import { GenericResponse } from "../interfaces";
-import { getRepository } from "typeorm";
 import { User, Token } from "../entity";
+
+import { AppDataSource } from "../data-source";
 
 import { generateToken, getResponseLocalUser } from "../services/auth";
 
@@ -26,8 +27,8 @@ export async function signup(req: Request, res: Response): GenericResponse {
 
 export async function login(req: Request, res: Response): GenericResponse {
   try {
-    const userRepository = getRepository(User);
-    const tokenRepository = getRepository(Token);
+    const userRepository = AppDataSource.getRepository(User);
+    const tokenRepository = AppDataSource.getRepository(Token);
 
     const credentials: { email: string; password: string } = {
       email: req.body.email,
@@ -85,7 +86,7 @@ export async function currentUser(
   res: Response
 ): GenericResponse {
   try {
-    const userRepository = getRepository(User);
+    const userRepository = AppDataSource.getRepository(User);
     const localUser = getResponseLocalUser(res);
 
     const user = await userRepository.findOne({

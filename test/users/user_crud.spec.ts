@@ -3,7 +3,7 @@ import { assert } from "chai";
 import supertest from "supertest";
 
 import { asyncCreateApp } from "../../src/factory";
-import { Connection, getConnection } from "typeorm";
+import { DataSource } from "typeorm";
 
 import { generateUser, chance } from "../fixtures";
 import { addQueryString, basicPagination } from "../helpers";
@@ -29,17 +29,16 @@ function generateRequest(): RequestData {
 
 describe("user_crud", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
-  let conn: Connection;
+  let ds: DataSource;
 
   before(async () => {
-    const { app, connection } = await asyncCreateApp();
-    conn = connection;
+    const { app, dataSource } = await asyncCreateApp();
+    ds = dataSource;
     httpClient = supertest(app);
   });
 
   after(async () => {
-    // await getConnection().close();
-    await conn.close()
+    await ds.destroy()
   });
 
   describe("findAll", function () {
@@ -97,12 +96,12 @@ describe("user_crud", function () {
     requestData.password = "123";
     const response = await httpClient.post(baseRoute).send(requestData);
 
-    // console.log(JSON.stringify(response.body, null, 2));
+    console.log(JSON.stringify(response.body, null, 2));
     assert.equal(response.status, 200);
-  });
+  })
 
   it("find", async function () {
-    const { user } = await generateUser(conn);
+    const { user } = await generateUser(ds);
     const userId = user.id;
     const response = await httpClient.get(`${baseRoute}/${userId}`);
 
@@ -120,7 +119,7 @@ describe("user_crud", function () {
 
   it("update", async function () {
     const requestData = generateRequest();
-    const { user } = await generateUser(conn);
+    const { user } = await generateUser(ds);
     // console.log(JSON.stringify(user, null, 2));
     const userId = user.id;
 
@@ -145,7 +144,7 @@ describe("user_crud", function () {
   });
 
   it("delete", async function () {
-    const { user } = await generateUser(conn);
+    const { user } = await generateUser(ds);
     const userId = user.id;
     const response = await httpClient.delete(`${baseRoute}/${userId}`);
 
