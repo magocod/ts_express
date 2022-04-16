@@ -20,12 +20,14 @@ export class RoleMigration1641045853032 implements MigrationInterface {
                   },
                   {
                       name: "createdAt",
-                      type: "datetime",
+                      // type: "datetime", // pg error
+                      type: "timestamp",
                       default: "now()",
                   },
                   {
                       name: "updatedAt",
-                      type: "datetime",
+                      // type: "datetime", // pg error
+                      type: "timestamp",
                       default: "now()",
                   },
               ],

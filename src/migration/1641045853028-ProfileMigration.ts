@@ -19,12 +19,14 @@ export class ProfileMigration1641045853028 implements MigrationInterface {
           },
           {
             name: "created_at",
-            type: "datetime",
+            // type: "datetime", // pg error
+            type: "timestamp",
             default: "now()",
           },
           {
             name: "updated_at",
-            type: "datetime",
+            // type: "datetime", // pg error
+            type: "timestamp",
             default: "now()",
           },
         ],

@@ -43,12 +43,14 @@ export class UserMigration1641045853029 implements MigrationInterface {
           },
           {
             name: "createdAt",
-            type: "datetime",
+            // type: "datetime", // pg error
+            type: "timestamp",
             default: "now()",
           },
           {
             name: "updatedAt",
-            type: "datetime",
+            // type: "datetime", // pg error
+            type: "timestamp",
             default: "now()",
           },
         ],

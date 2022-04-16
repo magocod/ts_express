@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HttpController, GenericResponse } from "../interfaces";
 
-import { CountryId } from "../../src/constants";
+import { CountryId } from "../constants";
 
 import {
   // dataSourceFactory,

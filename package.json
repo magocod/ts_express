@@ -19,9 +19,9 @@
     "test_many_to_many": "mocha -r ts-node/register test/many-to-many.spec.ts",
     "test:coverage": "nyc npm run test",
     "typeorm": "typeorm-ts-node-commonjs",
-    "migration:run": "typeorm migration:run -d dist/data-source.js",
     "migration:run:arg": "typeorm migration:run -d dist/data_source/arg.source.js",
     "migration:run:mx": "typeorm migration:run -d dist/data_source/mx.source.js",
+    "migration:run": "typeorm migration:run -d dist/data-source.js",
     "build:migration:run": "npm run build & migration:run"
   },
   "dependencies": {
