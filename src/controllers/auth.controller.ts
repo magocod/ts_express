@@ -4,10 +4,29 @@ import { GenericResponse } from "../interfaces";
 
 export async function signup(req: Request, res: Response): Promise<void> {
   console.log("Register User");
+  // sync code ...
   res.send("Register User");
 }
 
 export async function login(req: Request, res: Response): GenericResponse {
   console.log("Login");
-  return res.json({  message: 'message' });
+  // async code ...
+  return res.json({ message: "message" });
+}
+
+export async function logout(req: Request, res: Response): GenericResponse {
+  try {
+    // sync | async code ...
+    return res.status(500).json({ message: "...", data: {} });
+  } catch (err) {
+    let message = "...";
+    if (err instanceof Error) {
+      message = err.message;
+    }
+
+    return res.status(500).send({
+      message,
+      error: message,
+    });
+  }
 }

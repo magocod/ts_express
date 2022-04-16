@@ -5,6 +5,12 @@ import supertest from "supertest";
 const httpClient = supertest(app);
 
 describe("sample", function () {
+  it("base url", async function () {
+    const response = await supertest(app).get("/");
+    // console.log(response.body);
+    assert.equal(response.status, 200);
+  });
+
   it("responds with json", async function () {
     const response = await supertest(app).get("/test");
     // console.log(response.body);
@@ -27,5 +33,11 @@ describe("sample", function () {
     const response = await httpClient.get("/next_error");
     // console.log(response.body);
     assert.equal(response.status, 500);
+  });
+
+  it("responds with internal error, sync | async code, without errorHandler", async function () {
+    const response = await httpClient.get("/suppress_error");
+    // console.log(response.body);
+    assert.equal(response.status, 400);
   });
 });

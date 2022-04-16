@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { HttpController, GenericResponse } from "../interfaces";
 
+// example class - without errorHandler
+
 export class UserController implements HttpController {
   async findAll(req: Request, res: Response): GenericResponse {
     try {
