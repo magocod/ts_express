@@ -32,21 +32,21 @@ routes.get(
 );
 
 async function exampleHandler(req: Request, res: Response) {
-    try {
-        await Promise.reject(new Error('fail'))
-        return res.json({})
-    } catch (err) {
-        // console.log(err)
-        let message = "...";
-        if (err instanceof Error) {
-            message = err.message;
-        }
-
-        return res.status(400).send({
-            message,
-            error: message,
-        });
+  try {
+    await Promise.reject(new Error("fail"));
+    return res.json({});
+  } catch (err) {
+    // console.log(err)
+    let message = "...";
+    if (err instanceof Error) {
+      message = err.message;
     }
+
+    return res.status(400).send({
+      message,
+      error: message,
+    });
+  }
 }
 
 // handle sync|async error, without errorHandler
