@@ -1,5 +1,11 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
+dotenv.config();
+
 import { DataSource } from "typeorm";
+
+const entitiesPath =
+  process.env.NODE_ENV === "testing" ? "src/entity/**/*.ts" : "dist/entity/**/*.js";
 
 // export const argDataSource = new DataSource({
 //   // name: "default",
@@ -27,8 +33,9 @@ export const argDataSource = new DataSource({
   database: "typeorm_arg",
   synchronize: false,
   logging: false,
-  entities: ["src/entity/**/*.ts"],
+  // entities: ["src/entity/**/*.ts"],
   // entities: ["dist/entity/**/*.js"],
+  entities: [entitiesPath],
   migrations: ["dist/migration/**/*.js"],
   subscribers: [],
 });

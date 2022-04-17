@@ -21,13 +21,15 @@ export class PermissionMigration1641045853033 implements MigrationInterface {
                   {
                       name: "createdAt",
                       // type: "datetime", // pg error
-                      type: "timestamp",
+                      // type: "timestamp",
+                      type: "timestamp with time zone", // pg only
                       default: "now()",
                   },
                   {
                       name: "updatedAt",
                       // type: "datetime", // pg error
-                      type: "timestamp",
+                      // type: "timestamp",
+                      type: "timestamp with time zone", // pg only
                       default: "now()",
                   },
               ],
