@@ -18,6 +18,7 @@ import bcrypt from "bcrypt";
 import { Profile } from "./Profile";
 import { Photo } from "./Photo";
 import { Role } from "./Role";
+import { Dummy } from "./Dummy";
 
 @Entity("user")
 export class User {
@@ -46,6 +47,9 @@ export class User {
 
   @OneToMany(() => Photo, (photo: Photo) => photo.user)
   photos: Photo[];
+
+  @OneToMany(() => Dummy, (dummy: Dummy) => dummy.user)
+  dummies: Dummy[];
 
   @ManyToMany(() => Role, (role: Role) => role.users)
   roles: Role[];

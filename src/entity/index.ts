@@ -7,3 +7,4 @@ export * from "./PhotoType";
 export * from "./Token";
 export * from "./Role";
 export * from "./Permission";
+export * from "./Dummy";
