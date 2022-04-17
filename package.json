@@ -21,6 +21,8 @@
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run:arg": "typeorm migration:run -d dist/data_source/arg.source.js",
     "migration:run:mx": "typeorm migration:run -d dist/data_source/mx.source.js",
+    "migration:show:arg": "typeorm migration:show -d dist/data_source/arg.source.js",
+    "migration:show:mx": "typeorm migration:show -d dist/data_source/mx.source.js",
     "migration:run": "typeorm migration:run -d dist/data-source.js",
     "build:migration:run": "npm run build & migration:run"
   },

@@ -1,5 +1,11 @@
 # typeorm cli
 
+## show
+
+```
+typeorm schema:show -d dist/data_source/source.js
+```
+
 ## migrate
 
 ```
