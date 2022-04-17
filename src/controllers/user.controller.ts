@@ -47,6 +47,7 @@ export class UserController implements HttpController {
       // const result = await this.userRepository().find({
       //   relations: ["photos", "profile"],
       // });
+      // custom repository
       const result = await UserRepository.findAll(req);
       return res.json({ message: "...", data: result });
     } catch (err) {
