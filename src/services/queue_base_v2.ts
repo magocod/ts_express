@@ -1,5 +1,5 @@
-import { QueueWrapper } from "../interfaces";
-import Queue from "bull";
+import { QueueWrapperV2 } from "../interfaces";
+import { Queue } from "bullmq";
 
 // FIXME env - redis
 // TODO bull - reusable client
@@ -9,11 +9,10 @@ import Queue from "bull";
 // FIXME exception - reuse
 const queueException = "queue not initialized";
 
-/**
- * prefer to use bullmq - BaseQueueV2
- */
-export abstract class BaseQueue<T> implements QueueWrapper<T> {
-  protected _queue: Queue.Queue<T> | undefined;
+export abstract class BaseQueueV2<T, R, N extends string>
+  implements QueueWrapperV2<T, R, N>
+{
+  protected _queue: Queue<T, R, N> | undefined;
 
   // don't use constructor to start redis connection
   // don't do this, this.boot in the constructor
@@ -24,7 +23,7 @@ export abstract class BaseQueue<T> implements QueueWrapper<T> {
     throw new Error("not implemented");
   }
 
-  instance(): Queue.Queue<T> {
+  instance(): Queue<T, R, N> {
     if (this._queue === undefined) {
       throw new Error(queueException);
     }

@@ -1,4 +1,4 @@
-import { QueueWrapper } from "../interfaces";
+// import { QueueWrapper } from "../interfaces";
 import Queue from "bull";
 import { delay } from "../utils";
 

@@ -68,6 +68,13 @@ if (ACTIVE_QUEUE) {
       .catch((error) => {
         console.log(error);
       });
+
+    poolV2
+      .paintQueue()
+      .add("cars", { color: "blue" }, { repeat: { cron: "* * * * * *" } })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 } else {
   console.log("queues disabled");

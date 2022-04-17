@@ -1,5 +1,7 @@
 import { Queue } from "bull";
 
+import { Queue as QueueMq } from "bullmq";
+
 export interface QueuePoolWrapper {
   /**
    * start queues
@@ -27,4 +29,11 @@ export interface QueueWrapper<T> extends QueuePoolWrapper {
    * get queue instance, throw error if not started
    */
   instance(): Queue<T>;
+}
+
+export interface QueueWrapperV2<T, R, N extends string> extends QueuePoolWrapper {
+  /**
+   * get queue instance, throw error if not started
+   */
+  instance(): QueueMq<T, R, N>;
 }

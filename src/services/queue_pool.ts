@@ -29,6 +29,9 @@ export interface MultiplyQueueParams {
 // FIXME exception - reuse
 const queueException = "queue not initialized";
 
+/**
+ * @deprecated use QueuePoolV2
+ */
 export class QueuePool implements QueuePoolWrapper {
   private _minusQueue: Queue.Queue<MinusQueueParams> | undefined;
   private _multiplyQueue: Queue.Queue<MultiplyQueueParams> | undefined;
@@ -187,4 +190,7 @@ export class QueuePool implements QueuePoolWrapper {
   }
 }
 
+/**
+ * @deprecated use QueuePoolV2
+ */
 export const pool = new QueuePool();

@@ -32,6 +32,7 @@
     "@types/nodemailer": "^6.4.4",
     "bcrypt": "^5.0.1",
     "bull": "^4.7.0",
+    "bullmq": "^1.80.3",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.5",
     "cors": "^2.8.5",
@@ -70,7 +71,6 @@
     "nyc": "^15.1.0",
     "prettier": "2.5.1",
     "sinon": "^13.0.1",
-    "sequelize-cli": "^6.3.0",
     "socket.io-client": "^4.4.1",
     "supertest": "^6.2.2",
     "ts-node": "^10.1.0"
