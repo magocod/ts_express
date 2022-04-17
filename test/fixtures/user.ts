@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { Profile, User, Role } from "../../src/entity";
+import { Profile, User, Role, Permission } from "../../src/entity";
 import { DataSource } from "typeorm";
 
 import { chance } from "./index";
@@ -58,4 +58,35 @@ export async function generateUser(
  */
 export function generateAuthHeader(tk: string): string {
   return `Bearer ${tk}`;
+}
+
+export async function generateRole(
+  dataSource: DataSource,
+  // config: {
+  //   permissions: 0;
+  // }
+) {
+  const roleRepository = dataSource.getRepository(Role);
+  const permissionRepository = dataSource.getRepository(Permission);
+
+  const pA = permissionRepository.create({
+    name: faker.datatype.uuid(),
+  });
+  await permissionRepository.save(pA);
+
+  const role = roleRepository.create({
+    name: faker.datatype.uuid(),
+    permissions: [pA],
+  });
+  await roleRepository.save(role);
+
+  const pB = permissionRepository.create({
+    name: faker.datatype.uuid(),
+  });
+  await permissionRepository.save(pB);
+
+  role.permissions.push(pB);
+  await roleRepository.save(role);
+
+  return { role }
 }

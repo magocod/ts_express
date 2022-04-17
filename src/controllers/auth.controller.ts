@@ -94,6 +94,13 @@ export async function currentUser(
 
     const user = await userRepository.findOne({
       where: { id: localUser.id },
+      relations: {
+        photos: true,
+        profile: true,
+        roles: {
+          permissions: true,
+        }
+      }
     });
 
     return res.json({ message: "...", data: user });

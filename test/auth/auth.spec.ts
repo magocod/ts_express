@@ -6,7 +6,7 @@ import { generateToken } from "../../src/services/auth";
 
 import { User } from "../../src/entity";
 
-import { generateUser, generateAuthHeader } from "../fixtures";
+import { generateUser, generateAuthHeader, generateRole } from "../fixtures";
 
 function generateRequest(user: User, password = "123") {
   return {
@@ -62,13 +62,15 @@ describe("auth", function () {
 
   describe("header and token verification", function () {
     it("valid token", async function () {
-      const { token } = await generateUser(ds.argDs);
+      const { role } = await generateRole(ds.argDs);
+      const { token } = await generateUser(ds.argDs, { roles: [role] });
 
       const response = await httpClient
         .get(`${baseRoute}/current_user`)
         .set("Authorization", generateAuthHeader(token));
 
       // console.log(response.body);
+      // console.log(JSON.stringify(response.body, null, 2));
       assert.equal(response.status, 200);
       // assert.equal(response.body, response.body, "response.body");
     });

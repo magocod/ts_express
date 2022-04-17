@@ -7,7 +7,10 @@ import {
   OneToMany,
   BeforeInsert,
   BeforeUpdate,
-  BaseEntity, CreateDateColumn, UpdateDateColumn, ManyToMany
+  // BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToMany,
 } from "typeorm";
 
 import bcrypt from "bcrypt";
@@ -17,7 +20,8 @@ import { Photo } from "./Photo";
 import { Role } from "./Role";
 
 @Entity("user")
-export class User extends BaseEntity {
+export class User {
+  // export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -47,10 +51,10 @@ export class User extends BaseEntity {
   roles: Role[];
 
   @CreateDateColumn()
-  createdAt: Date
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date
+  updatedAt: Date;
 
   @BeforeInsert()
   @BeforeUpdate()

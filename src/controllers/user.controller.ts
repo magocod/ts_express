@@ -125,6 +125,7 @@ export class UserController implements HttpController {
         relations: ["photos", "profile"],
       });
 
+      // active record
       // const user = await User.findOne({
       //   where: { id: parseInt(req.params.id) },
       //   relations: ["photos", "profile"],
@@ -142,6 +143,7 @@ export class UserController implements HttpController {
       const result = await this.userRepository().save(user);
       // const result = await this.userRepository().update({ id: user.id }, req.body);
 
+      // active record
       // user.firstName = req.body.firstName;
       // user.lastName = req.body.lastName;
       // const result = await user.save();
