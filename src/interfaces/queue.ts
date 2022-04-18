@@ -1,6 +1,6 @@
 import { Queue } from "bull";
 
-import { Queue as QueueMq } from "bullmq";
+import {Queue as QueueMq, QueueScheduler} from "bullmq";
 
 export interface QueuePoolWrapper {
   /**
@@ -36,4 +36,14 @@ export interface QueueWrapperV2<T, R, N extends string> extends QueuePoolWrapper
    * get queue instance, throw error if not started
    */
   instance(): QueueMq<T, R, N>;
+
+  /**
+   * get instance, task scheduler, throw error if not started
+   */
+  scheduler(): QueueScheduler;
+
+  // /**
+  //  * get instance, default worker, throw error if not started
+  //  */
+  // scheduler(): QueueScheduler;
 }

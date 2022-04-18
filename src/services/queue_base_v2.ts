@@ -1,5 +1,5 @@
 import { QueueWrapperV2 } from "../interfaces";
-import { Queue } from "bullmq";
+import { Queue, QueueScheduler, Worker } from "bullmq";
 
 // FIXME env - redis
 // TODO bull - reusable client
@@ -13,6 +13,8 @@ export abstract class BaseQueueV2<T, R, N extends string>
   implements QueueWrapperV2<T, R, N>
 {
   protected _queue: Queue<T, R, N> | undefined;
+  protected _worker: Worker<T, R, N> | undefined;
+  protected _queueScheduler: QueueScheduler | undefined;
 
   // don't use constructor to start redis connection
   // don't do this, this.boot in the constructor
@@ -30,12 +32,28 @@ export abstract class BaseQueueV2<T, R, N extends string>
     return this._queue;
   }
 
-  close(): Promise<void> {
-    return this.instance().close();
+  scheduler(): QueueScheduler {
+    if (this._queueScheduler === undefined) {
+      throw new Error(queueException);
+    }
+    return this._queueScheduler;
+  }
+
+  worker(): Worker<T, R, N> {
+    if (this._worker === undefined) {
+      throw new Error(queueException);
+    }
+    return this._worker;
+  }
+
+  async close(): Promise<void> {
+    await this.scheduler().close();
+    await this.worker().close();
+    await this.instance().close();
   }
 
   async clean(): Promise<void> {
-    throw new Error("not implemented");
+    await this.instance().drain();
   }
 
   async resume(): Promise<void> {

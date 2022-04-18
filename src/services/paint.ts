@@ -1,6 +1,13 @@
 // import { QueueWrapperV2 } from "../interfaces";
 import { BaseQueueV2 } from "./queue_base_v2";
-import { Queue, Worker, QueueEvents, Job, ConnectionOptions } from "bullmq";
+import {
+  Queue,
+  Worker,
+  QueueEvents,
+  Job,
+  ConnectionOptions,
+  QueueScheduler,
+} from "bullmq";
 import { delay } from "../utils";
 
 // FIXME env - redis
@@ -66,7 +73,7 @@ export class PaintQueue extends BaseQueueV2<
     );
     // paintQueue.add('cars', { color: '' });
 
-    const _ = new Worker<PaintParams, PaintResult, PaintJobName>(
+    const worker = new Worker<PaintParams, PaintResult, PaintJobName>(
       queueName,
       async (job) => {
         let rs: PaintResult;
@@ -86,7 +93,8 @@ export class PaintQueue extends BaseQueueV2<
     const queueEvents = new QueueEvents(queueName, { connection });
 
     queueEvents.on("completed", async (result) => {
-      console.log("done painting");
+      // console.log("done painting");
+      console.log(`paint Job with id ${result.jobId} has been completed`);
       console.log(result);
       const job = await Job.fromId<PaintParams, PaintResult, PaintJobName>(
         paintQueue,
@@ -98,11 +106,16 @@ export class PaintQueue extends BaseQueueV2<
     });
 
     queueEvents.on("failed", (result) => {
-      console.log("error painting");
+      // console.log("error painting");
+      console.log(`paint Job with id ${result.jobId} has been failed`);
       console.log(result);
     });
 
+    const queueScheduler = new QueueScheduler("Paint", { connection });
+
     this._queue = paintQueue;
+    this._queueScheduler = queueScheduler;
+    this._worker = worker;
   }
 }
 

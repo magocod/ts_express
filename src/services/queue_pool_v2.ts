@@ -2,6 +2,10 @@ import { DivisionQueue, divisionQueue } from "./division_queue";
 import { PaintQueue, paintQueue } from "./paint";
 import { QueuePoolWrapper } from "../interfaces";
 
+const cronConfig = {
+  cron: "* * * * * *",
+};
+
 export class QueuePoolV2 implements QueuePoolWrapper {
   private _divisionQueue: DivisionQueue;
   private _paintQueue: PaintQueue;
@@ -28,6 +32,8 @@ export class QueuePoolV2 implements QueuePoolWrapper {
 
   async clean(): Promise<void> {
     // ...
+    await this._paintQueue.clean();
+    await this._paintQueue.instance().removeRepeatable("cars", cronConfig);
     await this.close();
   }
 
