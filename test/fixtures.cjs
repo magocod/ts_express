@@ -1,7 +1,7 @@
 exports.mochaGlobalSetup = function () {
-  // pass
+  console.log("GlobalSetup from js");
 };
 
 exports.mochaGlobalTeardown = function () {
-  // pass
+  console.log("GlobalTeardown from js");
 };
