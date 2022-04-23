@@ -6,12 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import cookieParser from "cookie-parser";
-import express, {
-  ErrorRequestHandler,
-  Request,
-  Response,
-  NextFunction,
-} from "express";
+import express, { ErrorRequestHandler } from "express";
 import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
@@ -21,43 +16,15 @@ import cors from "cors";
 
 // import middleware from "./middleware";
 // import { applyMiddleware } from "./utils";
+import { rateLimiterMiddleware } from "./middleware";
 
 import indexRouter from "./routes/index";
 
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
 
-// update to redis
-import { RateLimiterMemory, IRateLimiterOptions } from "rate-limiter-flexible";
-
-const opts: IRateLimiterOptions = {
-  points: 10, // points
-  duration: 1, // Per second
-};
-
-const rateLimiter = new RateLimiterMemory(opts);
-
-async function rateLimiterMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    // console.log(req.ip);
-    await rateLimiter.consume(req.ip);
-    next();
-  } catch (e) {
-    console.log(e);
-    return res
-      .status(429)
-      .json({ message: "Too Many Requests", error: "Too Many Requests" });
-  }
-}
-
 // express instance
 const app = express();
-
-app.use(rateLimiterMiddleware);
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -75,6 +42,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(helmet());
 app.use(cors());
+app.use(rateLimiterMiddleware);
 
 // routes
 app.use("/", indexRouter);
