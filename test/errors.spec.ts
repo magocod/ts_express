@@ -3,7 +3,7 @@ import { assert } from "chai";
 import { CustomError, ExampleError, BaseError } from "../src/error";
 import { createApp } from "../src/app.factory";
 import supertest from "supertest";
-import { Request, Response } from "express";
+// import { Request, Response } from "express";
 
 function callCustomError() {
   throw new CustomError("fn", "fnMessage");
