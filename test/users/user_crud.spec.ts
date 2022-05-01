@@ -1,12 +1,18 @@
 import { assert } from "chai";
-import app from "../../src/app";
 import supertest from "supertest";
 
-const httpClient = supertest(app);
+import { createApp } from "../../src/app.factory";
 
 const baseRoute = "/users";
 
 describe("user_crud", function () {
+  let httpClient: supertest.SuperTest<supertest.Test>;
+
+  before(async function () {
+    const app = await createApp();
+    httpClient = supertest(app);
+  });
+
   it("findAll", async function () {
     const response = await httpClient.get(baseRoute);
 

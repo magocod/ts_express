@@ -1,6 +1,9 @@
 import { assert } from "chai";
 
-import { CustomError, ExampleError,BaseError } from "../src/error";
+import { CustomError, ExampleError, BaseError } from "../src/error";
+import { createApp } from "../src/app.factory";
+import supertest from "supertest";
+import { Request, Response } from "express";
 
 function callCustomError() {
   throw new CustomError("fn", "fnMessage");
@@ -11,6 +14,17 @@ function callExampleError() {
 }
 
 describe("errors", function () {
+  let httpClient: supertest.SuperTest<supertest.Test>;
+
+  before(async function () {
+    const app = await createApp();
+    // app.get("/sync", (_req: Request, res: Response) => {
+    //   callExampleError();
+    //   res.json({});
+    // });
+    httpClient = supertest(app);
+  });
+
   describe("custom_error", function () {
     it("throw", function () {
       try {
@@ -82,6 +96,18 @@ describe("errors", function () {
           assert.equal(e.name, "ExampleError");
         }
       }
+    });
+
+    it("with express, sync code", async function () {
+      const response = await httpClient.get("/sync_error");
+      // console.log(response.body);
+      assert.equal(response.status, 500);
+    });
+
+    it("with express, async code", async function () {
+      const response = await httpClient.get("/async_error");
+      // console.log(response.body);
+      assert.equal(response.status, 500);
     });
   });
 });

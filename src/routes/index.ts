@@ -1,6 +1,7 @@
 import { Request, Response, Router, NextFunction } from "express";
 
 import { promises as fs } from "fs";
+import { ExampleError } from "../error";
 
 const routes = Router();
 
@@ -51,5 +52,29 @@ async function exampleHandler(req: Request, res: Response) {
 
 // handle sync|async error, without errorHandler
 routes.get("/suppress_error", exampleHandler);
+
+// custom errors
+
+function callExampleError() {
+  throw new ExampleError();
+}
+
+async function asyncCallExampleError() {
+  throw new ExampleError();
+}
+
+routes.get("/sync_error", (_req: Request, res: Response) => {
+  callExampleError();
+  res.json({});
+});
+
+routes.get("/async_error", async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    await asyncCallExampleError();
+    res.json({});
+  } catch (e) {
+    next(e);
+  }
+});
 
 export default routes;

@@ -1,8 +1,13 @@
 // update to redis
-import { RateLimiterMemory, IRateLimiterOptions } from "rate-limiter-flexible";
-import { NextFunction, Request, Response } from "express";
+import { IRateLimiterOptions, RateLimiterMemory } from "rate-limiter-flexible";
+import { NextFunction, Request, Response, Handler } from "express";
 
 const opts: IRateLimiterOptions = {
+  points: 10, // points
+  duration: 1, // Per second
+};
+
+const isolatedOpts: IRateLimiterOptions = {
   points: 10, // points
   duration: 1, // Per second
 };
@@ -24,4 +29,20 @@ export async function rateLimiterMiddleware(
       .status(429)
       .json({ message: "Too Many Requests", error: "Too Many Requests" });
   }
+}
+
+export function isolatedRateLimiterMiddleware(): Handler {
+  const limiter = new RateLimiterMemory(isolatedOpts);
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // console.log(req.ip);
+      await limiter.consume(req.ip);
+      next();
+    } catch (e) {
+      console.log(e);
+      return res
+        .status(429)
+        .json({ message: "Too Many Requests", error: "Too Many Requests" });
+    }
+  };
 }
