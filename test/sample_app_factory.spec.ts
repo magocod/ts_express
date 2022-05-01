@@ -6,8 +6,8 @@ import { createApp } from "../src/app.factory";
 describe("sample_app_factory.", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
 
-  before(async function () {
-    const app = await createApp();
+  before(function () {
+    const app = createApp();
     httpClient = supertest(app);
   });
 
