@@ -24,6 +24,13 @@ describe("sample_app_factory.", function () {
     assert.deepEqual(response.body, { prop: "hello test" }, "response.body");
   });
 
+  it("responds with 404", async function () {
+    const response = await httpClient.get("/not_found");
+    // console.log(response.body);
+    assert.equal(response.status, 404);
+    assert.deepEqual(response.body, { message: "Not Found" }, "response.body");
+  });
+
   it("responds with internal error", async function () {
     const response = await httpClient.get("/error");
     // console.log(response.body);
