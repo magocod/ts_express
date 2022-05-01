@@ -68,13 +68,16 @@ routes.get("/sync_error", (_req: Request, res: Response) => {
   res.json({});
 });
 
-routes.get("/async_error", async (_req: Request, res: Response, next: NextFunction) => {
-  try {
-    await asyncCallExampleError();
-    res.json({});
-  } catch (e) {
-    next(e);
+routes.get(
+  "/async_error",
+  async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      await asyncCallExampleError();
+      res.json({});
+    } catch (e) {
+      next(e);
+    }
   }
-});
+);
 
 export default routes;
