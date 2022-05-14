@@ -11,11 +11,11 @@
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "build": "tsc --p tsconfig.build.json",
     "build:start": "npm run build & npm run start",
-    "test": "mocha --require test/fixtures.cjs -r ts-node/register test/**/*.spec.ts",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts",
     "test:coverage": "nyc npm run test",
-    "test:parallel": "mocha --parallel --require test/fixtures.cjs -r ts-node/register test/**/*.spec.ts",
+    "test:parallel": "mocha --parallel -r ts-node/register test/**/*.spec.ts",
     "test_sample": "mocha -r ts-node/register test/sample.spec.ts",
-    "test_only_file": "mocha --require test/fixtures.cjs -r ts-node/register test/sample.spec.ts"
+    "test_only_file": "mocha -r ts-node/register test/sample.spec.ts"
   },
   "dependencies": {
     "compression": "^1.7.4",
