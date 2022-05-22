@@ -48,6 +48,7 @@
     "http-errors": "~1.8.0",
     "jade": "^0.31.2",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.3",
     "morgan": "~1.10.0",
     "mysql": "^2.18.1",
     "passport": "^0.5.2",

@@ -18,9 +18,9 @@ export class UserController implements HttpController {
   private _userRepository?: Repository<User> = undefined;
   private _profileRepository?: Repository<Profile> = undefined;
 
-  constructor() {
-    console.log("AppDataSource.isInitialized", AppDataSource.isInitialized);
-  }
+  // constructor() {
+  //   // console.log("AppDataSource.isInitialized", AppDataSource.isInitialized);
+  // }
 
   userRepository(): Repository<User> {
     console.log("userRepository", "call");

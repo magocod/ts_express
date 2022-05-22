@@ -21,15 +21,19 @@ import router from "./routes/index";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import categoryRouter from "./routes/category";
+import jwtRouter from "./routes/jwt";
 
 // import { applyMiddleware } from "./utils";
 
 // import { Connection, createConnection } from "typeorm";
 import { initializeAll, DataSourceGroup } from "./data_source";
-import { DataSource } from "typeorm";
+// import { DataSource } from "typeorm";
 
 // import { root } from './paths'
 // console.log(path.join(root, '/folder', 'resource.ext'))
+
+import passport from 'passport';
+import { setupJwtPassport } from './services/auth-passport'
 
 export function createApp(): Express.Application {
   // express instance
@@ -58,6 +62,8 @@ export function createApp(): Express.Application {
   // middleware
   // applyMiddleware(middleware, app);
 
+  setupJwtPassport(passport);
+
   // config
   app.use(logger("dev"));
   app.use(express.json());
@@ -79,6 +85,7 @@ export function createApp(): Express.Application {
   app.use("/auth", authRouter);
   app.use("/users", userRouter);
   app.use("/categories", categoryRouter);
+  app.use("/jwt", jwtRouter);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {

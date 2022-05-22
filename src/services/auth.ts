@@ -4,14 +4,26 @@ import { User } from "../entity";
 import { ResponseLocalUser } from "../interfaces";
 
 import { Request, Response, NextFunction } from "express";
+import moment from "moment";
+
+import { randomString } from '../utils'
 
 // const rounds = 10;
 const tokenSecret = "my-token-secret";
 
 export function generateToken(user: User, secret = tokenSecret): string {
-  return jwt.sign({ user: { id: user.id, email: user.email } }, secret, {
-    expiresIn: "24h",
-  });
+  const timestamp = moment().utc().unix();
+  return jwt.sign(
+    {
+      user: { id: user.id, email: user.email },
+      timestamp: timestamp,
+      k: randomString()
+    },
+    secret,
+    {
+      expiresIn: "24h",
+    }
+  );
 }
 
 export function verifyToken(
@@ -66,12 +78,10 @@ export async function isAuthenticated(
     // const result = await verifyToken(token);
 
     if (typeof result === "string") {
-      return res
-        .status(403)
-        .json({
-          message: "please provide a valid token",
-          error: "invalid token content",
-        });
+      return res.status(403).json({
+        message: "please provide a valid token",
+        error: "invalid token content",
+      });
     }
 
     res.locals.user = result.user;

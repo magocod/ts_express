@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import { Profile, User, Role, Permission } from "../../src/entity";
+import {Profile, User, Role, Permission, Token} from "../../src/entity";
 import { DataSource } from "typeorm";
 
 import { chance } from "./index";
@@ -15,6 +15,7 @@ interface GenerateTestUser {
 
 interface ConfigTestUser {
   roles?: Role[];
+  // tokenInDb: false, // token in db
 }
 
 /**
@@ -26,10 +27,12 @@ export async function generateUser(
   dataSource: DataSource,
   config: ConfigTestUser = {
     roles: [],
+    // token: false,
   }
 ): Promise<GenerateTestUser> {
   const profileRepository = dataSource.getRepository(Profile);
   const userRepository = dataSource.getRepository(User);
+  const tokenRepository = dataSource.getRepository(Token);
 
   const profileBase = profileRepository.create({
     name: faker.animal.fish(),
@@ -48,6 +51,8 @@ export async function generateUser(
   const user = await userRepository.save(userBase);
 
   const token = generateToken(user);
+  const tk = tokenRepository.create({ token, user });
+  await tokenRepository.save(tk);
 
   return { user, profile, token };
 }
