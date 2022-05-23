@@ -1,5 +1,13 @@
 {
   "exclude": ["./test"],
+  "include": ["src", "types"],
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": false,
+    "files": true,
+    "include": ["src", "types"]
+  },
   "compilerOptions": {
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */

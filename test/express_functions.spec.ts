@@ -12,14 +12,14 @@ describe("express_functions", function () {
   });
 
   it("success, added function", async function () {
-    const response = await httpClient.get("/exp_success");
-    console.log(response.body);
-    assert.equal(response.status, 500);
+    const response = await httpClient.post("/exp_success");
+    // console.log(response.body);
+    assert.equal(response.status, 200);
   });
 
   it("error, added function", async function () {
-    const response = await httpClient.get("/exp_error");
-    console.log(response.body);
+    const response = await httpClient.post("/exp_error");
+    // console.log(response.body);
     assert.equal(response.status, 400);
   });
 });

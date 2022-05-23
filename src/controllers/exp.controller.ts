@@ -1,36 +1,37 @@
 import { Request, Response } from "express";
 import { GenericResponse } from "../interfaces";
 
-export async function successHandler(req: Request, res: Response): GenericResponse {
+import { ExampleError } from "../error";
+
+export async function successHandler(
+  req: Request,
+  res: Response
+): GenericResponse {
   try {
     // sync | async code ...
-    return res.status(500).json({ message: "...", data: {} });
+    return res.success({ message: "res.success", data: {} });
   } catch (err) {
     let message = "...";
     if (err instanceof Error) {
       message = err.message;
     }
 
-    return res.status(500).send({
-      message,
-      error: message,
-    });
+    return res.error({ message: "res.error", error: message });
   }
 }
 
-export async function errorHandler(req: Request, res: Response): GenericResponse {
+export async function errorHandler(
+  req: Request,
+  res: Response
+): GenericResponse {
   try {
-    // sync | async code ...
-    return res.status(500).json({ message: "...", data: {} });
+    throw new ExampleError();
   } catch (err) {
     let message = "...";
     if (err instanceof Error) {
       message = err.message;
     }
 
-    return res.status(500).send({
-      message,
-      error: message,
-    });
+    return res.error({ message: "res.error", error: message });
   }
 }
