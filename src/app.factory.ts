@@ -25,6 +25,7 @@ import indexRouter from "./routes/index";
 
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
+import exampleRouter from "./routes/example";
 
 /**
  * do not call synchronous processes in this function, or with side effects (ej: connection to db)
@@ -57,6 +58,7 @@ export function createApp(): Express {
   app.use("/", indexRouter);
   app.use("/auth", authRouter);
   app.use("/users", userRouter);
+  app.use("/examples", exampleRouter);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {

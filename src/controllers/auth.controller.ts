@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 import { GenericResponse } from "../interfaces";
 
+// example with functions
+
 export async function signup(req: Request, res: Response): Promise<void> {
   console.log("Register User");
   // sync code ...

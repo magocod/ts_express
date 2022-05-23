@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { HttpController, GenericResponse } from "../interfaces";
+import { HttpController } from "../interfaces";
 
 // example class - without errorHandler
 
 export class UserController implements HttpController {
-  async findAll(req: Request, res: Response): GenericResponse {
+  async findAll(req: Request, res: Response) {
     try {
       return res.status(500).json({ message: "...", data: {} });
     } catch (err) {
@@ -20,7 +20,7 @@ export class UserController implements HttpController {
     }
   }
 
-  async create(req: Request, res: Response): GenericResponse {
+  async create(req: Request, res: Response) {
     try {
       return res.status(500).json({ message: "...", data: {} });
     } catch (err) {
@@ -36,7 +36,7 @@ export class UserController implements HttpController {
     }
   }
 
-  async find(req: Request, res: Response): GenericResponse {
+  async find(req: Request, res: Response) {
     try {
       return res.status(500).json({ message: "...", data: {} });
     } catch (err) {
@@ -52,7 +52,7 @@ export class UserController implements HttpController {
     }
   }
 
-  async update(req: Request, res: Response): GenericResponse {
+  async update(req: Request, res: Response) {
     try {
       return res.status(500).json({ message: "...", data: {} });
     } catch (err) {
@@ -68,7 +68,7 @@ export class UserController implements HttpController {
     }
   }
 
-  async delete(req: Request, res: Response): GenericResponse {
+  async delete(req: Request, res: Response) {
     try {
       return res.status(500).json({ message: "...", data: {} });
     } catch (err) {

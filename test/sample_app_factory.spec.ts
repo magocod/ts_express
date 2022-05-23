@@ -3,7 +3,7 @@ import supertest from "supertest";
 
 import { createApp } from "../src/app.factory";
 
-describe("sample_app_factory.", function () {
+describe("sample_app_factory", function () {
   let httpClient: supertest.SuperTest<supertest.Test>;
 
   before(function () {
