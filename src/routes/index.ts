@@ -3,11 +3,17 @@ import { Request, Response, Router, NextFunction } from "express";
 import { promises as fs } from "fs";
 import { ExampleError } from "../error";
 
+import { successHandler, errorHandler } from "../controllers/exp.controller";
+
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
   res.send(process.env.APP_NAME || "ts_express");
 });
+
+routes.post("/exp_success", successHandler);
+
+routes.post("/exp_error", errorHandler);
 
 routes.get("/test", (req: Request, res: Response) => {
   res.json({ prop: "hello test" });

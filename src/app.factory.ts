@@ -33,6 +33,27 @@ export function createApp(): Express {
   // express instance
   const app = express();
 
+  // extend express response functions
+
+  app.response.success = function ({ message, data }, status = 200) {
+    return this.status(status).json({
+      message,
+      data,
+    });
+  };
+
+  app.response.error = function (
+    { message, error, exception, code },
+    status = 400
+  ) {
+    return this.status(status).json({
+      message,
+      error,
+      exception,
+      code,
+    });
+  };
+
   // view engine setup
   // app.set('views', path.join(__dirname, 'views'));
   // app.set('view engine', 'jade');
