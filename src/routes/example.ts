@@ -15,28 +15,31 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { ExampleController } from "../controllers/example.controller";
 
-const router = Router();
+export const exampleRouter = Router();
 
 const exampleController = new ExampleController();
 
-router.get("/", (req: Request, res: Response, next: NextFunction) => {
+exampleRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
   return exampleController.findAll(req, res, next);
 });
 
-router.post("/", (req: Request, res: Response, next: NextFunction) => {
+exampleRouter.post("/", (req: Request, res: Response, next: NextFunction) => {
   return exampleController.create(req, res, next);
 });
 
-router.get("/:id", (req: Request, res: Response, next: NextFunction) => {
+exampleRouter.get("/:id", (req: Request, res: Response, next: NextFunction) => {
   return exampleController.find(req, res, next);
 });
 
-router.put("/:id", (req: Request, res: Response, next: NextFunction) => {
+exampleRouter.put("/:id", (req: Request, res: Response, next: NextFunction) => {
   return exampleController.update(req, res, next);
 });
 
-router.delete("/:id", (req: Request, res: Response, next: NextFunction) => {
-  return exampleController.delete(req, res, next);
-});
+exampleRouter.delete(
+  "/:id",
+  (req: Request, res: Response, next: NextFunction) => {
+    return exampleController.delete(req, res, next);
+  }
+);
 
-export default router;
+// export default router;

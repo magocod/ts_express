@@ -34,3 +34,14 @@ npm run test:coverage
 ```
 npm run dev
 ```
+
+### Code style
+
+```
+// eslint
+npm run lint
+
+// code style
+npm run format:check
+npm run format
+```

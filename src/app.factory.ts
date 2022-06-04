@@ -21,11 +21,13 @@ import {
   isolatedRateLimiterMiddleware,
 } from "./middleware";
 
+// with export default
 import indexRouter from "./routes/index";
-
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
-import exampleRouter from "./routes/example";
+
+// with export
+import { exampleRouter } from "./routes/example";
 
 /**
  * do not call synchronous processes in this function, or with side effects (ej: connection to db)
@@ -105,6 +107,7 @@ export function createApp(): Express {
     res.json({
       message: err.message,
       msg: err.msg,
+      // error: err.message,
       // stack: err.stack
     });
   };
