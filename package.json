@@ -33,7 +33,7 @@
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.1.2",
+    "@faker-js/faker": "^7.1.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/chai": "^4.3.0",
     "@types/chance": "^1.1.3",
