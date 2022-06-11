@@ -98,17 +98,11 @@ export function createApp(): Express {
     res.status(err.status || 500);
     // res.render("error");
     res.setHeader("Content-Type", "application/json");
-    // res.send(
-    //   JSON.stringify({
-    //     message: err.message,
-    //     // stack: err.stack
-    //   })
-    // );
+
     res.json({
       message: err.message,
       msg: err.msg,
       // error: err.message,
-      // stack: err.stack
     });
   };
 

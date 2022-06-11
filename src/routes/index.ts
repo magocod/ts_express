@@ -11,10 +11,6 @@ routes.get("/", (req: Request, res: Response) => {
   res.send(process.env.APP_NAME || "ts_express");
 });
 
-routes.post("/exp_success", successHandler);
-
-routes.post("/exp_error", errorHandler);
-
 routes.get("/test", (req: Request, res: Response) => {
   res.json({ prop: "hello test" });
 });
@@ -85,5 +81,9 @@ routes.get(
     }
   }
 );
+
+// controller/exp.controller
+routes.post("/exp_success", successHandler);
+routes.post("/exp_error", errorHandler);
 
 export default routes;
