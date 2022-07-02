@@ -11,5 +11,3 @@
 .nyc_output
 coverage
 test/coverage
-
-package-lock.json
