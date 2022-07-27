@@ -15,7 +15,7 @@
     "test:coverage": "nyc npm run test",
     "test:parallel": "mocha --parallel -r ts-node/register test/**/*.spec.ts --recursive",
     "test_sample": "mocha -r ts-node/register test/sample.spec.ts",
-    "test_only_file": "mocha -r ts-node/register test/sample.spec.ts"
+    "test_only_file": "mocha -r ts-node/register test/uploads/upload_file.spec.ts"
   },
   "dependencies": {
     "compression": "^1.7.4",
@@ -29,6 +29,7 @@
     "http-errors": "~1.8.0",
     "jade": "^0.31.2",
     "morgan": "~1.10.0",
+    "multer": "*",
     "rate-limiter-flexible": "^2.3.6"
   },
   "devDependencies": {
@@ -43,6 +44,7 @@
     "@types/http-errors": "^1.8.2",
     "@types/mocha": "^9.1.0",
     "@types/morgan": "^1.9.3",
+    "@types/multer": "^1.4.7",
     "@types/node": "^16.3.1",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.19.0",

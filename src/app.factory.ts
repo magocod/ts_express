@@ -6,13 +6,52 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import cookieParser from "cookie-parser";
-import express, { ErrorRequestHandler, Express } from "express";
+import express, { ErrorRequestHandler, Express, Request } from "express";
 import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
 
 import helmet from "helmet";
 import cors from "cors";
+
+import multer, { FileFilterCallback } from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.resolve(__dirname, "../tmp/uploads/"));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + ".jpg");
+  },
+});
+
+function fileFilter(
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback
+) {
+  // console.log(file);
+
+  // To accept the file pass `true`, like so:
+  cb(null, true);
+
+  // To reject this file pass `false`, like so:
+  // cb(null, false)
+
+  // // // You can always pass an error if something goes wrong:
+  // cb(new Error("example error"))
+}
+
+export const upload = multer(
+  // { dest: "/tmp/uploads/" }
+  // { dest: path.resolve(__dirname, "../tmp/uploads/") }
+  {
+    storage: storage,
+    fileFilter,
+    // limits: { fileSize: 1000000 }
+  }
+);
 
 // import middleware from "./middleware";
 // import { applyMiddleware } from "./utils";
@@ -25,6 +64,7 @@ import {
 import indexRouter from "./routes/index";
 import userRouter from "./routes/user";
 import authRouter from "./routes/auth";
+import uploadRouter from "./routes/upload";
 
 // with export
 import { exampleRouter } from "./routes/example";
@@ -82,6 +122,8 @@ export function createApp(): Express {
   app.use("/auth", authRouter);
   app.use("/users", userRouter);
   app.use("/examples", exampleRouter);
+
+  app.use("/uploads", uploadRouter);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
