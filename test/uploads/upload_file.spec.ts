@@ -9,6 +9,7 @@ const baseRoute = "/uploads";
 
 const simpleRoute = `${baseRoute}/simple`;
 const multipleRoute = `${baseRoute}/multiple`;
+const multipleRouteB = `${baseRoute}/txt_multiple`;
 
 describe("upload_files", function () {
   it("simple file upload", async function () {
@@ -23,10 +24,7 @@ describe("upload_files", function () {
     assert.equal(response.status, 200);
   });
 
-  it("simple file upload", async function () {
-    // console.log("dirname", __dirname);
-    // console.log(path.resolve(__dirname, "../../resources/skeleton.jpg"))
-
+  it("simple file upload, error", async function () {
     const response = await httpClient
       .post(simpleRoute)
       .attach("filed", path.resolve(__dirname, "../../resources/skeleton.jpg"))
@@ -36,14 +34,31 @@ describe("upload_files", function () {
     assert.equal(response.status, 400);
   });
 
-  it("multiple file upload, error", async function () {
-    // console.log("dirname", __dirname);
-    // console.log(path.resolve(__dirname, "../../resources/skeleton.jpg"))
-
+  it("multiple file upload", async function () {
     const response = await httpClient
       .post(multipleRoute)
       .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"))
       .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"));
+
+    // console.log(response.body);
+    assert.equal(response.status, 200);
+  });
+
+  it("multiple file upload, error", async function () {
+    const response = await httpClient
+        .post(multipleRoute)
+        .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"))
+        .attach("filess", path.resolve(__dirname, "../../resources/skeleton.jpg"));
+
+    console.log(response.body);
+    assert.equal(response.status, 500);
+  });
+
+  it("multiple file upload, another storage", async function () {
+    const response = await httpClient
+        .post(multipleRouteB)
+        .attach("files", path.resolve(__dirname, "../../resources/example.txt"))
+        .attach("files", path.resolve(__dirname, "../../resources/example.txt"));
 
     // console.log(response.body);
     assert.equal(response.status, 200);

@@ -53,6 +53,20 @@ export const upload = multer(
   }
 );
 
+const storageTxt = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.resolve(__dirname, "../tmp/txt/"));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + ".txt");
+  },
+});
+
+export const uploadTxt = multer({
+  storage: storageTxt,
+});
+
 // import middleware from "./middleware";
 // import { applyMiddleware } from "./utils";
 import {
