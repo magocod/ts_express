@@ -8,7 +8,7 @@ const opts: IRateLimiterOptions = {
 };
 
 const isolatedOpts: IRateLimiterOptions = {
-  points: 10, // points
+  points: 100, // points
   duration: 1, // Per second
 };
 

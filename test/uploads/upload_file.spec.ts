@@ -18,7 +18,8 @@ describe("upload_files", function () {
 
     const response = await httpClient
       .post(simpleRoute)
-      .attach("file", path.resolve(__dirname, "../../resources/skeleton.jpg"));
+      .attach("file", path.resolve(__dirname, "../../resources/skeleton.jpg"))
+      .set("Connection", "keep-alive");
 
     // console.log(response.body);
     assert.equal(response.status, 200);
@@ -38,17 +39,20 @@ describe("upload_files", function () {
     const response = await httpClient
       .post(multipleRoute)
       .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"))
-      .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"));
+      .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"))
+      .set("Connection", "keep-alive");
 
     // console.log(response.body);
     assert.equal(response.status, 200);
-  });
+  })
 
   it("multiple file upload, error", async function () {
+    // console.log(path.resolve(__dirname, "../../resources/skeleton.jpg"));
     const response = await httpClient
-        .post(multipleRoute)
-        .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"))
-        .attach("filess", path.resolve(__dirname, "../../resources/skeleton.jpg"));
+      .post(multipleRoute)
+      .attach("files", path.resolve(__dirname, "../../resources/skeleton.jpg"))
+      .attach("filess", path.resolve(__dirname, "../../resources/skeleton.jpg"))
+      .set("Connection", "keep-alive");
 
     console.log(response.body);
     assert.equal(response.status, 500);
@@ -56,9 +60,10 @@ describe("upload_files", function () {
 
   it("multiple file upload, another storage", async function () {
     const response = await httpClient
-        .post(multipleRouteB)
-        .attach("files", path.resolve(__dirname, "../../resources/example.txt"))
-        .attach("files", path.resolve(__dirname, "../../resources/example.txt"));
+      .post(multipleRouteB)
+      .attach("files", path.resolve(__dirname, "../../resources/example.txt"))
+      .attach("files", path.resolve(__dirname, "../../resources/example.txt"))
+      .set("Connection", "keep-alive");
 
     // console.log(response.body);
     assert.equal(response.status, 200);

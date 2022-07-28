@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { upload, uploadTxt } from "../app.factory";
 
-import { simple, multiple } from "../controllers/upload.controller";
+import { simple, multiple, download } from "../controllers/upload.controller";
 import multer from "multer";
 
 const s = upload.single("file");
@@ -33,5 +33,7 @@ router.post(
 router.post("/multiple", upload.array("files", 5), multiple);
 
 router.post("/txt_multiple", uploadTxt.array("files", 5), multiple);
+
+router.get("/download", download);
 
 export default router;

@@ -1,7 +1,11 @@
 import fs, { promises as fsp } from "fs";
-import { tmpPathUpload, tmpPathTxt } from "../constants";
+import { tmpPath, tmpPathUpload, tmpPathTxt } from "../constants";
 
 export async function tmpInit() {
+  if (!fs.existsSync(tmpPath)) {
+    await fsp.mkdir(tmpPath);
+  }
+
   if (!fs.existsSync(tmpPathUpload)) {
     await fsp.mkdir(tmpPathUpload);
   }
