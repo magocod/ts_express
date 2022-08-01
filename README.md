@@ -9,6 +9,8 @@
 
 ## Project setup
 
+### Install dependencies
+
 ```bash
 npm install
 ```
@@ -19,36 +21,24 @@ npm install
 npm run build
 ```
 
-### Run www server
-
-```bash
-npm run start
-```
-
 ### Run tests
 
 ```bash
-// all
+# all
 npm run test
-npm run test:parallel
+npm run test:watch
 
-// with coverage
+# with coverage
 npm run test:coverage
-```
-
-### Run dev server
-
-```bash
-npm run dev
 ```
 
 ### Code style
 
 ```bash
-// eslint
+# eslint
 npm run lint
 
-// code style
+# code style
 npm run format:check
 npm run format
 ```
