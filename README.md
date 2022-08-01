@@ -24,21 +24,23 @@ npm run build
 ### Run tests
 
 ```bash
-# all
 npm run test
-npm run test:watch
+npm run test:parallel
 
-# with coverage
 npm run test:coverage
 ```
 
-### Code style
+## Code style
+
+### Eslint
 
 ```bash
-# eslint
 npm run lint
+```
 
-# code style
+### Prettier
+
+```bash
 npm run format:check
 npm run format
 ```
