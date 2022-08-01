@@ -9,25 +9,25 @@
 
 ## Project setup
 
-```
+```bash
 npm install
 ```
 
 ### Translate code to javascript (dist)
 
-```
+```bash
 npm run build
 ```
 
 ### Run www server
 
-```
+```bash
 npm run start
 ```
 
 ### Run tests
 
-```
+```bash
 // all
 npm run test
 npm run test:parallel
@@ -38,13 +38,13 @@ npm run test:coverage
 
 ### Run dev server
 
-```
+```bash
 npm run dev
 ```
 
 ### Code style
 
-```
+```bash
 // eslint
 npm run lint
 
