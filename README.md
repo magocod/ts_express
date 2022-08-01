@@ -9,46 +9,38 @@
 
 ## Project setup
 
-```
+### Install dependencies
+
+```bash
 npm install
 ```
 
 ### Translate code to javascript (dist)
 
-```
+```bash
 npm run build
-```
-
-### Run www server
-
-```
-npm run start
 ```
 
 ### Run tests
 
-```
-// all
+```bash
 npm run test
 npm run test:parallel
 
-// with coverage
 npm run test:coverage
 ```
 
-### Run dev server
+## Code style
 
-```
-npm run dev
-```
+### Eslint
 
-### Code style
-
-```
-// eslint
+```bash
 npm run lint
+```
 
-// code style
+### Prettier
+
+```bash
 npm run format:check
 npm run format
 ```
