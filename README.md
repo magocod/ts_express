@@ -7,6 +7,16 @@
 ![Prettier](resources/logo/prettier.svg)
 ![Eslint](resources/logo/eslint.svg)
 
+## Contributing
+
+Learn about contribution [here](https://github.com/magocod/ts_express/blob/main/CONTRIBUTING.md)
+
+## Documentation
+
+- A - ...
+- B - ...
+- C - ...
+
 ## Project setup
 
 ### Install dependencies
