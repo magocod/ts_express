@@ -1,8 +1,8 @@
-import {assert} from "chai";
+import { assert, expect } from "chai";
 import { login } from "../src/controllers/auth.controller";
 import { Request, Response } from "express";
 // import { GenericResponse } from "../src/interfaces";
-import { mockExpressResponse } from "./helpers"
+import { mockExpressResponse, stubExpressResponse } from "./helpers";
 
 describe("unit_sample", function () {
   it("basic", function () {
@@ -21,12 +21,34 @@ describe("unit_sample", function () {
     assert.deepEqual(rs, { message: "message" } as unknown);
   });
 
-  // it("login handler, helper", async function () {
-  //   const req = {} as Request;
-  //   const res = mockExpressResponse()
-  //   const rs = await login(req, res);
-  //
-  //   should(res.status).e 200 as unknown)
-  //   assert.deepEqual(rs.json(), { message: "message" } as unknown);
-  // });
+  it("login handler, mockExpressResponse", async function () {
+    const req = {
+      body: {
+        email: "email@domain",
+        password: "123"
+      }
+    } as Request;
+    const res = mockExpressResponse()
+    // const rs = await login(req, res as unknown as Response);
+    // console.log(rs.json)
+    await login(req, res as unknown as Response);
+
+    // assert.deepEqual(res.status?.calledWith(200), true);
+    assert.deepEqual(res.json?.calledWith({ message: "message" }), true);
+  });
+
+  it("login handler, stubExpressResponse", async function () {
+    const req = {
+      body: {
+        email: "email@domain",
+        password: "123",
+      },
+    } as Request;
+    const stubRes = stubExpressResponse();
+    // const rs = await login(req, stubRes.res);
+    // console.log(rs);
+    await login(req, stubRes.res);
+
+    assert.deepEqual(stubRes.json.calledWith({ message: "message" }), true);
+  });
 });
