@@ -15,7 +15,6 @@
 // code here
 ```
 
-
 ## <a name="tests"></a> Running tests
 
 ...
