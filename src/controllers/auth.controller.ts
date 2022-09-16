@@ -12,7 +12,7 @@ export async function signup(req: Request, res: Response): Promise<void> {
 
 export async function login(req: Request, res: Response): GenericResponse {
   console.log("Login");
-  console.log(req.body)
+  console.log(req.body);
   // async code ...
   return res.json({ message: "message" });
 }
