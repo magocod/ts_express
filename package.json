@@ -11,9 +11,9 @@
     "dev": "tsc-watch --onSuccess \"node ./bin/www\"",
     "build": "tsc --p tsconfig.build.json",
     "build:start": "npm run build & npm run start",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts --recursive",
+    "test": "mocha -r ts-node/register \"test/**/*.spec.ts\" --recursive",
     "test:coverage": "nyc npm run test",
-    "test:parallel": "mocha --parallel -r ts-node/register test/**/*.spec.ts --recursive",
+    "test:parallel": "mocha --parallel -r ts-node/register \"test/**/*.spec.ts\" --recursive",
     "test_sample": "mocha -r ts-node/register test/sample.spec.ts",
     "test_only_file": "mocha -r ts-node/register test/sample.spec.ts"
   },
