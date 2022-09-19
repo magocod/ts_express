@@ -13,33 +13,31 @@
  */
 
 import { Request, Response, NextFunction, Router } from "express";
-import { ExampleController } from "../controllers/example.controller";
+import { ClassController } from "../controllers/class.controller";
 
 export const exampleRouter = Router();
 
-const exampleController = new ExampleController();
+const classController = new ClassController();
 
 exampleRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
-  return exampleController.findAll(req, res, next);
+  return classController.findAll(req, res, next).catch(next);
 });
 
 exampleRouter.post("/", (req: Request, res: Response, next: NextFunction) => {
-  return exampleController.create(req, res, next);
+  return classController.create(req, res).catch(next);
 });
 
 exampleRouter.get("/:id", (req: Request, res: Response, next: NextFunction) => {
-  return exampleController.find(req, res, next);
+  return classController.find(req, res).catch(next);
 });
 
 exampleRouter.put("/:id", (req: Request, res: Response, next: NextFunction) => {
-  return exampleController.update(req, res, next);
+  return classController.update(req, res).catch(next);
 });
 
 exampleRouter.delete(
   "/:id",
   (req: Request, res: Response, next: NextFunction) => {
-    return exampleController.delete(req, res, next);
+    return classController.delete(req, res).catch(next);
   }
 );
-
-// export default router;

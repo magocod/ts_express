@@ -14,7 +14,9 @@
     "test/**",
     "node_modules/**",
     "**/*.d.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "filesys.js",
+    ".eslintrc.js"
   ],
   "sourceMap": true,
   "reporter": [

@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import cookieParser from "cookie-parser";
-import express, { ErrorRequestHandler, Express } from "express";
+import express, { Express, Response, Request } from "express";
 import createError from "http-errors";
 import logger from "morgan";
 import path from "path";
@@ -14,20 +14,13 @@ import path from "path";
 import helmet from "helmet";
 import cors from "cors";
 
-// import middleware from "./middleware";
-// import { applyMiddleware } from "./utils";
 import {
   // rateLimiterMiddleware,
   isolatedRateLimiterMiddleware,
 } from "./middleware";
 
-// with export default
-import indexRouter from "./routes/index";
-import userRouter from "./routes/user";
-import authRouter from "./routes/auth";
-
-// with export
-import { exampleRouter } from "./routes/example";
+import { exampleRouter, funcRouter } from "./routes";
+import { errorHandler } from "./utils";
 
 /**
  * do not call synchronous processes in this function, or with side effects (ej: connection to db)
@@ -45,20 +38,13 @@ export function createApp(): Express {
     });
   };
 
-  app.response.error = function (
-    { message, error, exception, code },
-    status = 400
-  ) {
+  app.response.error = function ({ message, msg, code }, status = 500) {
     return this.status(status).json({
       message,
-      error,
-      exception,
+      msg,
       code,
     });
   };
-
-  // middleware
-  // applyMiddleware(middleware, app);
 
   // config
   app.use(logger("dev"));
@@ -74,33 +60,17 @@ export function createApp(): Express {
   app.use(rlm);
 
   // routes
-  app.use("/", indexRouter);
-  app.use("/auth", authRouter);
-  app.use("/users", userRouter);
+  app.get("/", (req: Request, res: Response) => {
+    res.send(process.env.APP_NAME || "ts_express");
+  });
+
   app.use("/examples", exampleRouter);
+  app.use("/functions", funcRouter);
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
     next(createError(404));
   });
-
-  /* eslint-disable no-alert,  @typescript-eslint/no-unused-vars */
-  const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    // res.render("error");
-    res.setHeader("Content-Type", "application/json");
-
-    res.json({
-      message: err.message,
-      msg: err.msg,
-      // error: err.message,
-    });
-  };
 
   // error handler
   app.use(errorHandler);
