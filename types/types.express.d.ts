@@ -7,9 +7,9 @@ declare namespace Express {
     data?: unknown;
   }
 
-  interface ErrorResponseData extends BaseResponseData {
-    error?: string;
-    exception?: unknown;
+  interface ErrorResponseData {
+    msg: string;
+    message?: string;
     code?: number;
   }
 

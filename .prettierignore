@@ -10,3 +10,6 @@ package-lock.json
 .mocharc.yml
 tsconfig.json
 tsconfig.build.json
+.eslintrc.js
+.nycrc
+CONTRIBUTING.md

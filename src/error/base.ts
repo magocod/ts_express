@@ -3,9 +3,10 @@
 
 export class BaseError extends Error {
   msg: string;
+  status: number;
 
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  constructor(msg = "", ...params: any) {
+  constructor(msg = "", status = 500, ...params: any) {
     // Pass remaining arguments (including vendor specific ones) to parent constructor
     super(...params);
 
@@ -17,5 +18,6 @@ export class BaseError extends Error {
     this.name = "BaseError";
     // Custom debugging information
     this.msg = msg;
+    this.status = status;
   }
 }
