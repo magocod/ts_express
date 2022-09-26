@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction, Router } from "express";
-import { successHandler, errorHandler } from "../controllers/func.controller";
+import {
+  successHandler,
+  errorHandler,
+  counterIncrement,
+  counterDecrement,
+} from "../controllers/func.controller";
 
 export const funcRouter = Router();
 
@@ -16,3 +21,7 @@ funcRouter.post(
     return errorHandler(req, res).catch(next);
   }
 );
+
+funcRouter.post("/counter_increment", counterIncrement);
+
+funcRouter.post("/counter_decrement", counterDecrement);

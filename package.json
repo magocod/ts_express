@@ -15,7 +15,10 @@
     "test": "mocha -r ts-node/register \"test/**/*.spec.ts\" --recursive",
     "test:coverage": "nyc npm run test",
     "test:parallel": "mocha --parallel -r ts-node/register \"test/**/*.spec.ts\" --recursive",
-    "test_only_file": "mocha -r ts-node/register test/example_unit.spec.ts"
+    "test:parallel:coverage": "nyc npm run test:parallel",
+    "test_only_file": "mocha -r ts-node/register test/example_unit.spec.ts",
+    "test:singleton:ok": "mocha -r ts-node/register \"test/counter/*.spec.ts\" --recursive --parallel",
+    "test:singleton:err": "mocha -r ts-node/register \"test/counter/*.spec.ts\" --recursive"
   },
   "dependencies": {
     "compression": "^1.7.4",

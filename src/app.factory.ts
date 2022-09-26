@@ -22,15 +22,20 @@ import {
 import { exampleRouter, funcRouter } from "./routes";
 import { errorHandler } from "./utils";
 
+// https://expressjs.com/en/guide/overriding-express-api.html
 /**
- * do not call synchronous processes in this function, or with side effects (ej: connection to db)
+ * @example
+ * add methods Express.Response
+ *
+ * // success
+ * res.success({ message: "res.success", data: req.body });
+ *
+ * // error
+ * res.error({ message: "res.error", msg: "error_message" });
+ *
+ * @param app
  */
-export function createApp(): Express {
-  // express instance
-  const app = express();
-
-  // extend express response functions
-
+export function extendExpressApi(app: Express) {
   app.response.success = function ({ message, data }, status = 200) {
     return this.status(status).json({
       message,
@@ -45,6 +50,17 @@ export function createApp(): Express {
       code,
     });
   };
+}
+
+/**
+ * do not call synchronous processes in this function, or with side effects (ej: connection to db)
+ */
+export function createApp(): Express {
+  // express instance
+  const app = express();
+
+  // extend express response functions
+  extendExpressApi(app);
 
   // config
   app.use(logger("dev"));
