@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { counterService } from "../../src/services";
-import { counterServicePath } from "../../src/constants"
+// import { counterServicePath } from "../../src/constants"
 
 describe("counter_service", function () {
   it("instance", function () {

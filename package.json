@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "clean": "rimraf dist",
     "lint": "eslint . --ext=.ts",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --write .",
     "dev": "tsc-watch --onSuccess \"node ./bin/www\"",
     "build": "tsc",
