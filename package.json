@@ -5,9 +5,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "clean": "rimraf dist",
-    "lint": "eslint . --ext=.ts",
-    "format:check": "prettier --check .",
-    "format": "prettier --write .",
+    "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "dev": "tsc-watch --onSuccess \"node ./bin/www\"",
     "build": "tsc",
     "build:clean": "npm run clean & npm run build",
