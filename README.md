@@ -25,7 +25,7 @@ Learn about contribution [here](https://github.com/magocod/ts_express/blob/main/
 npm install
 ```
 
-### Translate code to javascript (dist)
+### build
 
 ```bash
 npm run build
@@ -33,24 +33,39 @@ npm run build
 
 ### Run tests
 
+- run all
 ```bash
 npm run test
-npm run test:parallel
+```
 
+- run everything in parallel
+```bash
+npm run test:parallel
+```
+
+- coverage
+```bash
 npm run test:coverage
 ```
 
-## Code style
+### Code style
 
-### Eslint
-
+- eslint check
 ```bash
 npm run lint
 ```
 
-### Prettier
+- eslint fix
+```bash
+npm run lint:fix
+```
 
+- prettier check
 ```bash
 npm run format:check
+```
+
+- prettier format
+```bash
 npm run format
 ```
