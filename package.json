@@ -16,7 +16,8 @@
     "test": "mocha -r ts-node/register \"test/**/*.spec.ts\" --recursive",
     "test:coverage": "nyc npm run test",
     "test:parallel": "mocha --parallel -r ts-node/register \"test/**/*.spec.ts\" --recursive",
-    "test_only_file": "mocha -r ts-node/register test/example_unit.spec.ts"
+    "test_only_file": "mocha -r ts-node/register test/example_unit.spec.ts",
+    "prepare": "husky install"
   },
   "dependencies": {
     "compression": "^1.7.4",
@@ -53,6 +54,7 @@
     "chance": "^1.1.8",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^8.5.0",
+    "husky": "^8.0.1",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "prettier": "^2.5.1",
