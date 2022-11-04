@@ -12,5 +12,5 @@ export async function tmpInit(): Promise<void> {
 }
 
 export function tmpRemove(): Promise<void> {
-  return fsp.rm(tmpPath, { recursive: true });
+  return fsp.rm(tmpPath, { recursive: true, force: true });
 }
