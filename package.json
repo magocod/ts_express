@@ -31,7 +31,8 @@
     "http-errors": "^2.0.0",
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
-    "rate-limiter-flexible": "^2.3.6"
+    "rate-limiter-flexible": "^2.3.6",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
