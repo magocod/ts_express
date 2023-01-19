@@ -1,0 +1,10 @@
+{
+  "entryPoints": [
+    "src/app.factory.ts",
+    "src/error/index.ts",
+    "src/interfaces/index.ts",
+    "src/middleware/index.ts",
+    "src/utils/index.ts"
+  ],
+  "out": "api_reference"
+}

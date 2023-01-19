@@ -1,6 +1,6 @@
 {
   "name": "ts_express",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -64,6 +64,7 @@
     "supertest": "^6.2.4",
     "ts-node": "^10.9.1",
     "tsc-watch": "^5.0.3",
+    "typedoc": "^0.23.24",
     "typescript": "^4.8.3"
   }
 }

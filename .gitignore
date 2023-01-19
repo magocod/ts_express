@@ -11,3 +11,5 @@
 .nyc_output
 coverage
 test/coverage
+
+api_reference
