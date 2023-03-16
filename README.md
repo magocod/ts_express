@@ -74,3 +74,11 @@ npm run format
 ```bash
 npx typedoc
 ```
+
+### Check project dependencies
+
+Show all new dependencies (excluding peerDependencies) for the project, https://www.npmjs.com/package/npm-check-updates
+
+```bash
+ncu
+```
