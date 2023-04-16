@@ -80,5 +80,9 @@ npx typedoc
 Show all new dependencies (excluding peerDependencies) for the project, https://www.npmjs.com/package/npm-check-updates
 
 ```bash
+npm install -g npm-check-updates
+```
+
+```bash
 ncu
 ```
