@@ -3,7 +3,7 @@
  * current solution, use another file with export syntax (export = a)
  */
 
-import { createApp } from "@/app.factory";
+import { createApp } from "./app.factory";
 
 const app = createApp();
 
